@@ -1,0 +1,48 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'java-test-fixtures'
+}
+
+group = 'fr.ignishky'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+dependencyManagement {
+    imports {
+        mavenBom 'com.linecorp.armeria:armeria-bom:1.11.0'
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    runtimeOnly 'com.linecorp.armeria:armeria-spring-boot2-actuator-starter'
+
+    implementation 'com.google.code.gson:gson'
+    implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
+    implementation 'io.vavr:vavr:0.10.4'
+    implementation 'io.vavr:vavr-jackson:0.10.3'
+    implementation 'org.hibernate.validator:hibernate-validator'
+    implementation 'org.springframework:spring-web'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    testFixturesImplementation 'io.vavr:vavr:0.10.4'
+}
+
+test {
+    useJUnitPlatform()
+}
