@@ -14,8 +14,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.client.RestTemplate;
 
 import static com.linecorp.armeria.common.HttpStatus.NO_CONTENT;
-import static fr.ignishky.mtgcollection.Blocks.CORE_SET_2020;
-import static fr.ignishky.mtgcollection.Blocks.SCOURGE;
+import static fr.ignishky.mtgcollection.Blocks.*;
 import static fr.ignishky.mtgcollection.MongoBlocks.aMongoBlock;
 import static fr.ignishky.mtgcollection.ScryfallBlocks.aScryfallBlocks;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,8 +49,8 @@ public class BlockCommandIT {
         // THEN
         assertThat(response.status()).isEqualTo(NO_CONTENT);
         assertThat(mongoTemplate.findAll(BlockMongo.class)).containsOnly(
-                aMongoBlock(SCOURGE),
-                aMongoBlock(CORE_SET_2020)
+                aMongoBlock(INNISTRAD_MIDNIGHT_HUNT),
+                aMongoBlock(ADVENTURE_OF_THE_FORGOTTEN_REALMS)
         );
     }
 }

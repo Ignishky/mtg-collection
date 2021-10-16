@@ -30,6 +30,7 @@ public class BlockScryfallRepository implements BlockReference {
 
         return blockScryfall.data()
                 .filter(scryfallData -> scryfallData.parent_set_code() == null)
+                .filter(scryfallData -> scryfallData.block_code() == null)
                 .map(scryfallData -> toBlock(scryfallData.id(), scryfallData.code(), scryfallData.name()));
     }
 }

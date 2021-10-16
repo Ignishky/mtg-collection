@@ -7,8 +7,7 @@ import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;
 
-import static fr.ignishky.mtgcollection.Blocks.CORE_SET_2020;
-import static fr.ignishky.mtgcollection.Blocks.SCOURGE;
+import static fr.ignishky.mtgcollection.Blocks.*;
 import static fr.ignishky.mtgcollection.ScryfallBlocks.aScryfallBlocks;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -46,7 +45,7 @@ class BlockScryfallRepositoryTest {
     }
 
     @Test
-    void should_return_all_scryfall_sets() {
+    void should_return_scryfall_sets_without_parent_nor_block_code() {
         // GIVEN
         when(restTemplate.getForObject("http://scryfall.mtg-collection.test/sets", BlockScryfall.class)).thenReturn(aScryfallBlocks());
 
@@ -54,9 +53,6 @@ class BlockScryfallRepositoryTest {
         List<Block> blocks = blockScryfallRepository.loadAll();
 
         // THEN
-        assertThat(blocks).isEqualTo(List.of(
-                SCOURGE,
-                CORE_SET_2020
-        ));
+        assertThat(blocks).containsOnly(INNISTRAD_MIDNIGHT_HUNT, ADVENTURE_OF_THE_FORGOTTEN_REALMS);
     }
 }
