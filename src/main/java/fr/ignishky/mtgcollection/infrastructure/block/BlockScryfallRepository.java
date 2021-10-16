@@ -15,6 +15,8 @@ import static fr.ignishky.mtgcollection.domain.block.model.Block.toBlock;
 @Repository
 public class BlockScryfallRepository implements BlockReference {
 
+    private static final List<String> UNWANTED_SET_TYPE = List.of("box");
+
     private final RestTemplate restTemplate;
     private final ScryfallProperties scryfallProperties;
 
@@ -34,6 +36,7 @@ public class BlockScryfallRepository implements BlockReference {
                 .filter(scryfallData -> scryfallData.parent_set_code() == null)
                 .filter(scryfallData -> scryfallData.block_code() == null)
                 .filter(scryfallData -> LocalDate.now().isAfter(LocalDate.parse(scryfallData.released_at())))
+                .filter(scryfallData -> !UNWANTED_SET_TYPE.contains(scryfallData.set_type()))
                 .map(scryfallData -> toBlock(scryfallData.id(), scryfallData.code(), scryfallData.name()));
     }
 }
