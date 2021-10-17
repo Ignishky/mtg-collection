@@ -7,6 +7,7 @@ import fr.ignishky.mtgcollection.domain.block.model.Block;
 import fr.ignishky.mtgcollection.domain.block.BlockRepository;
 import io.vavr.collection.List;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Controller
 public class BlockQuery implements AnnotatedService {
