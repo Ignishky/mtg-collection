@@ -3,6 +3,8 @@ package fr.ignishky.mtgcollection.application.query;
 import com.linecorp.armeria.server.annotation.Get;
 import com.linecorp.armeria.server.annotation.ProducesJson;
 import fr.ignishky.mtgcollection.application.AnnotatedService;
+import fr.ignishky.mtgcollection.application.model.BlockResponse;
+import fr.ignishky.mtgcollection.application.model.mapper.BlockMapper;
 import fr.ignishky.mtgcollection.domain.block.model.Block;
 import fr.ignishky.mtgcollection.domain.block.BlockRepository;
 import io.vavr.collection.List;
@@ -20,7 +22,7 @@ public class BlockQuery implements AnnotatedService {
 
     @Get("/blocks")
     @ProducesJson
-    public List<Block> getAllBlocks() {
-        return blockRepository.getAll();
+    public List<BlockResponse> getAllBlocks() {
+        return blockRepository.getAll().map(BlockMapper::toBlockResponse);
     }
 }

@@ -44,8 +44,8 @@ class BlockQueryIT {
         assertThat(response.status()).isEqualTo(OK);
         assertThat(response.contentType()).isEqualTo(JSON_UTF_8);
         assertThat(response.contentUtf8()).isEqualTo("[" +
-                "{\"id\":{\"uuid\":\"44b8eb8f-fa23-401a-98b5-1fbb9871128e\"},\"code\":\"mid\",\"name\":\"Innistrad: Midnight hunt\"}," +
-                "{\"id\":{\"uuid\":\"e1ef87ba-ba92-4573-817f-543b996d2851\"},\"code\":\"afr\",\"name\":\"Adventures in the Forgotten Realms\"}" +
+                "{\"code\":\"mid\",\"name\":\"Innistrad: Midnight hunt\"}," +
+                "{\"code\":\"afr\",\"name\":\"Adventures in the Forgotten Realms\"}" +
                 "]");
     }
 }

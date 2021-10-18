@@ -1,5 +1,6 @@
 package fr.ignishky.mtgcollection.application.query;
 
+import fr.ignishky.mtgcollection.application.model.BlockResponse;
 import fr.ignishky.mtgcollection.domain.block.BlockRepository;
 import fr.ignishky.mtgcollection.domain.block.model.Block;
 import io.vavr.collection.List;
@@ -21,15 +22,15 @@ public class BlockQueryTest {
         // GIVEN
         List<Block> blocks = List.of(
                 block(1),
-                block(2),
-                block(3)
+                block(2)
         );
         when(blockRepository.getAll()).thenReturn(blocks);
 
         // WHEN
-        List<Block> allBlocks = blockQuery.getAllBlocks();
+        List<BlockResponse> allBlocks = blockQuery.getAllBlocks();
 
         // THEN
-        assertThat(allBlocks).isEqualTo(blocks);
+        List<BlockResponse> expected = List.of(new BlockResponse("code1", "name1"), new BlockResponse("code2", "name2"));
+        assertThat(allBlocks).isEqualTo(expected);
     }
 }
