@@ -30,7 +30,10 @@ public class BlockQueryTest {
         List<BlockResponse> allBlocks = blockQuery.getAllBlocks();
 
         // THEN
-        List<BlockResponse> expected = List.of(new BlockResponse("code1", "name1"), new BlockResponse("code2", "name2"));
+        List<BlockResponse> expected = List.of(
+                new BlockResponse("code1", "name1", "icon1"),
+                new BlockResponse("code2", "name2", "icon2")
+        );
         assertThat(allBlocks).isEqualTo(expected);
     }
 }

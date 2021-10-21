@@ -15,13 +15,13 @@ public interface BlockMongoRepository extends BlockRepository, MongoRepository<B
 
     @Override
     default void save(List<Block> blocks){
-        saveAll(blocks.map(block -> new BlockMongo(block.id().uuid().toString(), block.code(), block.name())));
+        saveAll(blocks.map(block -> new BlockMongo(block.id().uuid().toString(), block.code(), block.name(), block.icon())));
     }
 
     @Override
     default List<Block> getAll(){
         return List.ofAll(findAll().stream()
-                .map(blockMongo -> toBlock(blockMongo.id(), blockMongo.code(), blockMongo.name()))
+                .map(blockMongo -> toBlock(blockMongo.id(), blockMongo.code(), blockMongo.name(), blockMongo.icon()))
                 .collect(toList()));
     }
 }

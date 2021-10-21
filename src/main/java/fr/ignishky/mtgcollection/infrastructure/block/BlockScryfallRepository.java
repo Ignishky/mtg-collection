@@ -35,6 +35,6 @@ public class BlockScryfallRepository implements BlockReference {
         return blockScryfall.data()
                 .filter(scryfallData -> LocalDate.now().isAfter(LocalDate.parse(scryfallData.released_at())))
                 .filter(scryfallData -> WANTED_SET_TYPE.contains(scryfallData.set_type()))
-                .map(scryfallData -> toBlock(scryfallData.id(), scryfallData.code(), scryfallData.name()));
+                .map(scryfallData -> toBlock(scryfallData.id(), scryfallData.code(), scryfallData.name(), scryfallData.icon_svg_uri()));
     }
 }

@@ -8,6 +8,7 @@ public record BlockMongo(
         @Id
         String id,
         String code,
-        String name
+        String name,
+        String icon
 ) {
 }
