@@ -11,7 +11,7 @@ sourceCompatibility = '17'
 
 dependencyManagement {
     imports {
-        mavenBom 'com.linecorp.armeria:armeria-bom:1.11.0'
+        mavenBom 'com.linecorp.armeria:armeria-bom:1.13.0'
     }
 }
 
