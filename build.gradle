@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'java-test-fixtures'
+    id "org.sonarqube" version "3.3"
 }
 
 group = 'fr.ignishky'
@@ -48,4 +49,12 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+sonarqube {
+  properties {
+    property "sonar.projectKey", "Ignishky_mtg-collection"
+    property "sonar.organization", "ignishky"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
 }
