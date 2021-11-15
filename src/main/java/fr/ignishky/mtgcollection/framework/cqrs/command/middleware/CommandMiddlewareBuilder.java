@@ -1,0 +1,28 @@
+package fr.ignishky.mtgcollection.framework.cqrs.command.middleware;
+
+import fr.ignishky.mtgcollection.framework.cqrs.command.Command;
+import fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse;
+import io.vavr.collection.List;
+import io.vavr.collection.Set;
+import io.vavr.control.Try;
+
+public interface CommandMiddlewareBuilder {
+
+    static CommandMiddleware build(Set<CommandMiddlewareBuilder> builders) {
+        return List.ofAll(builders).foldRight(new CircuitBreakerMiddleware(), CommandMiddlewareBuilder::chain);
+    }
+
+    CommandMiddleware chain(CommandMiddleware next);
+
+    class CircuitBreakerMiddleware extends CommandMiddleware {
+
+        public CircuitBreakerMiddleware() {
+            super(null);
+        }
+
+        @Override
+        public <T> Try<CommandResponse<T>> handle(Command<T> message) {
+            throw new IllegalStateException("No final middleware provided in the chain");
+        }
+    }
+}
