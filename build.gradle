@@ -1,23 +1,16 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.5'
+    id 'org.springframework.boot' version '2.5.6'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'java-test-fixtures'
+    id 'jacoco'
     id "org.sonarqube" version "3.3"
+    id "io.freefair.lombok" version "6.3.0"
 }
 
 group = 'fr.ignishky'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
-
-def springBootVersion = '2.5.5'
-def vavrVersion = '0.10.4'
-
-dependencyManagement {
-    imports {
-        mavenBom 'com.linecorp.armeria:armeria-bom:1.13.0'
-    }
-}
 
 configurations {
     compileOnly {
@@ -29,26 +22,36 @@ repositories {
     mavenCentral()
 }
 
+def vavrVersion = '0.10.4'
+
 dependencies {
-    runtimeOnly 'com.linecorp.armeria:armeria-spring-boot2-actuator-starter'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     implementation 'com.google.code.gson:gson'
-    implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
     implementation 'io.vavr:vavr:' + vavrVersion
     implementation 'io.vavr:vavr-jackson:0.10.3'
-    implementation 'org.hibernate.validator:hibernate-validator'
-    implementation 'org.springframework:spring-web'
-    implementation 'org.springframework.boot:spring-boot-starter:' + springBootVersion
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:' + springBootVersion
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.projectlombok:lombok:1.18.22'
 
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:' + springBootVersion
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     testFixturesImplementation 'io.vavr:vavr:' + vavrVersion
+    testFixturesImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
 }
 
 sonarqube {

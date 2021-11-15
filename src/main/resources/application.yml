@@ -4,15 +4,7 @@ spring:
   data:
     mongodb:
       database: mtg-collection
-  main:
-    web-application-type: none
-
-# Additional server ports specified with Armeria configuration.
-armeria:
-  ports:
-    - port: 8080
-      protocols:
-        - http
+      uuid-representation: standard
 
 scryfall:
   base-url: "https://api.scryfall.com"
