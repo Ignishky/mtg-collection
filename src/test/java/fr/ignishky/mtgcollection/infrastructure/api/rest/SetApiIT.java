@@ -1,7 +1,9 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfall;
+import io.vavr.collection.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.client.RestTemplate;
 
+import static fr.ignishky.mtgcollection.common.ApiFixtures.aRestSet;
+import static fr.ignishky.mtgcollection.common.ApiFixtures.anotherRestSet;
 import static fr.ignishky.mtgcollection.common.SpiFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -29,6 +36,8 @@ class SetApiIT {
     private MongoTemplate mongoTemplate;
     @MockBean
     private RestTemplate restTemplate;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
@@ -46,5 +55,19 @@ class SetApiIT {
         // THEN
         resultActions.andExpect(status().isNoContent());
         assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(aMongoSet, anotherMongoSet);
+    }
+
+    @Test
+    void should_return_all_sets_from_repository() throws Exception {
+        // GIVEN
+        mongoTemplate.insertAll(List.of(aMongoSet, anotherMongoSet).asJava());
+
+        // WHEN
+        ResultActions resultActions = mvc.perform(get("/sets"));
+
+        // THEN
+        resultActions.andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(List.of(aRestSet, anotherRestSet)), true));
     }
 }

@@ -3,6 +3,7 @@ package fr.ignishky.mtgcollection.command.set;
 import fr.ignishky.mtgcollection.common.InstantFreezeExtension;
 import fr.ignishky.mtgcollection.domain.set.SetReferer;
 import fr.ignishky.mtgcollection.domain.set.SetRepository;
+import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse;
 import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,9 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(InstantFreezeExtension.class)
 class RefreshSetCommandHandlerTest {
+
+    public static SetAdded aSetAdded = new SetAdded(aSet.id(), aSet.code(), aSet.name());
+    public static SetAdded anotherSetAdded = new SetAdded(anotherSet.id(), anotherSet.code(), anotherSet.name());
 
     private final SetReferer referer = mock(SetReferer.class);
     private final SetRepository repository = mock(SetRepository.class);

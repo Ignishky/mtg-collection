@@ -1,22 +1,20 @@
 package fr.ignishky.mtgcollection.common;
 
 import fr.ignishky.mtgcollection.framework.common.Instants;
-import org.junit.jupiter.api.extension.AfterEachCallback;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.*;
 
 import java.time.Clock;
 import java.time.ZoneId;
 
-public class InstantFreezeExtension implements BeforeEachCallback, AfterEachCallback {
+public class InstantFreezeExtension implements BeforeAllCallback, AfterAllCallback {
 
     @Override
-    public void beforeEach(ExtensionContext context) {
+    public void beforeAll(ExtensionContext context) {
         Instants.clock = Clock.fixed(Instants.now(), ZoneId.of("UTC"));
     }
 
     @Override
-    public void afterEach(ExtensionContext context) {
+    public void afterAll(ExtensionContext context) {
         Instants.clock = Clock.systemUTC();
     }
 

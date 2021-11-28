@@ -30,10 +30,10 @@ java -jar build/libs/mtg-collection-0.0.1-SNAPSHOT.jar
 
 1. Loading of cards blocks from Scryfall into the mongo container
 ```shell
-curl -X PUT 'http://localhost:8080/blocks'
+curl -X PUT 'http://localhost:8080/sets'
 ```
 
 2. Get all blocks from Mongo
 ```shell
-curl -X GET 'http://localhost:8080/blocks'
+curl -X GET 'http://localhost:8080/sets'
 ```

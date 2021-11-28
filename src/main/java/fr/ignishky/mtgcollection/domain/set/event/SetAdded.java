@@ -16,7 +16,7 @@ public class SetAdded extends Event<SetId, Set, SetAdded.Payload> {
     }
 
     private SetAdded(String id, SetId setId, SetCode code, SetName name, Instant instant) {
-        super(id, setId, Set.class, new Payload(code.code(), name.name()), instant);
+        super(id, setId, Set.class, new Payload(code.value(), name.value()), instant);
     }
 
     public static record Payload(
