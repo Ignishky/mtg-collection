@@ -7,7 +7,7 @@ import static fr.ignishky.mtgcollection.common.DomainFixtures.anotherSet;
 
 public class ApiFixtures {
 
-    public static SetRest aRestSet = new SetRest(aSet.code().value(), aSet.name().value());
-    public static SetRest anotherRestSet = new SetRest(anotherSet.code().value(), anotherSet.name().value());
+    public static SetRest aRestSet = new SetRest(aSet.code().value(), aSet.name().value(), aSet.icon().url());
+    public static SetRest anotherRestSet = new SetRest(anotherSet.code().value(), anotherSet.name().value(), anotherSet.icon().url());
 
 }

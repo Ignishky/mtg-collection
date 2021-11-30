@@ -8,6 +8,8 @@ import fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse;
 import io.vavr.collection.List;
 import org.springframework.stereotype.Component;
 
+import static fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse.toCommandResponse;
+
 @Component
 public record RefreshSetCommandHandler(
         SetReferer referer,
@@ -23,7 +25,7 @@ public record RefreshSetCommandHandler(
 
         var events = sets.map(Set::toAddedEvent);
 
-        return CommandResponse.toCommandResponse(events);
+        return toCommandResponse(events);
     }
 
 }

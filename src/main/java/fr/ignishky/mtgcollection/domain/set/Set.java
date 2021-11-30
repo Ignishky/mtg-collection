@@ -10,7 +10,8 @@ public record Set(
         SetId id,
         SetCode code,
         SetName name,
-        String releasedDate
+        String releasedDate,
+        SetIcon icon
 ) implements Aggregate<SetId> {
 
     public static boolean hasBeenReleased(Set set) {
@@ -18,6 +19,6 @@ public record Set(
     }
 
     public SetAdded toAddedEvent() {
-        return new SetAdded(id, code, name);
+        return new SetAdded(id, code, name, icon);
     }
 }

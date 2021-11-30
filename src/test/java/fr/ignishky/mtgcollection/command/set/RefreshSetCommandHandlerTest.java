@@ -17,8 +17,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(InstantFreezeExtension.class)
 class RefreshSetCommandHandlerTest {
 
-    public static SetAdded aSetAdded = new SetAdded(aSet.id(), aSet.code(), aSet.name());
-    public static SetAdded anotherSetAdded = new SetAdded(anotherSet.id(), anotherSet.code(), anotherSet.name());
+    public static SetAdded aSetAdded = new SetAdded(aSet.id(), aSet.code(), aSet.name(), aSet.icon());
+    public static SetAdded anotherSetAdded = new SetAdded(anotherSet.id(), anotherSet.code(), anotherSet.name(), anotherSet.icon());
 
     private final SetReferer referer = mock(SetReferer.class);
     private final SetRepository repository = mock(SetRepository.class);
