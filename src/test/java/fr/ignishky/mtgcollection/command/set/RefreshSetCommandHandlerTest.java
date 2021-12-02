@@ -17,8 +17,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(InstantFreezeExtension.class)
 class RefreshSetCommandHandlerTest {
 
-    public static SetAdded aSetAdded = new SetAdded(aSet.id(), aSet.code(), aSet.name(), aSet.icon());
-    public static SetAdded anotherSetAdded = new SetAdded(anotherSet.id(), anotherSet.code(), anotherSet.name(), anotherSet.icon());
+    private static final SetAdded aSetAdded = new SetAdded(aSet.id(), aSet.code(), aSet.name(), aSet.releasedDate(), aSet.icon());
 
     private final SetReferer referer = mock(SetReferer.class);
     private final SetRepository repository = mock(SetRepository.class);
@@ -29,13 +28,14 @@ class RefreshSetCommandHandlerTest {
     void should_load_sets_from_referer_and_save_published_ones_into_repository() {
         // GIVEN
         when(referer.loadAll()).thenReturn(List.of(aSet, anotherSet, aFutureSet));
+        when(repository.getAll()).thenReturn(List.of(anotherSet));
 
         // WHEN
         CommandResponse<Void> response = commandHandler.handle(new RefreshSetCommand());
 
         // THEN
-        assertThat(response).isEqualTo(toCommandResponse(aSetAdded, anotherSetAdded));
-        verify(repository).save(List.of(aSet, anotherSet));
+        assertThat(response).isEqualTo(toCommandResponse(List.of(aSetAdded)));
+        verify(repository).save(List.of(aSet));
     }
 
 }

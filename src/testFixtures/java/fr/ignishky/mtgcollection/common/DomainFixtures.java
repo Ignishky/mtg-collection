@@ -10,9 +10,11 @@ import static fr.ignishky.mtgcollection.domain.set.SetId.toSetId;
 public class DomainFixtures {
 
     public static Set aSet = new Set(toSetId("a46f2063-5607-43aa-9ec6-c366c1afa02f"), new SetCode("code1"), new SetName("name1"), "2011-09-12", new SetIcon("icon1"));
-    public static Set aSavedSet = new Set(aSet.id(), aSet.code(), aSet.name(), null, aSet.icon());
+    public static Set aSavedSet = new Set(aSet.id(), aSet.code(), aSet.name(), aSet.releasedDate(), aSet.icon());
+
     public static Set anotherSet = new Set(toSetId("d95beffd-f2a2-4e31-8888-547db49cc3bf"), new SetCode("code2"), new SetName("name2"), "2018-10-12", new SetIcon("icon2"));
-    public static Set anotherSavedSet = new Set(anotherSet.id(), anotherSet.code(), anotherSet.name(), null, anotherSet.icon());
+    public static Set anotherSavedSet = new Set(anotherSet.id(), anotherSet.code(), anotherSet.name(), anotherSet.releasedDate(), anotherSet.icon());
+
     public static Set aFutureSet = new Set(toSetId("7d082e55-c58f-425f-b561-d25096089e58"), new SetCode("wtf"), new SetName("NON-EXISTING SETS"), "9999-12-31", new SetIcon("icon3"));
 
 }

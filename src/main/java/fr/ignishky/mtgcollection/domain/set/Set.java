@@ -1,5 +1,6 @@
 package fr.ignishky.mtgcollection.domain.set;
 
+import fr.ignishky.mtgcollection.domain.AppliedEvent;
 import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
 import fr.ignishky.mtgcollection.framework.domain.Aggregate;
 
@@ -18,7 +19,9 @@ public record Set(
         return parse(set.releasedDate()).isBefore(now());
     }
 
-    public SetAdded toAddedEvent() {
-        return new SetAdded(id, code, name, icon);
+    public static AppliedEvent<Set, SetAdded> add(SetId id, SetCode code, SetName name, String releasedDate, SetIcon icon) {
+        SetAdded setAdded = new SetAdded(id, code, name, releasedDate, icon);
+        Set set = setAdded.apply(null);
+        return new AppliedEvent<>(set, setAdded);
     }
 }

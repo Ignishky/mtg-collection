@@ -13,8 +13,8 @@ public class SpiFixtures {
                 new SetScryfall.ScryfallData(aSet.id().id().toString(), aSet.code().value(), aSet.name().value(), aSet.releasedDate(), aSet.icon().url()),
                 new SetScryfall.ScryfallData(anotherSet.id().id().toString(), anotherSet.code().value(), anotherSet.name().value(), anotherSet.releasedDate(), anotherSet.icon().url())));
 
-    public static SetDocument aMongoSet = new SetDocument(aSet.id().id(), aSet.code().value(), aSet.name().value(), aSet.icon().url());
+    public static SetDocument aMongoSet = new SetDocument(aSet.id().id(), aSet.code().value(), aSet.name().value(), aSet.releasedDate(), aSet.icon().url());
 
-    public static SetDocument anotherMongoSet = new SetDocument(anotherSet.id().id(), anotherSet.code().value(), anotherSet.name().value(), anotherSet.icon().url());
+    public static SetDocument anotherMongoSet = new SetDocument(anotherSet.id().id(), anotherSet.code().value(), anotherSet.name().value(), anotherSet.releasedDate(), anotherSet.icon().url());
 
 }

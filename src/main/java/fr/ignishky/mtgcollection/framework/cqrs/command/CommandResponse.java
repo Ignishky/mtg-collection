@@ -12,8 +12,4 @@ public record CommandResponse<T>(
         return new CommandResponse<>(null, events);
     }
 
-    public static <T, E extends Event<?, ?, ?>> CommandResponse<T> toCommandResponse(E... events) {
-        return new CommandResponse<>(null, List.of(events));
-    }
-
 }

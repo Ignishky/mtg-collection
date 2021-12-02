@@ -6,4 +6,6 @@ public interface SetRepository {
 
     void save(List<Set> blocks);
 
+    List<Set> getAll();
+
 }

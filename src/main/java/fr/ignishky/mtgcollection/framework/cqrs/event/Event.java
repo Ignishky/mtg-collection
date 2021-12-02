@@ -8,15 +8,15 @@ import java.time.Instant;
 
 @ToString
 @EqualsAndHashCode
-public abstract class Event<I, A extends Aggregate<I>, P extends Event.Payload> {
+public abstract class Event<ID, AGGREGATE extends Aggregate<ID>, PAYLOAD extends Event.Payload> {
 
     private final String id;
-    private final I aggregateId;
-    private final Class<A> aggregateClass;
-    private final P payload;
+    private final ID aggregateId;
+    private final Class<AGGREGATE> aggregateClass;
+    private final PAYLOAD payload;
     private final Instant instant;
 
-    protected Event(String id, I aggregateId, Class<A> aggregateClass, P payload, Instant instant) {
+    protected Event(String id, ID aggregateId, Class<AGGREGATE> aggregateClass, PAYLOAD payload, Instant instant) {
         this.id = id;
         this.aggregateId = aggregateId;
         this.aggregateClass = aggregateClass;
@@ -28,11 +28,11 @@ public abstract class Event<I, A extends Aggregate<I>, P extends Event.Payload> 
         return id;
     }
 
-    public I aggregateId() {
+    public ID aggregateId() {
         return aggregateId;
     }
 
-    public Class<A> aggregateClass() {
+    public Class<AGGREGATE> aggregateClass() {
         return aggregateClass;
     }
 
@@ -40,9 +40,11 @@ public abstract class Event<I, A extends Aggregate<I>, P extends Event.Payload> 
         return instant;
     }
 
-    public P payload() {
+    public PAYLOAD payload() {
         return payload;
     }
+
+    public abstract AGGREGATE apply(AGGREGATE aggregate);
 
     public interface Payload {
     }

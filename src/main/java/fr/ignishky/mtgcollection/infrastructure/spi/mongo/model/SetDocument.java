@@ -12,14 +12,15 @@ public record SetDocument(
         UUID id,
         String code,
         String name,
+        String releaseDate,
         String icon
 ) {
 
-        public static SetDocument fromSet(Set set) {
-                return new SetDocument(set.id().id(), set.code().value(), set.name().value(), set.icon().url());
-        }
+    public static SetDocument fromSet(Set set) {
+        return new SetDocument(set.id().id(), set.code().value(), set.name().value(), set.releasedDate(), set.icon().url());
+    }
 
-        public static Set toSet(SetDocument document) {
-                return new Set(new SetId(document.id), new SetCode(document.code), new SetName(document.name), null, new SetIcon(document.icon));
-        }
+    public static Set toSet(SetDocument document) {
+        return new Set(new SetId(document.id), new SetCode(document.code), new SetName(document.name), document.releaseDate, new SetIcon(document.icon));
+    }
 }

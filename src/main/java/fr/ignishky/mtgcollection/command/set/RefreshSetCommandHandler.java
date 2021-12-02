@@ -1,5 +1,6 @@
 package fr.ignishky.mtgcollection.command.set;
 
+import fr.ignishky.mtgcollection.domain.AppliedEvent;
 import fr.ignishky.mtgcollection.domain.set.Set;
 import fr.ignishky.mtgcollection.domain.set.SetReferer;
 import fr.ignishky.mtgcollection.domain.set.SetRepository;
@@ -18,14 +19,16 @@ public record RefreshSetCommandHandler(
 
     @Override
     public CommandResponse<Void> handle(RefreshSetCommand command) {
-        List<Set> sets = referer.loadAll()
-                .filter(Set::hasBeenReleased);
 
-        repository.save(sets);
+        List<Set> existingSets = repository.getAll();
 
-        var events = sets.map(Set::toAddedEvent);
+        var newSets = referer.loadAll()
+                .filter(Set::hasBeenReleased)
+                .filter(set -> !existingSets.contains(set))
+                .map(set -> Set.add(set.id(), set.code(), set.name(), set.releasedDate(), set.icon()));
 
-        return toCommandResponse(events);
+        repository.save(newSets.map(AppliedEvent::aggregate));
+        return toCommandResponse(newSets.map(AppliedEvent::event));
     }
 
 }
