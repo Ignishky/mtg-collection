@@ -12,10 +12,15 @@ import org.springframework.stereotype.Component;
 import static fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse.toCommandResponse;
 
 @Component
-public record RefreshSetCommandHandler(
-        SetReferer referer,
-        SetRepository repository
-) implements CommandHandler<RefreshSetCommand, Void> {
+public class RefreshSetCommandHandler implements CommandHandler<RefreshSetCommand, Void> {
+
+    private final SetReferer referer;
+    private final SetRepository repository;
+
+    public RefreshSetCommandHandler(SetReferer referer, SetRepository repository) {
+        this.referer = referer;
+        this.repository = repository;
+    }
 
     @Override
     public CommandResponse<Void> handle(RefreshSetCommand command) {

@@ -38,7 +38,7 @@ class SetControllerTest {
         when(queryBus.dispatch(query)).thenReturn(List.of(aSet, anotherSet));
 
         // WHEN
-        List<SetRest> sets = controller.getAll();
+        List<SetResponse> sets = controller.getAll();
 
         // THEN
         assertThat(sets).containsOnly(aRestSet, anotherRestSet);

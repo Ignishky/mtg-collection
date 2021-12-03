@@ -9,20 +9,25 @@ import io.vavr.collection.List;
 import org.springframework.stereotype.Controller;
 
 @Controller
-record SetController(
-        CommandBus commandBus,
-        QueryBus queryBus
-) implements SetApi {
+class SetController implements SetApi {
+
+    private final CommandBus commandBus;
+    private final QueryBus queryBus;
+
+    SetController(CommandBus commandBus, QueryBus queryBus) {
+        this.commandBus = commandBus;
+        this.queryBus = queryBus;
+    }
 
     public void loadAll() {
         commandBus.dispatch(new RefreshSetCommand());
     }
 
     @Override
-    public List<SetRest> getAll() {
+    public List<SetResponse> getAll() {
         List<Set> sets = queryBus.dispatch(new GetSetsQuery());
 
-        return sets.map(SetRest::fromSet);
+        return sets.map(SetResponse::fromSet);
     }
 
 }
