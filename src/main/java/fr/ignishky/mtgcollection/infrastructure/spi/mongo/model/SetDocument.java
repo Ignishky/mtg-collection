@@ -13,14 +13,15 @@ public record SetDocument(
         String code,
         String name,
         String releaseDate,
+        Integer cardCount,
         String icon
 ) {
 
     public static SetDocument fromSet(Set set) {
-        return new SetDocument(set.id().id(), set.code().value(), set.name().value(), set.releasedDate(), set.icon().url());
+        return new SetDocument(set.id().id(), set.code().value(), set.name().value(), set.releasedDate(), set.cardCount(), set.icon().url());
     }
 
     public static Set toSet(SetDocument document) {
-        return new Set(new SetId(document.id), new SetCode(document.code), new SetName(document.name), document.releaseDate, new SetIcon(document.icon));
+        return new Set(new SetId(document.id), new SetCode(document.code), new SetName(document.name), document.releaseDate, document.cardCount(), new SetIcon(document.icon));
     }
 }

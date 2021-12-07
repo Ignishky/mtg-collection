@@ -6,8 +6,7 @@ import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import static fr.ignishky.mtgcollection.common.DomainFixtures.aSavedSet;
-import static fr.ignishky.mtgcollection.common.DomainFixtures.anotherSavedSet;
+import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
 import static fr.ignishky.mtgcollection.common.SpiFixtures.aMongoSet;
 import static fr.ignishky.mtgcollection.common.SpiFixtures.anotherMongoSet;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +25,7 @@ class GetSetsQueryHandlerTest {
 
         List<Set> sets = handler.handle(new GetSetsQuery());
 
-        assertThat(sets).containsOnly(aSavedSet, anotherSavedSet);
+        assertThat(sets).containsOnly(aSet, anotherSet);
     }
 
 }

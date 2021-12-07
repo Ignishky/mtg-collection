@@ -12,6 +12,7 @@ public record Set(
         SetCode code,
         SetName name,
         String releasedDate,
+        Integer cardCount,
         SetIcon icon
 ) implements Aggregate<SetId> {
 
@@ -19,8 +20,12 @@ public record Set(
         return parse(set.releasedDate()).isBefore(now());
     }
 
-    public static AppliedEvent<Set, SetAdded> add(SetId id, SetCode code, SetName name, String releasedDate, SetIcon icon) {
-        SetAdded setAdded = new SetAdded(id, code, name, releasedDate, icon);
+    public boolean hasCard() {
+        return cardCount > 0;
+    }
+
+    public static AppliedEvent<Set, SetAdded> add(SetId id, SetCode code, SetName name, String releasedDate, Integer cardCount, SetIcon icon) {
+        SetAdded setAdded = new SetAdded(id, code, name, releasedDate, cardCount, icon);
         Set set = setAdded.apply(null);
         return new AppliedEvent<>(set, setAdded);
     }

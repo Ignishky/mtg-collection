@@ -1,20 +1,20 @@
 package fr.ignishky.mtgcollection.common;
 
-import fr.ignishky.mtgcollection.domain.set.Set;
-import fr.ignishky.mtgcollection.domain.set.SetCode;
-import fr.ignishky.mtgcollection.domain.set.SetIcon;
-import fr.ignishky.mtgcollection.domain.set.SetName;
+import fr.ignishky.mtgcollection.domain.card.Card;
+import fr.ignishky.mtgcollection.domain.card.CardId;
+import fr.ignishky.mtgcollection.domain.card.CardImage;
+import fr.ignishky.mtgcollection.domain.card.CardName;
+import fr.ignishky.mtgcollection.domain.set.*;
 
-import static fr.ignishky.mtgcollection.domain.set.SetId.toSetId;
+import static java.util.UUID.randomUUID;
 
 public class DomainFixtures {
 
-    public static Set aSet = new Set(toSetId("a46f2063-5607-43aa-9ec6-c366c1afa02f"), new SetCode("code1"), new SetName("name1"), "2011-09-12", new SetIcon("icon1"));
-    public static Set aSavedSet = new Set(aSet.id(), aSet.code(), aSet.name(), aSet.releasedDate(), aSet.icon());
+    public static Set aSet = new Set(new SetId(randomUUID()), new SetCode("a-set-code"), new SetName("a-set-name"), "2011-09-12", 365, new SetIcon("a-set-icon"));
+    public static Set anotherSet = new Set(new SetId(randomUUID()), new SetCode("another-set-code"), new SetName("another-set-name"), "2018-10-12", 165, new SetIcon("another-set-icon"));
+    public static Set aFutureSet = new Set(new SetId(randomUUID()), new SetCode("wtf"), new SetName("NON-EXISTING SETS"), "9999-12-31", 63, new SetIcon("icon3"));
 
-    public static Set anotherSet = new Set(toSetId("d95beffd-f2a2-4e31-8888-547db49cc3bf"), new SetCode("code2"), new SetName("name2"), "2018-10-12", new SetIcon("icon2"));
-    public static Set anotherSavedSet = new Set(anotherSet.id(), anotherSet.code(), anotherSet.name(), anotherSet.releasedDate(), anotherSet.icon());
-
-    public static Set aFutureSet = new Set(toSetId("7d082e55-c58f-425f-b561-d25096089e58"), new SetCode("wtf"), new SetName("NON-EXISTING SETS"), "9999-12-31", new SetIcon("icon3"));
-
+    public static Card aCard = new Card(new CardId(randomUUID()), aSet.code(), new CardName("a-card-name"), new CardImage("a-card-image"));
+    public static Card anotherCard = new Card(new CardId(randomUUID()), anotherSet.code(), new CardName("another-card-name"), new CardImage("another-card-image"));
+    public static Card anExtraCard = new Card(new CardId(randomUUID()), aSet.code(), new CardName("an-extra-card-name"), new CardImage("an-extra-card-image"));
 }

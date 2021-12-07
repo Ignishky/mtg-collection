@@ -1,7 +1,9 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
+import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfall;
 import io.vavr.collection.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +50,8 @@ class SetApiIT {
     void should_load_sets_from_scryfall_and_save_them_into_mongo() throws Exception {
         // GIVEN
         when(restTemplate.getForObject("http://scryfall.mtg-collection.test/sets", SetScryfall.class)).thenReturn(aScryfallSets);
+        when(restTemplate.getForObject("http://scryfall.mtg-collection.test/cards/search?order=set&q=e:a-set-code&unique=prints", CardScryfall.class)).thenReturn(aScryfallCards);
+        when(restTemplate.getForObject("http://scryfall.mtg-collection.test/cards/search?order=set&q=e:another-set-code&unique=prints", CardScryfall.class)).thenReturn(anotherScryfallCards);
 
         // WHEN
         ResultActions resultActions = mvc.perform(put("/sets"));
@@ -55,6 +59,7 @@ class SetApiIT {
         // THEN
         resultActions.andExpect(status().isNoContent());
         assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(aMongoSet, anotherMongoSet);
+        assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(aMongoCard, anotherMongoCard, anExtraMongoCard);
     }
 
     @Test
