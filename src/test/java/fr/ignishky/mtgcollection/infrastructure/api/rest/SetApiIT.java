@@ -17,8 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.client.RestTemplate;
 
-import static fr.ignishky.mtgcollection.common.ApiFixtures.aRestSet;
-import static fr.ignishky.mtgcollection.common.ApiFixtures.anotherRestSet;
+import static fr.ignishky.mtgcollection.common.ApiFixtures.*;
+import static fr.ignishky.mtgcollection.common.DomainFixtures.aSet;
 import static fr.ignishky.mtgcollection.common.SpiFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -36,14 +36,16 @@ class SetApiIT {
     private MockMvc mvc;
     @Autowired
     private MongoTemplate mongoTemplate;
-    @MockBean
-    private RestTemplate restTemplate;
     @Autowired
     private ObjectMapper objectMapper;
+    
+    @MockBean
+    private RestTemplate restTemplate;
 
     @BeforeEach
     void setUp() {
         mongoTemplate.dropCollection(SetDocument.class);
+        mongoTemplate.dropCollection(CardDocument.class);
     }
 
     @Test
@@ -52,6 +54,7 @@ class SetApiIT {
         when(restTemplate.getForObject("http://scryfall.mtg-collection.test/sets", SetScryfall.class)).thenReturn(aScryfallSets);
         when(restTemplate.getForObject("http://scryfall.mtg-collection.test/cards/search?order=set&q=e:a-set-code&unique=prints", CardScryfall.class)).thenReturn(aScryfallCards);
         when(restTemplate.getForObject("http://scryfall.mtg-collection.test/cards/search?order=set&q=e:another-set-code&unique=prints", CardScryfall.class)).thenReturn(anotherScryfallCards);
+        when(restTemplate.getForObject("https://scryfall.mtg.test/page:2", CardScryfall.class)).thenReturn(anotherScryfallCards2);
 
         // WHEN
         ResultActions resultActions = mvc.perform(put("/sets"));
@@ -59,7 +62,7 @@ class SetApiIT {
         // THEN
         resultActions.andExpect(status().isNoContent());
         assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(aMongoSet, anotherMongoSet);
-        assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(aMongoCard, anotherMongoCard, anExtraMongoCard);
+        assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(aMongoCard, anotherMongoCard, anExtraMongoCard, anotherMongoCard2);
     }
 
     @Test
@@ -75,4 +78,31 @@ class SetApiIT {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(List.of(aRestSet, anotherRestSet)), true));
     }
+
+    @Test
+    void should_return_not_found_when_set_code_is_unknown() throws Exception {
+        // GIVEN
+        mongoTemplate.insertAll(List.of(anotherMongoCard).asJava());
+
+        // WHEN
+        ResultActions resultActions = mvc.perform(get("/sets/%s".formatted(aSet.code())));
+
+        // THEN
+        resultActions.andExpect(status().isNotFound());
+    }
+
+    @Test
+    void should_return_all_cards_for_a_given_set_from_repository() throws Exception {
+        // GIVEN
+        mongoTemplate.insertAll(List.of(aMongoCard, anotherMongoCard, anExtraMongoCard).asJava());
+
+        // WHEN
+        ResultActions resultActions = mvc.perform(get("/sets/%s".formatted(aSet.code())));
+
+        // THEN
+        resultActions.andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(List.of(aRestCard, anExtraRestCard)), true));
+    }
+
 }

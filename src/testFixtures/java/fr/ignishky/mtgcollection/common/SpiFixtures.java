@@ -16,19 +16,23 @@ public class SpiFixtures {
             new SetScryfall.ScryfallData(aSet.id().id().toString(), aSet.code().value(), aSet.name().value(), aSet.releasedDate(), aSet.cardCount(), aSet.icon().url()),
             new SetScryfall.ScryfallData(anotherSet.id().id().toString(), anotherSet.code().value(), anotherSet.name().value(), anotherSet.releasedDate(), anotherSet.cardCount(), anotherSet.icon().url())));
 
-    public static CardScryfall aScryfallCards = new CardScryfall(List.of(
+    public static CardScryfall aScryfallCards = new CardScryfall(null, List.of(
             new CardScryfall.ScryfallData(aCard.id().id(), aCard.cardName().name(), aCard.setCode().value(), new Images(aCard.cardImage().image()), null),
             new CardScryfall.ScryfallData(anExtraCard.id().id(), anExtraCard.cardName().name(), anExtraCard.setCode().value(), new Images(anExtraCard.cardImage().image()), null)
     ));
 
-    public static CardScryfall anotherScryfallCards = new CardScryfall(List.of(
+    public static CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(
             new CardScryfall.ScryfallData(anotherCard.id().id(), anotherCard.cardName().name(), anotherCard.setCode().value(), new Images(anotherCard.cardImage().image()), null)
+    ));
+    public static CardScryfall anotherScryfallCards2 = new CardScryfall(null, List.of(
+            new CardScryfall.ScryfallData(anotherCard2.id().id(), anotherCard2.cardName().name(), anotherCard2.setCode().value(), new Images(anotherCard2.cardImage().image()), null)
     ));
 
     public static SetDocument aMongoSet = new SetDocument(aSet.id().id(), aSet.code().value(), aSet.name().value(), aSet.releasedDate(), aSet.cardCount(), aSet.icon().url());
     public static SetDocument anotherMongoSet = new SetDocument(anotherSet.id().id(), anotherSet.code().value(), anotherSet.name().value(), anotherSet.releasedDate(), anotherSet.cardCount(), anotherSet.icon().url());
 
     public static CardDocument aMongoCard = new CardDocument(aCard.id().id(), aCard.setCode().value(), aCard.cardName().name(), aCard.cardImage().image());
-    public static CardDocument anotherMongoCard = new CardDocument(anotherCard.id().id(), anotherCard.setCode().value(), anotherCard.cardName().name(), anotherCard.cardImage().image());
     public static CardDocument anExtraMongoCard = new CardDocument(anExtraCard.id().id(), anExtraCard.setCode().value(), anExtraCard.cardName().name(), anExtraCard.cardImage().image());
+    public static CardDocument anotherMongoCard = new CardDocument(anotherCard.id().id(), anotherCard.setCode().value(), anotherCard.cardName().name(), anotherCard.cardImage().image());
+    public static CardDocument anotherMongoCard2 = new CardDocument(anotherCard2.id().id(), anotherCard2.setCode().value(), anotherCard2.cardName().name(), anotherCard2.cardImage().image());
 }

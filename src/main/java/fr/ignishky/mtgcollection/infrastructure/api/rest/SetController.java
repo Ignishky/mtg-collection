@@ -1,12 +1,18 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest;
 
 import fr.ignishky.mtgcollection.command.set.RefreshSetCommand;
-import fr.ignishky.mtgcollection.domain.set.Set;
+import fr.ignishky.mtgcollection.domain.card.Card;
+import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
+import fr.ignishky.mtgcollection.query.set.GetCardsQuery;
 import fr.ignishky.mtgcollection.query.set.GetSetsQuery;
 import io.vavr.collection.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+
+import static org.springframework.http.ResponseEntity.notFound;
+import static org.springframework.http.ResponseEntity.ok;
 
 @Controller
 class SetController implements SetApi {
@@ -24,10 +30,17 @@ class SetController implements SetApi {
     }
 
     @Override
-    public List<SetResponse> getAll() {
-        List<Set> sets = queryBus.dispatch(new GetSetsQuery());
+    public ResponseEntity<List<SetResponse>> getAll() {
+        return ok(queryBus.dispatch(new GetSetsQuery())
+                .map(SetResponse::fromSet));
+    }
 
-        return sets.map(SetResponse::fromSet);
+    @Override
+    public ResponseEntity<List<CardResponse>> getCards(String setCode) {
+        List<Card> cards = queryBus.dispatch(new GetCardsQuery(new SetCode(setCode)));
+        return cards.isEmpty()
+                ? notFound().build()
+                : ok(cards.map(CardResponse::fromCard));
     }
 
 }

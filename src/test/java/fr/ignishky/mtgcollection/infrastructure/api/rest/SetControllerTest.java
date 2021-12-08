@@ -3,16 +3,18 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest;
 import fr.ignishky.mtgcollection.command.set.RefreshSetCommand;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
+import fr.ignishky.mtgcollection.query.set.GetCardsQuery;
 import fr.ignishky.mtgcollection.query.set.GetSetsQuery;
 import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.ResponseEntity;
 
-import static fr.ignishky.mtgcollection.common.ApiFixtures.aRestSet;
-import static fr.ignishky.mtgcollection.common.ApiFixtures.anotherRestSet;
-import static fr.ignishky.mtgcollection.common.DomainFixtures.aSet;
-import static fr.ignishky.mtgcollection.common.DomainFixtures.anotherSet;
+import static fr.ignishky.mtgcollection.common.ApiFixtures.*;
+import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 
 class SetControllerTest {
 
@@ -38,9 +40,36 @@ class SetControllerTest {
         when(queryBus.dispatch(query)).thenReturn(List.of(aSet, anotherSet));
 
         // WHEN
-        List<SetResponse> sets = controller.getAll();
+        ResponseEntity<List<SetResponse>> response = controller.getAll();
 
         // THEN
-        assertThat(sets).containsOnly(aRestSet, anotherRestSet);
+        assertThat(response).isEqualTo(new ResponseEntity<>(List.of(aRestSet, anotherRestSet), OK));
     }
+
+    @Test
+    void should_return_not_found_when_query_return_no_card() {
+        // GIVEN
+        GetCardsQuery query = new GetCardsQuery(aSet.code());
+        when(queryBus.dispatch(query)).thenReturn(List.empty());
+
+        // WHEN
+        ResponseEntity<List<CardResponse>> response = controller.getCards(aSet.code().value());
+
+        // THEN
+        assertThat(response).isEqualTo(new ResponseEntity<>(NOT_FOUND));
+    }
+
+    @Test
+    void should_return_cards_from_query() {
+        // GIVEN
+        GetCardsQuery query = new GetCardsQuery(aSet.code());
+        when(queryBus.dispatch(query)).thenReturn(List.of(aCard, anExtraCard));
+
+        // WHEN
+        ResponseEntity<List<CardResponse>> response = controller.getCards(aSet.code().value());
+
+        // THEN
+        assertThat(response).isEqualTo(new ResponseEntity<>(List.of(aRestCard, anExtraRestCard), OK));
+    }
+
 }

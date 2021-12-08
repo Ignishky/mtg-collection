@@ -4,7 +4,7 @@ import io.vavr.collection.List;
 
 public interface SetRepository {
 
-    void save(List<Set> blocks);
+    void save(List<Set> sets);
 
     List<Set> getAll();
 

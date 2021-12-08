@@ -10,6 +10,7 @@ import io.vavr.collection.List;
 import java.util.UUID;
 
 public record CardScryfall(
+        String next_page,
         List<ScryfallData> data
 ) {
     public record ScryfallData(

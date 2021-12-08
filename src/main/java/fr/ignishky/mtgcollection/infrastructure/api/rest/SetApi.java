@@ -2,6 +2,7 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.vavr.collection.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -17,5 +18,10 @@ public interface SetApi {
 
     @GetMapping
     @Operation(summary = "Return all the sets cards available", tags = "Cards Sets")
-    List<SetResponse> getAll();
+    ResponseEntity<List<SetResponse>> getAll();
+
+    @GetMapping("/{setCode}")
+    @Operation(summary = "Return all the cards from a given set", tags = "Cards Sets")
+    ResponseEntity<List<CardResponse>> getCards(@PathVariable String setCode);
+
 }
