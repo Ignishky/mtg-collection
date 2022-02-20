@@ -7,15 +7,15 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.time.Instant;
 
-public abstract class Event<ID, AGGREGATE extends Aggregate<ID>, PAYLOAD extends Event.Payload> {
+public abstract class Event<I, A extends Aggregate<I>, P extends Event.Payload> {
 
     private final String id;
-    private final ID aggregateId;
-    private final Class<AGGREGATE> aggregateClass;
-    private final PAYLOAD payload;
+    private final I aggregateId;
+    private final Class<A> aggregateClass;
+    private final P payload;
     private final Instant instant;
 
-    protected Event(String id, ID aggregateId, Class<AGGREGATE> aggregateClass, PAYLOAD payload, Instant instant) {
+    protected Event(String id, I aggregateId, Class<A> aggregateClass, P payload, Instant instant) {
         this.id = id;
         this.aggregateId = aggregateId;
         this.aggregateClass = aggregateClass;
@@ -27,11 +27,11 @@ public abstract class Event<ID, AGGREGATE extends Aggregate<ID>, PAYLOAD extends
         return id;
     }
 
-    public ID aggregateId() {
+    public I aggregateId() {
         return aggregateId;
     }
 
-    public Class<AGGREGATE> aggregateClass() {
+    public Class<A> aggregateClass() {
         return aggregateClass;
     }
 
@@ -39,11 +39,11 @@ public abstract class Event<ID, AGGREGATE extends Aggregate<ID>, PAYLOAD extends
         return instant;
     }
 
-    public PAYLOAD payload() {
+    public P payload() {
         return payload;
     }
 
-    public abstract AGGREGATE apply(AGGREGATE aggregate);
+    public abstract A apply(A aggregate);
 
     @Override
     public String toString() {
