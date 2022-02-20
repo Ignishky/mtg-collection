@@ -1,2 +1,7 @@
 scryfall:
   base-url: "http://scryfall.mtg-collection.test"
+
+spring:
+  mongodb:
+    embedded:
+      version: 3.5.5
