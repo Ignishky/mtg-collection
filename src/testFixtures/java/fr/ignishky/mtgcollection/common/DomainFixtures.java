@@ -53,6 +53,4 @@ public class DomainFixtures {
             new CardName("another-card-name2"),
             new CardImage("another-card-image2"));
 
-    private DomainFixtures() {
-    }
 }

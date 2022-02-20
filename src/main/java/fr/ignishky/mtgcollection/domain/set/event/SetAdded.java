@@ -11,14 +11,14 @@ public class SetAdded extends Event<SetId, Set, SetAdded.Payload> {
     private final SetCode code;
     private final SetName name;
     private final String releaseDate;
-    private final Integer cardCount;
+    private final int cardCount;
     private final SetIcon icon;
 
-    public SetAdded(SetId setId, SetCode code, SetName name, String releaseDate, Integer cardCount, SetIcon icon) {
+    public SetAdded(SetId setId, SetCode code, SetName name, String releaseDate, int cardCount, SetIcon icon) {
         this(null, setId, code, name, releaseDate, cardCount, icon, Instants.now());
     }
 
-    private SetAdded(String id, SetId aggregateId, SetCode code, SetName name, String releaseDate, Integer cardCount, SetIcon icon, Instant instant) {
+    private SetAdded(String id, SetId aggregateId, SetCode code, SetName name, String releaseDate, int cardCount, SetIcon icon, Instant instant) {
         super(id, aggregateId, Set.class, new Payload(code.value(), name.value(), releaseDate, cardCount, icon.url()), instant);
         this.code = code;
         this.name = name;
@@ -36,7 +36,7 @@ public class SetAdded extends Event<SetId, Set, SetAdded.Payload> {
             String code,
             String name,
             String releaseDate,
-            Integer cardCount,
+            int cardCount,
             String icon
     ) implements Event.Payload {
     }

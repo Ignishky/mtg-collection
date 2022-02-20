@@ -13,7 +13,7 @@ public record SetDocument(
         String code,
         String name,
         String releaseDate,
-        Integer cardCount,
+        int cardCount,
         String icon
 ) {
 

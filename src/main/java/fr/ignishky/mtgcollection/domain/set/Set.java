@@ -16,15 +16,15 @@ public record Set(
         SetIcon icon
 ) implements Aggregate<SetId> {
 
-    public static boolean hasBeenReleased(Set set) {
-        return parse(set.releasedDate()).isBefore(now());
+    public boolean hasBeenReleased() {
+        return parse(releasedDate).isBefore(now());
     }
 
     public boolean hasCard() {
         return cardCount > 0;
     }
 
-    public static AppliedEvent<Set, SetAdded> add(SetId id, SetCode code, SetName name, String releasedDate, Integer cardCount, SetIcon icon) {
+    public static AppliedEvent<Set, SetAdded> add(SetId id, SetCode code, SetName name, String releasedDate, int cardCount, SetIcon icon) {
         SetAdded setAdded = new SetAdded(id, code, name, releasedDate, cardCount, icon);
         Set set = setAdded.apply(null);
         return new AppliedEvent<>(set, setAdded);

@@ -15,7 +15,7 @@ class SetScryfallReferer implements SetReferer {
     private final RestTemplate restTemplate;
     private final ScryfallProperties scryfallProperties;
 
-    public SetScryfallReferer(RestTemplate restTemplate, ScryfallProperties scryfallProperties) {
+    SetScryfallReferer(RestTemplate restTemplate, ScryfallProperties scryfallProperties) {
         this.restTemplate = restTemplate;
         this.scryfallProperties = scryfallProperties;
     }

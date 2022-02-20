@@ -17,9 +17,6 @@ public class SpiFixtures {
     public static final CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(anotherCard)));
     public static final CardScryfall anotherScryfallCards2 = new CardScryfall(null, List.of(getCardData(anotherCard2)));
 
-    private SpiFixtures() {
-    }
-
     private static SetScryfall.ScryfallData getSetData(Set aSet) {
         return new SetScryfall.ScryfallData(
                 aSet.id().id().toString(),
