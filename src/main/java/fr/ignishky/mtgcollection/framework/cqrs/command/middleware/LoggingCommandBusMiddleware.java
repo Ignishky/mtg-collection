@@ -3,10 +3,13 @@ package fr.ignishky.mtgcollection.framework.cqrs.command.middleware;
 import fr.ignishky.mtgcollection.framework.cqrs.command.Command;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse;
 import io.vavr.control.Try;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 
-@Slf4j
+import static org.slf4j.LoggerFactory.getLogger;
+
 public class LoggingCommandBusMiddleware extends CommandMiddleware {
+
+    private static final Logger LOGGER = getLogger(LoggingCommandBusMiddleware.class);
 
     public LoggingCommandBusMiddleware(CommandMiddleware next) {
         super(next);
@@ -14,10 +17,10 @@ public class LoggingCommandBusMiddleware extends CommandMiddleware {
 
     @Override
     public <T> Try<CommandResponse<T>> handle(Command<T> message) {
-        log.info("Executing {} with parameter {}", message.getClass().getSimpleName(), message);
+        LOGGER.info("Executing {} with parameter {}", message.getClass().getSimpleName(), message);
         return next(message)
-                .onSuccess(s -> log.info("Success on {}. Result : {}, Events : {}", message.getClass().getSimpleName(), s.value(), s.events()))
-                .onFailure(f -> log.error("Error on {}", message.getClass().getSimpleName(), f));
+                .onSuccess(s -> LOGGER.info("Success on {}. Result : {}, Events : {}", message.getClass().getSimpleName(), s.value(), s.events()))
+                .onFailure(f -> LOGGER.error("Error on {}", message.getClass().getSimpleName(), f));
     }
 
     public record Builder() implements CommandMiddlewareBuilder {

@@ -1,10 +1,13 @@
 package fr.ignishky.mtgcollection.framework.cqrs.query.middleware;
 
 import fr.ignishky.mtgcollection.framework.cqrs.query.Query;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 
-@Slf4j
+import static org.slf4j.LoggerFactory.getLogger;
+
 public class LoggingQueryBusMiddleware extends QueryMiddleware {
+
+    private static final Logger LOGGER = getLogger(LoggingQueryBusMiddleware.class);
 
     private LoggingQueryBusMiddleware(QueryMiddleware next) {
         super(next);
@@ -13,13 +16,13 @@ public class LoggingQueryBusMiddleware extends QueryMiddleware {
     @Override
     public <Q extends Query<R>, R> R handle(Q query) {
         try {
-            log.info("Executing {} with query {}", query.getClass().getSimpleName(), query);
+            LOGGER.info("Executing {} with query {}", query.getClass().getSimpleName(), query);
             R result = next(query);
-            log.info("Success on {} for query {}", query.getClass().getSimpleName(), query);
+            LOGGER.info("Success on {} for query {}", query.getClass().getSimpleName(), query);
 
             return result;
         } catch (Exception e) {
-            log.error("Error on {} for query {}", query.getClass().getSimpleName(), query);
+            LOGGER.error("Error on {} for query {}", query.getClass().getSimpleName(), query);
             throw e;
         }
     }

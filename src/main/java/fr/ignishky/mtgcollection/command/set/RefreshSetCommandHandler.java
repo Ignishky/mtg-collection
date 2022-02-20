@@ -11,15 +11,17 @@ import fr.ignishky.mtgcollection.framework.cqrs.command.CommandHandler;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 import io.vavr.collection.List;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import static fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse.toCommandResponse;
+import static org.slf4j.LoggerFactory.getLogger;
 
-@Slf4j
 @Component
 public class RefreshSetCommandHandler implements CommandHandler<RefreshSetCommand, Void> {
 
+    private static final Logger LOGGER = getLogger(RefreshSetCommandHandler.class);
+    
     private final SetReferer setReferer;
     private final CardReferer cardReferer;
     private final SetRepository setRepository;
@@ -44,13 +46,13 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
                 .map(set -> Set.add(set.id(), set.code(), set.name(), set.releasedDate(), set.cardCount(), set.icon()));
 
         List<Set> sets = setAppliedEvents.map(AppliedEvent::aggregate);
-        log.info("Saving {} sets ...", sets.size());
+        LOGGER.info("Saving {} sets ...", sets.size());
         setRepository.save(sets);
 
         var cardAppliedEvents = sets.map(Set::code)
                 .flatMap(cardReferer::load)
                 .map(card -> Card.add(card.id(), card.setCode(), card.cardName(), card.cardImage()));
-        log.info("Saving {} cards", cardAppliedEvents.size());
+        LOGGER.info("Saving {} cards", cardAppliedEvents.size());
         cardRepository.save(cardAppliedEvents.map(AppliedEvent::aggregate));
 
         List<Event<?, ?, ?>> events = List.ofAll(setAppliedEvents.map(AppliedEvent::event));

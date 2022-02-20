@@ -5,7 +5,6 @@ plugins {
     id 'java-test-fixtures'
     id 'jacoco'
     id "org.sonarqube" version "3.3"
-    id "io.freefair.lombok" version "6.3.0"
 }
 
 group = 'fr.ignishky'
@@ -30,7 +29,6 @@ dependencies {
     implementation 'com.google.code.gson:gson'
     implementation 'io.vavr:vavr:' + vavrVersion
     implementation 'io.vavr:vavr-jackson:0.10.3'
-    implementation 'org.projectlombok:lombok:1.18.22'
     implementation 'org.springdoc:springdoc-openapi-ui:1.5.12'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'

@@ -6,13 +6,16 @@ import fr.ignishky.mtgcollection.domain.card.CardReferer;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall;
 import io.vavr.collection.List;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
-@Slf4j
+import static org.slf4j.LoggerFactory.getLogger;
+
 @Repository
 public class CardScryfallReferer implements CardReferer {
+
+    private static final Logger LOGGER = getLogger(CardScryfallReferer.class);
 
     private final RestTemplate restTemplate;
     private final ScryfallProperties scryfallProperties;
@@ -24,7 +27,7 @@ public class CardScryfallReferer implements CardReferer {
 
     @Override
     public List<Card> load(SetCode setCode) {
-        log.info("Loading cards from {} ...", setCode.value());
+        LOGGER.info("Loading cards from {} ...", setCode.value());
         String url = scryfallProperties.baseUrl() + "/cards/search?order=set&q=e:" + setCode.value() + "&unique=prints";
         List<CardScryfall> cards = List.empty();
         while(url != null) {
