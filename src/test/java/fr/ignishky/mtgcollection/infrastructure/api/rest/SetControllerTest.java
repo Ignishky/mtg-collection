@@ -9,8 +9,9 @@ import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
-import static fr.ignishky.mtgcollection.common.ApiFixtures.*;
 import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.CardResponse.toCardResponse;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.SetResponse.toSetResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -43,7 +44,7 @@ class SetControllerTest {
         ResponseEntity<List<SetResponse>> response = controller.getAll();
 
         // THEN
-        assertThat(response).isEqualTo(new ResponseEntity<>(List.of(aRestSet, anotherRestSet), OK));
+        assertThat(response).isEqualTo(new ResponseEntity<>(List.of(toSetResponse(aSet), toSetResponse(anotherSet)), OK));
     }
 
     @Test
@@ -69,7 +70,7 @@ class SetControllerTest {
         ResponseEntity<List<CardResponse>> response = controller.getCards(aSet.code().value());
 
         // THEN
-        assertThat(response).isEqualTo(new ResponseEntity<>(List.of(aRestCard, anExtraRestCard), OK));
+        assertThat(response).isEqualTo(new ResponseEntity<>(List.of(toCardResponse(aCard), toCardResponse(anExtraCard)), OK));
     }
 
 }

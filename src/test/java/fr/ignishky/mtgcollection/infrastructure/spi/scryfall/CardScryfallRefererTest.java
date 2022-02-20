@@ -38,7 +38,8 @@ class CardScryfallRefererTest {
     @Test
     void should_load_cards_of_a_set_from_scryfall() {
         // GIVEN
-        when(restTemplate.getForObject("base-url/cards/search?order=set&q=e:a-set-code&unique=prints", CardScryfall.class)).thenReturn(aScryfallCards);
+        when(restTemplate.getForObject("base-url/cards/search?order=set&q=e:a-set-code&unique=prints", CardScryfall.class))
+                .thenReturn(aScryfallCards);
 
         // WHEN
         List<Card> cards = referer.load(aSet.code());
@@ -50,7 +51,8 @@ class CardScryfallRefererTest {
     @Test
     void should_load_cards_of_a_set_from_multiple_scryfall_pages() {
         // GIVEN
-        when(restTemplate.getForObject("base-url/cards/search?order=set&q=e:another-set-code&unique=prints", CardScryfall.class)).thenReturn(anotherScryfallCards);
+        when(restTemplate.getForObject("base-url/cards/search?order=set&q=e:another-set-code&unique=prints", CardScryfall.class))
+                .thenReturn(anotherScryfallCards);
         when(restTemplate.getForObject("https://scryfall.mtg.test/page:2", CardScryfall.class)).thenReturn(anotherScryfallCards2);
 
         // WHEN

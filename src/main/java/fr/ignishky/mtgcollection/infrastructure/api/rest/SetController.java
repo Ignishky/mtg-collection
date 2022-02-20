@@ -32,7 +32,7 @@ class SetController implements SetApi {
     @Override
     public ResponseEntity<List<SetResponse>> getAll() {
         return ok(queryBus.dispatch(new GetSetsQuery())
-                .map(SetResponse::fromSet));
+                .map(SetResponse::toSetResponse));
     }
 
     @Override
@@ -40,7 +40,7 @@ class SetController implements SetApi {
         List<Card> cards = queryBus.dispatch(new GetCardsQuery(new SetCode(setCode)));
         return cards.isEmpty()
                 ? notFound().build()
-                : ok(cards.map(CardResponse::fromCard));
+                : ok(cards.map(CardResponse::toCardResponse));
     }
 
 }

@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.common;
 
-import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
-import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
+import fr.ignishky.mtgcollection.domain.card.Card;
+import fr.ignishky.mtgcollection.domain.set.Set;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall.ScryfallData.Images;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfall;
@@ -11,28 +11,32 @@ import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
 
 public class SpiFixtures {
 
-    public static SetScryfall aScryfallSets = new SetScryfall(List.of(
-            new SetScryfall.ScryfallData(aFutureSet.id().id().toString(), aFutureSet.code().value(), aFutureSet.name().value(), aFutureSet.releasedDate(), aFutureSet.cardCount(), aFutureSet.icon().url()),
-            new SetScryfall.ScryfallData(aSet.id().id().toString(), aSet.code().value(), aSet.name().value(), aSet.releasedDate(), aSet.cardCount(), aSet.icon().url()),
-            new SetScryfall.ScryfallData(anotherSet.id().id().toString(), anotherSet.code().value(), anotherSet.name().value(), anotherSet.releasedDate(), anotherSet.cardCount(), anotherSet.icon().url())));
+    public static final SetScryfall aScryfallSets = new SetScryfall(List.of(getSetData(aFutureSet), getSetData(aSet), getSetData(anotherSet)));
 
-    public static CardScryfall aScryfallCards = new CardScryfall(null, List.of(
-            new CardScryfall.ScryfallData(aCard.id().id(), aCard.cardName().name(), aCard.setCode().value(), new Images(aCard.cardImage().image()), null),
-            new CardScryfall.ScryfallData(anExtraCard.id().id(), anExtraCard.cardName().name(), anExtraCard.setCode().value(), new Images(anExtraCard.cardImage().image()), null)
-    ));
+    public static final CardScryfall aScryfallCards = new CardScryfall(null, List.of(getCardData(aCard), getCardData(anExtraCard)));
+    public static final CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(anotherCard)));
+    public static final CardScryfall anotherScryfallCards2 = new CardScryfall(null, List.of(getCardData(anotherCard2)));
 
-    public static CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(
-            new CardScryfall.ScryfallData(anotherCard.id().id(), anotherCard.cardName().name(), anotherCard.setCode().value(), new Images(anotherCard.cardImage().image()), null)
-    ));
-    public static CardScryfall anotherScryfallCards2 = new CardScryfall(null, List.of(
-            new CardScryfall.ScryfallData(anotherCard2.id().id(), anotherCard2.cardName().name(), anotherCard2.setCode().value(), new Images(anotherCard2.cardImage().image()), null)
-    ));
+    private SpiFixtures() {
+    }
 
-    public static SetDocument aMongoSet = new SetDocument(aSet.id().id(), aSet.code().value(), aSet.name().value(), aSet.releasedDate(), aSet.cardCount(), aSet.icon().url());
-    public static SetDocument anotherMongoSet = new SetDocument(anotherSet.id().id(), anotherSet.code().value(), anotherSet.name().value(), anotherSet.releasedDate(), anotherSet.cardCount(), anotherSet.icon().url());
+    private static SetScryfall.ScryfallData getSetData(Set aSet) {
+        return new SetScryfall.ScryfallData(
+                aSet.id().id().toString(),
+                aSet.code().value(),
+                aSet.name().value(),
+                aSet.releasedDate(),
+                aSet.cardCount(),
+                aSet.icon().url());
+    }
 
-    public static CardDocument aMongoCard = new CardDocument(aCard.id().id(), aCard.setCode().value(), aCard.cardName().name(), aCard.cardImage().image());
-    public static CardDocument anExtraMongoCard = new CardDocument(anExtraCard.id().id(), anExtraCard.setCode().value(), anExtraCard.cardName().name(), anExtraCard.cardImage().image());
-    public static CardDocument anotherMongoCard = new CardDocument(anotherCard.id().id(), anotherCard.setCode().value(), anotherCard.cardName().name(), anotherCard.cardImage().image());
-    public static CardDocument anotherMongoCard2 = new CardDocument(anotherCard2.id().id(), anotherCard2.setCode().value(), anotherCard2.cardName().name(), anotherCard2.cardImage().image());
+    private static CardScryfall.ScryfallData getCardData(Card aCard) {
+        return new CardScryfall.ScryfallData(
+                aCard.id().id(),
+                aCard.cardName().name(),
+                aCard.setCode().value(),
+                new Images(aCard.cardImage().image()),
+                null);
+    }
+
 }

@@ -8,8 +8,8 @@ public record SetResponse(
     String icon
 ) {
 
-    public static SetResponse fromSet(Set set) {
-        return new SetResponse(set.code().value(), set.name().value(), set.icon().url());
+    public static SetResponse toSetResponse(Set aSet) {
+        return new SetResponse(aSet.code().value(), aSet.name().value(), aSet.icon().url());
     }
 
 }

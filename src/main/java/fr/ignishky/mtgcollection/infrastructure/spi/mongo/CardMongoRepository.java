@@ -14,6 +14,6 @@ public interface CardMongoRepository extends CardRepository, MongoRepository<Car
 
     @Override
     default void save(List<Card> cards) {
-        saveAll(cards.map(CardDocument::fromCard));
+        saveAll(cards.map(CardDocument::toCardDocument));
     }
 }

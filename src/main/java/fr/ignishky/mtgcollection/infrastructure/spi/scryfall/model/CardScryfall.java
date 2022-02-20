@@ -21,7 +21,15 @@ public record CardScryfall(
             List<CardFaces> card_faces
     ) {
         public Card toCard() {
-            return new Card(new CardId(id), new SetCode(set), new CardName(name), new CardImage(image_uris != null ? image_uris.normal : card_faces.get(0).image_uris != null ? card_faces.get(0).image_uris.normal : null));
+            return new Card(
+                    new CardId(id),
+                    new SetCode(set),
+                    new CardName(name),
+                    new CardImage(image_uris != null
+                            ? image_uris.normal
+                            : card_faces.get(0).image_uris != null
+                            ? card_faces.get(0).image_uris.normal
+                            : null));
         }
 
         public record Images(String normal) {

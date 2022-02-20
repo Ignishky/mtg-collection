@@ -9,7 +9,9 @@ public record CardResponse(
         String name,
         String image
 ) {
-    public static CardResponse fromCard(Card card) {
-        return new CardResponse(card.id().id(), card.cardName().name(), card.cardImage().image());
+
+    public static CardResponse toCardResponse(Card aCard) {
+        return new CardResponse(aCard.id().id(), aCard.cardName().name(), aCard.cardImage().image());
     }
+
 }

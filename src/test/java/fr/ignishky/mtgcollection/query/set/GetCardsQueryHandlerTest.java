@@ -8,8 +8,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
 import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
-import static fr.ignishky.mtgcollection.common.SpiFixtures.aMongoCard;
-import static fr.ignishky.mtgcollection.common.SpiFixtures.anExtraMongoCard;
+import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument.toCardDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,7 +25,7 @@ class GetCardsQueryHandlerTest {
         // GIVEN
         Query mongoQuery = new Query().addCriteria(where("setCode").is(aSet.code().value()));
         when(mongoTemplate.find(mongoQuery, CardDocument.class))
-                .thenReturn(List.of(aMongoCard, anExtraMongoCard).asJava());
+                .thenReturn(List.of(toCardDocument(aCard), toCardDocument(anExtraCard)).asJava());
         GetCardsQuery query = new GetCardsQuery(aSet.code());
 
         // WHEN

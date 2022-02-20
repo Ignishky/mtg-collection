@@ -9,12 +9,13 @@ import io.vavr.collection.List;
 import static fr.ignishky.mtgcollection.domain.set.SetId.toSetId;
 
 public record SetScryfall(List<ScryfallData> data) {
+
     public record ScryfallData(
             String id,
             String code,
             String name,
             String released_at,
-            Integer card_count,
+            int card_count,
             String icon_svg_uri
     ) {
 

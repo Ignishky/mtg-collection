@@ -1,5 +1,5 @@
 scryfall:
-  base-url: "http://scryfall.mtg-collection.test"
+  base-url: "http://scryfall.mtg.test"
 
 spring:
   mongodb:

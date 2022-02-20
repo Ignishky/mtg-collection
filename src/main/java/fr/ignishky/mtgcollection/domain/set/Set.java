@@ -12,7 +12,7 @@ public record Set(
         SetCode code,
         SetName name,
         String releasedDate,
-        Integer cardCount,
+        int cardCount,
         SetIcon icon
 ) implements Aggregate<SetId> {
 

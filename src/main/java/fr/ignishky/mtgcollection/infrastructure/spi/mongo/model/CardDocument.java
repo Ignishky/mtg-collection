@@ -19,8 +19,8 @@ public record CardDocument(
         String image
 ) {
 
-    public static CardDocument fromCard(Card card) {
-        return new CardDocument(card.id().id(), card.setCode().value(), card.cardName().name(), card.cardImage().image());
+    public static CardDocument toCardDocument(Card aCard) {
+        return new CardDocument(aCard.id().id(), aCard.setCode().value(), aCard.cardName().name(), aCard.cardImage().image());
     }
 
     public static Card toCard(CardDocument document) {

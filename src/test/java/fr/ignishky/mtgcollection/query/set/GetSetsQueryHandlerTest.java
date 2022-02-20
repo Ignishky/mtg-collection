@@ -6,9 +6,9 @@ import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
-import static fr.ignishky.mtgcollection.common.SpiFixtures.aMongoSet;
-import static fr.ignishky.mtgcollection.common.SpiFixtures.anotherMongoSet;
+import static fr.ignishky.mtgcollection.common.DomainFixtures.aSet;
+import static fr.ignishky.mtgcollection.common.DomainFixtures.anotherSet;
+import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument.toSetDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -21,7 +21,7 @@ class GetSetsQueryHandlerTest {
 
     @Test
     void should_get_card_set_from_repository() {
-        when(mongoTemplate.findAll(SetDocument.class)).thenReturn(List.of(aMongoSet, anotherMongoSet).asJava());
+        when(mongoTemplate.findAll(SetDocument.class)).thenReturn(List.of(toSetDocument(aSet), toSetDocument(anotherSet)).asJava());
 
         List<Set> sets = handler.handle(new GetSetsQuery());
 
