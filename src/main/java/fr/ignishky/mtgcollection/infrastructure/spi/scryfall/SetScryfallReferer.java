@@ -22,7 +22,7 @@ class SetScryfallReferer implements SetReferer {
 
     @Override
     public List<Set> loadAll() {
-        return Option.of(restTemplate.getForObject(scryfallProperties.baseUrl() + "/sets", SetScryfall.class))
+        return Option.of(restTemplate.getForObject("%s/sets".formatted(scryfallProperties.baseUrl()), SetScryfall.class))
                 .map(SetScryfall::data)
                 .getOrElse(List.empty())
                 .map(SetScryfall.ScryfallData::toSet);

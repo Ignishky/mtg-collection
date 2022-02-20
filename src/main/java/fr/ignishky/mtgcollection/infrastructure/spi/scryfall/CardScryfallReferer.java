@@ -28,12 +28,16 @@ public class CardScryfallReferer implements CardReferer {
     @Override
     public List<Card> load(SetCode setCode) {
         LOGGER.info("Loading cards from {} ...", setCode.value());
-        String url = scryfallProperties.baseUrl() + "/cards/search?order=set&q=e:" + setCode.value() + "&unique=prints";
+        String url = "%s/cards/search?order=set&q=e:%s&unique=prints".formatted(scryfallProperties.baseUrl(), setCode.value());
         List<CardScryfall> cards = List.empty();
         while(url != null) {
             CardScryfall cardScryfall = restTemplate.getForObject(url.replace("%3A", ":"), CardScryfall.class);
-            cards = cards.append(cardScryfall);
-            url = cardScryfall.next_page();
+            if (cardScryfall != null) {
+                cards = cards.append(cardScryfall);
+                url = cardScryfall.next_page();
+            } else {
+                url = null;
+            }
         }
         return cards
                 .flatMap(CardScryfall::data)
