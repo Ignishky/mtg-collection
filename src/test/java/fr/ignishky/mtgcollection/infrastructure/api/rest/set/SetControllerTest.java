@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.infrastructure.api.rest;
+package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
 import fr.ignishky.mtgcollection.command.set.RefreshSetCommand;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
-import static fr.ignishky.mtgcollection.infrastructure.api.rest.CardResponse.toCardResponse;
-import static fr.ignishky.mtgcollection.infrastructure.api.rest.SetResponse.toSetResponse;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.CardResponse.toCardResponse;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.SetResponse.toSetResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpStatus.NOT_FOUND;

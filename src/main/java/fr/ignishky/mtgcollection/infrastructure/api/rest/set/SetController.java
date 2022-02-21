@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.infrastructure.api.rest;
+package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
 import fr.ignishky.mtgcollection.command.set.RefreshSetCommand;
 import fr.ignishky.mtgcollection.domain.card.Card;

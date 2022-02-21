@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.infrastructure.api.rest;
+package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.vavr.collection.List;
