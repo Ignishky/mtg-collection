@@ -3,7 +3,7 @@ package fr.ignishky.mtgcollection.configuration;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.tags.Tag;
-import io.vavr.collection.List;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,14 +12,20 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfiguration {
 
     @Bean
-    public OpenAPI customOpenAPI(BuildProperties buildProperties) {
-        return new OpenAPI()
-                .tags(List.of(
-                        new Tag().name("Card Sets").description("All the needed endpoints to manipulate card sets")
-                ).toJavaList())
-                .info(new Info()
-                        .title("Mtg-Collection")
-                        .version(buildProperties.getVersion())
-                );
+    public GroupedOpenApi mtgApi(BuildProperties buildProperties) {
+        return GroupedOpenApi.builder()
+                .group("mtg-collection")
+                .packagesToScan("fr.ignishky.mtgcollection.infrastructure.api.rest")
+                .addOpenApiCustomiser(openApi -> buildMtgCollectionAPI(openApi, buildProperties))
+                .build();
     }
+
+    private void buildMtgCollectionAPI(OpenAPI openApi, BuildProperties buildProperties) {
+        openApi.info(new Info()
+                        .title("Mtg-Collection")
+                        .version(buildProperties.getVersion()))
+                .addTagsItem(new Tag().name("Card Sets").description("All the needed endpoints to manipulate card sets"))
+                .servers(null);
+    }
+
 }

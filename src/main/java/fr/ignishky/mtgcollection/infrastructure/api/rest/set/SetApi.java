@@ -17,11 +17,11 @@ public interface SetApi {
     void loadAll();
 
     @GetMapping
-    @Operation(summary = "Return all the sets cards available", tags = "Cards Sets")
+    @Operation(summary = "Return all the sets cards available", tags = "Card Sets")
     ResponseEntity<List<SetResponse>> getAll();
 
     @GetMapping("/{setCode}")
-    @Operation(summary = "Return all the cards from a given set", tags = "Cards Sets")
+    @Operation(summary = "Return all the cards from a given set", tags = "Card Sets")
     ResponseEntity<List<CardResponse>> getCards(@PathVariable String setCode);
 
 }
