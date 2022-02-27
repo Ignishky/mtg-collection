@@ -1,5 +1,9 @@
 # MTG-COLLECTION
 
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Ignishky_mtg-collection&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Ignishky_mtg-collection)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Ignishky_mtg-collection&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Ignishky_mtg-collection)
+[![Build](https://github.com/Ignishky/mtg-collection/actions/workflows/build.yml/badge.svg)](https://github.com/Ignishky/mtg-collection/actions/workflows/build.yml)
+
 ## Prerequisite
 
 - Java 17
