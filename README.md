@@ -30,6 +30,12 @@ TODO: Use a volume to persist data between run
 java -jar build/libs/mtg-collection-0.0.1-SNAPSHOT.jar 
 ```
 
+## Docs
+
+```shell
+[Swagger](http://localhost:8080/sets)
+```
+
 ## Init
 
 1. Loading of cards blocks from Scryfall into the mongo container

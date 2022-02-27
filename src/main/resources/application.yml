@@ -4,7 +4,12 @@ spring:
       database: mtg-collection
       uuid-representation: standard
 
+springdoc:
+  swagger-ui:
+    path: /doc
+
 scryfall:
   base-url: "https://api.scryfall.com"
+
 server:
   port: 9090

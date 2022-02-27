@@ -11,6 +11,7 @@ import io.vavr.collection.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -25,8 +26,9 @@ class SetController implements SetApi {
         this.queryBus = queryBus;
     }
 
-    public void loadAll() {
+    public ResponseEntity<Void> loadAll() {
         commandBus.dispatch(new RefreshSetCommand());
+        return new ResponseEntity<>(NO_CONTENT);
     }
 
     @Override
