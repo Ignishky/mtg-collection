@@ -5,4 +5,10 @@ import java.util.UUID;
 public record CardId(
         UUID id
 ) {
+
+    @Override
+    public String toString() {
+        return id.toString();
+    }
+
 }

@@ -36,21 +36,37 @@ public class DomainFixtures {
             new CardId(randomUUID()),
             aSet.code(),
             new CardName("a-card-name"),
-            new CardImage("a-card-image"));
+            new CardImage("a-card-image"),
+            null,
+            null);
+    public static final Card aOwnedCard = new Card(
+            aCard.id(),
+            aSet.code(),
+            new CardName("a-card-name"),
+            new CardImage("a-card-image"),
+            true,
+            true);
+
     public static final Card anExtraCard = new Card(
             new CardId(randomUUID()),
             aSet.code(),
             new CardName("an-extra-card-name"),
-            new CardImage("an-extra-card-image"));
+            new CardImage("an-extra-card-image"),
+            null,
+            null);
     public static final Card anotherCard = new Card(
             new CardId(randomUUID()),
             anotherSet.code(),
             new CardName("another-card-name"),
-            new CardImage("another-card-image"));
+            new CardImage("another-card-image"),
+            null,
+            null);
     public static final Card anotherCard2 = new Card(
             new CardId(randomUUID()),
             anotherSet.code(),
             new CardName("another-card-name2"),
-            new CardImage("another-card-image2"));
+            new CardImage("another-card-image2"),
+            null,
+            null);
 
 }

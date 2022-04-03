@@ -29,7 +29,9 @@ public record CardScryfall(
                             ? image_uris.normal
                             : card_faces.get(0).image_uris != null
                             ? card_faces.get(0).image_uris.normal
-                            : null));
+                            : null),
+                    null,
+                    null);
         }
 
         public record Images(String normal) {

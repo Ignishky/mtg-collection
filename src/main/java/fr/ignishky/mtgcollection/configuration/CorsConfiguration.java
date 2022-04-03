@@ -15,6 +15,7 @@ public class CorsConfiguration {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/sets/**").allowedMethods("GET").allowedOrigins("http://localhost:8080");
+                registry.addMapping("/collection/**").allowedMethods("PUT").allowedOrigins("http://localhost:8080");
             }
         };
     }

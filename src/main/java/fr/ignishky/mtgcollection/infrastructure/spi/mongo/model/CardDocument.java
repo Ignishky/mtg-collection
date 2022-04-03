@@ -16,14 +16,16 @@ public record CardDocument(
         UUID id,
         String setCode,
         String name,
-        String image
+        String image,
+        Boolean inCollection,
+        Boolean isFoiled
 ) {
 
     public static CardDocument toCardDocument(Card aCard) {
-        return new CardDocument(aCard.id().id(), aCard.setCode().value(), aCard.cardName().name(), aCard.cardImage().image());
+        return new CardDocument(aCard.id().id(), aCard.setCode().value(), aCard.cardName().name(), aCard.cardImage().image(), aCard.isOwned(), aCard.isFoiled());
     }
 
     public static Card toCard(CardDocument document) {
-        return new Card(new CardId(document.id), new SetCode(document.setCode), new CardName(document.name), new CardImage(document.image));
+        return new Card(new CardId(document.id), new SetCode(document.setCode), new CardName(document.name), new CardImage(document.image), document.inCollection, document.isFoiled);
     }
 }

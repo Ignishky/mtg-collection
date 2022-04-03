@@ -29,7 +29,7 @@ public class CardAdded extends Event<CardId, Card, CardAdded.Payload> {
 
     @Override
     public Card apply(Card aggregate) {
-        return new Card(aggregateId(), setCode, name, image);
+        return new Card(aggregateId(), setCode, name, image, null, null);
     }
 
     public record Payload(
