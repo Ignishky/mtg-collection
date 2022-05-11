@@ -1,6 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall;
@@ -20,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
 import static fr.ignishky.mtgcollection.common.SpiFixtures.*;
 import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.CardResponse.toCardResponse;
-import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.SetResponse.toSetResponse;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse.SetSummary.toSetSummary;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument.toCardDocument;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument.toSetDocument;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -83,7 +84,7 @@ class SetApiIT {
         resultActions.andExpectAll(
                 status().isOk(),
                 content().contentType(APPLICATION_JSON),
-                content().json(objectMapper.writeValueAsString(List.of(toSetResponse(aSet), toSetResponse(anotherSet))), true)
+                content().json(objectMapper.writeValueAsString(new SetsResponse(List.of(toSetSummary(aSet), toSetSummary(anotherSet)))), true)
         );
     }
 

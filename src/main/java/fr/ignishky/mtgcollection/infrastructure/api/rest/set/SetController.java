@@ -5,6 +5,8 @@ import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse.SetSummary;
 import fr.ignishky.mtgcollection.query.set.GetCardsQuery;
 import fr.ignishky.mtgcollection.query.set.GetSetsQuery;
 import io.vavr.collection.List;
@@ -32,9 +34,10 @@ class SetController implements SetApi {
     }
 
     @Override
-    public ResponseEntity<List<SetResponse>> getAll() {
-        return ok(queryBus.dispatch(new GetSetsQuery())
-                .map(SetResponse::toSetResponse));
+    public ResponseEntity<SetsResponse> getAll() {
+        List<SetSummary> setsApis = queryBus.dispatch(new GetSetsQuery())
+                .map(SetSummary::toSetSummary);
+        return ok(new SetsResponse(setsApis));
     }
 
     @Override

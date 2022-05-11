@@ -3,6 +3,7 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 import fr.ignishky.mtgcollection.command.set.RefreshSetCommand;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse;
 import fr.ignishky.mtgcollection.query.set.GetCardsQuery;
 import fr.ignishky.mtgcollection.query.set.GetSetsQuery;
 import io.vavr.collection.List;
@@ -11,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 
 import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
 import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.CardResponse.toCardResponse;
-import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.SetResponse.toSetResponse;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse.SetSummary.toSetSummary;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -41,10 +42,10 @@ class SetControllerTest {
         when(queryBus.dispatch(query)).thenReturn(List.of(aSet, anotherSet));
 
         // WHEN
-        ResponseEntity<List<SetResponse>> response = controller.getAll();
+        ResponseEntity<SetsResponse> response = controller.getAll();
 
         // THEN
-        assertThat(response).isEqualTo(new ResponseEntity<>(List.of(toSetResponse(aSet), toSetResponse(anotherSet)), OK));
+        assertThat(response).isEqualTo(new ResponseEntity<>(new SetsResponse(List.of(toSetSummary(aSet), toSetSummary(anotherSet))), OK));
     }
 
     @Test
