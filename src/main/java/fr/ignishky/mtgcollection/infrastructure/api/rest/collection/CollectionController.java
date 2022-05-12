@@ -3,13 +3,12 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 import fr.ignishky.mtgcollection.command.collection.AddOwnCardCommand;
 import fr.ignishky.mtgcollection.domain.card.CardId;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.set.CardResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
-import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.CardResponse.toCardResponse;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.collection.CardResponse.toCardResponse;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;

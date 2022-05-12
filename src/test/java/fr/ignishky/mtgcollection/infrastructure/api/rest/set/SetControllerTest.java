@@ -3,6 +3,7 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 import fr.ignishky.mtgcollection.command.set.RefreshSetCommand;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse;
 import fr.ignishky.mtgcollection.query.set.GetCardsQuery;
 import fr.ignishky.mtgcollection.query.set.GetSetsQuery;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
-import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.CardResponse.toCardResponse;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse.CardSummary.toCardSummary;
 import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse.SetSummary.toSetSummary;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -27,7 +28,6 @@ class SetControllerTest {
 
     @Test
     void when_loading_sets_should_generate_a_RefreshSetCommand() {
-        // GIVEN
         // WHEN
         controller.loadAll();
 
@@ -38,8 +38,7 @@ class SetControllerTest {
     @Test
     void should_return_all_set_from_query() {
         // GIVEN
-        GetSetsQuery query = new GetSetsQuery();
-        when(queryBus.dispatch(query)).thenReturn(List.of(aSet, anotherSet));
+        when(queryBus.dispatch(new GetSetsQuery())).thenReturn(List.of(aSet, anotherSet));
 
         // WHEN
         ResponseEntity<SetsResponse> response = controller.getAll();
@@ -51,11 +50,10 @@ class SetControllerTest {
     @Test
     void should_return_not_found_when_query_return_no_card() {
         // GIVEN
-        GetCardsQuery query = new GetCardsQuery(aSet.code());
-        when(queryBus.dispatch(query)).thenReturn(List.empty());
+        when(queryBus.dispatch(new GetCardsQuery(aSet.code()))).thenReturn(List.empty());
 
         // WHEN
-        ResponseEntity<List<CardResponse>> response = controller.getCards(aSet.code().value());
+        ResponseEntity<SetResponse> response = controller.getCards(aSet.code().value());
 
         // THEN
         assertThat(response).isEqualTo(new ResponseEntity<>(NOT_FOUND));
@@ -64,14 +62,13 @@ class SetControllerTest {
     @Test
     void should_return_cards_from_query() {
         // GIVEN
-        GetCardsQuery query = new GetCardsQuery(aSet.code());
-        when(queryBus.dispatch(query)).thenReturn(List.of(aCard, anExtraCard));
+        when(queryBus.dispatch(new GetCardsQuery(aSet.code()))).thenReturn(List.of(aCard, anExtraCard));
 
         // WHEN
-        ResponseEntity<List<CardResponse>> response = controller.getCards(aSet.code().value());
+        ResponseEntity<SetResponse> response = controller.getCards(aSet.code().value());
 
         // THEN
-        assertThat(response).isEqualTo(new ResponseEntity<>(List.of(toCardResponse(aCard), toCardResponse(anExtraCard)), OK));
+        assertThat(response).isEqualTo(new ResponseEntity<>(new SetResponse(List.of(toCardSummary(aCard), toCardSummary(anExtraCard))), OK));
     }
 
 }

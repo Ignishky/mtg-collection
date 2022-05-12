@@ -3,7 +3,6 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 import fr.ignishky.mtgcollection.command.collection.AddOwnCardCommand;
 import fr.ignishky.mtgcollection.domain.card.exception.NoCardFoundException;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.set.CardResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 

@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
+package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
 import io.swagger.v3.oas.annotations.media.Schema;

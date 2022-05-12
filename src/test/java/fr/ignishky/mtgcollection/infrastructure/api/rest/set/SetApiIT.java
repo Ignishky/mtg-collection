@@ -1,6 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
@@ -20,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
 import static fr.ignishky.mtgcollection.common.SpiFixtures.*;
-import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.CardResponse.toCardResponse;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse.CardSummary.toCardSummary;
 import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse.SetSummary.toSetSummary;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument.toCardDocument;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument.toSetDocument;
@@ -112,7 +113,7 @@ class SetApiIT {
         resultActions.andExpectAll(
                 status().isOk(),
                 content().contentType(APPLICATION_JSON),
-                content().json(objectMapper.writeValueAsString(List.of(toCardResponse(aCard), toCardResponse(anExtraCard))), true)
+                content().json(objectMapper.writeValueAsString(new SetResponse(List.of(toCardSummary(aCard), toCardSummary(anExtraCard)))), true)
         );
     }
 
