@@ -11,9 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static fr.ignishky.mtgcollection.TestUtils.assertEvent;
 import static fr.ignishky.mtgcollection.TestUtils.readJsonFile;
-import static fr.ignishky.mtgcollection.common.DomainFixtures.aCard;
-import static fr.ignishky.mtgcollection.common.DomainFixtures.aOwnedCard;
+import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument.toCardDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -63,10 +63,7 @@ class CollectionApiIT {
 
         var eventDocuments = mongoTemplate.findAll(EventDocument.class);
         assertThat(eventDocuments).hasSize(1);
-        assertThat(eventDocuments.get(0).aggregateId()).isEqualTo(aCard.id().id().toString());
-        assertThat(eventDocuments.get(0).aggregateName()).isEqualTo("Card");
-        assertThat(eventDocuments.get(0).name()).isEqualTo("CardOwned");
-        assertThat(eventDocuments.get(0).payload()).isEqualTo("{\"isOwned\":true,\"isFoiled\":true}");
+        assertEvent(eventDocuments.get(0), "Card", aCard.id().toString(), "CardOwned", "{\"isOwned\":true,\"isFoiled\":true}");
     }
 
 }

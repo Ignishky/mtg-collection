@@ -1,6 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
+import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.EventDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfall;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.client.RestTemplate;
 
+import static fr.ignishky.mtgcollection.TestUtils.assertEvent;
 import static fr.ignishky.mtgcollection.TestUtils.readJsonFile;
 import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
 import static fr.ignishky.mtgcollection.common.SpiFixtures.*;
@@ -65,6 +67,15 @@ class SetApiIT {
         assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toSetDocument(aSet), toSetDocument(anotherSet));
         assertThat(mongoTemplate.findAll(CardDocument.class))
                 .containsOnly(toCardDocument(aCard), toCardDocument(anotherCard), toCardDocument(anExtraCard), toCardDocument(anotherCard2));
+
+        var eventDocuments = mongoTemplate.findAll(EventDocument.class);
+        assertThat(eventDocuments).hasSize(6);
+        assertEvent(eventDocuments.get(0), "Set", aSet.id().toString(), "SetAdded", "{\"code\":\"a-set-code\",\"name\":\"a-set-name\",\"releaseDate\":\"2011-09-12\",\"cardCount\":365,\"icon\":\"a-set-icon\"}");
+        assertEvent(eventDocuments.get(1), "Set", anotherSet.id().toString(), "SetAdded", "{\"code\":\"another-set-code\",\"name\":\"another-set-name\",\"releaseDate\":\"2018-10-12\",\"cardCount\":165,\"icon\":\"another-set-icon\"}");
+        assertEvent(eventDocuments.get(2), "Card", aCard.id().toString(), "CardAdded", "{\"name\":\"a-card-name\",\"setCode\":\"a-set-code\",\"image\":\"a-card-image\"}");
+        assertEvent(eventDocuments.get(3), "Card", anExtraCard.id().toString(), "CardAdded", "{\"name\":\"an-extra-card-name\",\"setCode\":\"a-set-code\",\"image\":\"an-extra-card-image\"}");
+        assertEvent(eventDocuments.get(4), "Card", anotherCard.id().toString(), "CardAdded", "{\"name\":\"another-card-name\",\"setCode\":\"another-set-code\",\"image\":\"another-card-image\"}");
+        assertEvent(eventDocuments.get(5), "Card", anotherCard2.id().toString(), "CardAdded", "{\"name\":\"another-card-name2\",\"setCode\":\"another-set-code\",\"image\":\"another-card-image2\"}");
     }
 
     @Test
