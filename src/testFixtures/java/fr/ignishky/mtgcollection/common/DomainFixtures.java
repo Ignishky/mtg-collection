@@ -33,7 +33,7 @@ public class DomainFixtures {
             new SetIcon("icon3"));
 
     public static final Card aCard = new Card(
-            new CardId(randomUUID()),
+            CardId.fromString("66b5dddd-af38-494e-9047-f7311ff539da"),
             aSet.code(),
             new CardName("a-card-name"),
             new CardImage("a-card-image"),
@@ -48,7 +48,7 @@ public class DomainFixtures {
             true);
 
     public static final Card anExtraCard = new Card(
-            new CardId(randomUUID()),
+            CardId.fromString("e8bf4f70-9f31-4936-86a8-4d126a86e102"),
             aSet.code(),
             new CardName("an-extra-card-name"),
             new CardImage("an-extra-card-image"),

@@ -1,0 +1,14 @@
+{
+  "sets": [
+    {
+      "code": "a-set-code",
+      "name": "a-set-name",
+      "icon": "a-set-icon"
+    },
+    {
+      "code": "another-set-code",
+      "name": "another-set-name",
+      "icon": "another-set-icon"
+    }
+  ]
+}

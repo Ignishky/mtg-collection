@@ -1,8 +1,5 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall;
@@ -19,10 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.client.RestTemplate;
 
+import static fr.ignishky.mtgcollection.TestUtils.readJsonFile;
 import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
 import static fr.ignishky.mtgcollection.common.SpiFixtures.*;
-import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse.CardSummary.toCardSummary;
-import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse.SetSummary.toSetSummary;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument.toCardDocument;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument.toSetDocument;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,8 +37,6 @@ class SetApiIT {
     private MockMvc mvc;
     @Autowired
     private MongoTemplate mongoTemplate;
-    @Autowired
-    private ObjectMapper objectMapper;
     
     @MockBean
     private RestTemplate restTemplate;
@@ -85,7 +79,7 @@ class SetApiIT {
         resultActions.andExpectAll(
                 status().isOk(),
                 content().contentType(APPLICATION_JSON),
-                content().json(objectMapper.writeValueAsString(new SetsResponse(List.of(toSetSummary(aSet), toSetSummary(anotherSet)))), true)
+                content().json(readJsonFile("/set/allSetsResponse.json"), true)
         );
     }
 
@@ -113,7 +107,7 @@ class SetApiIT {
         resultActions.andExpectAll(
                 status().isOk(),
                 content().contentType(APPLICATION_JSON),
-                content().json(objectMapper.writeValueAsString(new SetResponse(List.of(toCardSummary(aCard), toCardSummary(anExtraCard)))), true)
+                content().json(readJsonFile("/set/setResponse.json"), true)
         );
     }
 

@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static fr.ignishky.mtgcollection.TestUtils.readJsonFile;
 import static fr.ignishky.mtgcollection.common.DomainFixtures.aCard;
 import static fr.ignishky.mtgcollection.common.DomainFixtures.aOwnedCard;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument.toCardDocument;
@@ -56,7 +57,7 @@ class CollectionApiIT {
         resultActions.andExpectAll(
                 status().isOk(),
                 content().contentType(APPLICATION_JSON),
-                content().json("{\"id\":\"" + aCard.id() + "\",\"name\":\"a-card-name\",\"image\":\"a-card-image\",\"isOwned\":true,\"isFoiled\":true}", true)
+                content().json(readJsonFile("/collection/collectionResponse.json"), true)
         );
         assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toCardDocument(aOwnedCard));
 
