@@ -16,7 +16,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class wCardScryfallRefererTest {
+class CardScryfallRefererTest {
 
     private final RestTemplate restTemplate = mock(RestTemplate.class);
     private final ScryfallProperties properties = new ScryfallProperties("base-url");
