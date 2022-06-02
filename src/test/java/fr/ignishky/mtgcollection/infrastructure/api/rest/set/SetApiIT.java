@@ -19,8 +19,8 @@ import org.springframework.web.client.RestTemplate;
 
 import static fr.ignishky.mtgcollection.TestUtils.assertEvent;
 import static fr.ignishky.mtgcollection.TestUtils.readJsonFile;
-import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
-import static fr.ignishky.mtgcollection.common.SpiFixtures.*;
+import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.*;
+import static fr.ignishky.mtgcollection.fixtures.SpiFixtures.*;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument.toCardDocument;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument.toSetDocument;
 import static org.assertj.core.api.Assertions.assertThat;

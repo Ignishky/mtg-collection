@@ -6,8 +6,8 @@ import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import static fr.ignishky.mtgcollection.common.DomainFixtures.aSet;
-import static fr.ignishky.mtgcollection.common.DomainFixtures.anotherSet;
+import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.aSet;
+import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.anotherSet;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument.toSetDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;

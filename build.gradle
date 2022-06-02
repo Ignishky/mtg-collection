@@ -2,7 +2,6 @@ plugins {
     id 'org.springframework.boot' version '2.6.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
-    id 'java-test-fixtures'
     id 'jacoco'
     id "org.sonarqube" version "3.3"
 }
@@ -15,11 +14,9 @@ repositories {
     mavenCentral()
 }
 
-def vavrVersion = '0.10.4'
-
 dependencies {
     implementation 'com.google.code.gson:gson'
-    implementation 'io.vavr:vavr:' + vavrVersion
+    implementation 'io.vavr:vavr:0.10.4'
     implementation 'io.vavr:vavr-jackson:0.10.3'
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
     implementation 'org.springframework.boot:spring-boot-starter'
@@ -28,9 +25,6 @@ dependencies {
 
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    testFixturesImplementation 'io.vavr:vavr:' + vavrVersion
-    testFixturesImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 springBoot {

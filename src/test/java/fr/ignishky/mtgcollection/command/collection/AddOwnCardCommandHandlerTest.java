@@ -1,18 +1,18 @@
 package fr.ignishky.mtgcollection.command.collection;
 
-import fr.ignishky.mtgcollection.common.InstantFreezeExtension;
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardRepository;
 import fr.ignishky.mtgcollection.domain.card.event.CardOwned;
 import fr.ignishky.mtgcollection.domain.card.exception.NoCardFoundException;
+import fr.ignishky.mtgcollection.fixtures.InstantFreezeExtension;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static fr.ignishky.mtgcollection.common.DomainFixtures.aCard;
-import static fr.ignishky.mtgcollection.common.DomainFixtures.aOwnedCard;
+import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.aCard;
+import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.aOwnedCard;
 import static fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse.toCommandResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

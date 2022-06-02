@@ -11,7 +11,7 @@ import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
-import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
+import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.*;
 import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse.CardSummary.toCardSummary;
 import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse.SetSummary.toSetSummary;
 import static org.assertj.core.api.Assertions.assertThat;

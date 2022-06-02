@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.common;
+package fr.ignishky.mtgcollection.fixtures;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardId;

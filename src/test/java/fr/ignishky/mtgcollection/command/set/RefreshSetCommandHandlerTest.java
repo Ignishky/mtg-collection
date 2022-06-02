@@ -1,18 +1,18 @@
 package fr.ignishky.mtgcollection.command.set;
 
-import fr.ignishky.mtgcollection.common.InstantFreezeExtension;
 import fr.ignishky.mtgcollection.domain.card.CardReferer;
 import fr.ignishky.mtgcollection.domain.card.CardRepository;
 import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
 import fr.ignishky.mtgcollection.domain.set.SetReferer;
 import fr.ignishky.mtgcollection.domain.set.SetRepository;
 import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
+import fr.ignishky.mtgcollection.fixtures.InstantFreezeExtension;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse;
 import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
+import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.*;
 import static fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse.toCommandResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;

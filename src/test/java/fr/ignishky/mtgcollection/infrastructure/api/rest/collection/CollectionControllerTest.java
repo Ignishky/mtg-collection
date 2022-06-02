@@ -6,7 +6,7 @@ import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
-import static fr.ignishky.mtgcollection.common.DomainFixtures.aCard;
+import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.aCard;
 import static io.vavr.control.Try.failure;
 import static io.vavr.control.Try.success;
 import static org.assertj.core.api.Assertions.assertThat;

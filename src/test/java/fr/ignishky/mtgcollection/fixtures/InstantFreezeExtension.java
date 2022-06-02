@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.common;
+package fr.ignishky.mtgcollection.fixtures;
 
 import fr.ignishky.mtgcollection.framework.common.Instants;
 import org.junit.jupiter.api.extension.AfterAllCallback;

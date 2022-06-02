@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.common;
+package fr.ignishky.mtgcollection.fixtures;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.set.Set;
@@ -7,7 +7,7 @@ import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall.
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfall;
 import io.vavr.collection.List;
 
-import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
+import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.*;
 
 public class SpiFixtures {
 

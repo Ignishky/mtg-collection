@@ -8,8 +8,8 @@ import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;
 
-import static fr.ignishky.mtgcollection.common.DomainFixtures.*;
-import static fr.ignishky.mtgcollection.common.SpiFixtures.aScryfallSets;
+import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.*;
+import static fr.ignishky.mtgcollection.fixtures.SpiFixtures.aScryfallSets;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
