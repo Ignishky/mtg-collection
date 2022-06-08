@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.client.RestTemplate;
 
 import static fr.ignishky.mtgcollection.TestUtils.assertEvent;
-import static fr.ignishky.mtgcollection.TestUtils.readJsonFile;
+import static fr.ignishky.mtgcollection.TestUtils.readFile;
 import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.*;
 import static fr.ignishky.mtgcollection.fixtures.SpiFixtures.*;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument.toCardDocument;
@@ -90,7 +90,7 @@ class SetApiIT {
         resultActions.andExpectAll(
                 status().isOk(),
                 content().contentType(APPLICATION_JSON),
-                content().json(readJsonFile("/set/allSetsResponse.json"), true)
+                content().json(readFile("/set/allSetsResponse.json"), true)
         );
     }
 
@@ -118,7 +118,7 @@ class SetApiIT {
         resultActions.andExpectAll(
                 status().isOk(),
                 content().contentType(APPLICATION_JSON),
-                content().json(readJsonFile("/set/setResponse.json"), true)
+                content().json(readFile("/set/setResponse.json"), true)
         );
     }
 

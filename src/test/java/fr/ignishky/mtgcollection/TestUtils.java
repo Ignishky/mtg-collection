@@ -2,28 +2,21 @@ package fr.ignishky.mtgcollection;
 
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.EventDocument;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
 
-import static java.util.stream.Collectors.joining;
+import static java.lang.String.join;
+import static java.nio.file.Files.readAllLines;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestUtils {
 
-    public static String readJsonFile(String fileName) {
-        InputStream resource = TestUtils.class.getResourceAsStream(fileName);
-        if (resource == null) {
-            throw new IllegalArgumentException("Unable to find file : " + fileName);
-        }
-
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(resource))) {
-
-            return reader.lines().collect(joining(""));
-
-        } catch (IOException e) {
-            throw new IllegalArgumentException("IOException thrown while reading test file: ", e);
+    public static String readFile(String fileName) {
+        try {
+            return join("", readAllLines(Path.of(TestUtils.class.getResource(fileName).toURI())));
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
         }
     }
 
