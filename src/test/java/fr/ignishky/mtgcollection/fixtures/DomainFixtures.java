@@ -41,9 +41,9 @@ public class DomainFixtures {
             null);
     public static final Card aOwnedCard = new Card(
             aCard.id(),
-            aSet.code(),
-            new CardName("a-card-name"),
-            new CardImage("a-card-image"),
+            aCard.setCode(),
+            aCard.cardName(),
+            aCard.cardImage(),
             true,
             true);
 
@@ -54,6 +54,13 @@ public class DomainFixtures {
             new CardImage("an-extra-card-image"),
             null,
             null);
+    public static final Card anExtraOwnedCard = new Card(
+            anExtraCard.id(),
+            anExtraCard.setCode(),
+            anExtraCard.cardName(),
+            anExtraCard.cardImage(),
+            true,
+            false);
     public static final Card anotherCard = new Card(
             new CardId(randomUUID()),
             anotherSet.code(),

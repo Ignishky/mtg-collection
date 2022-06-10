@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.query.set;
+package fr.ignishky.mtgcollection.query.card;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryHandler;
@@ -21,8 +21,12 @@ public class GetCardsQueryHandler implements QueryHandler<GetCardsQuery, List<Ca
 
     @Override
     public List<Card> handle(GetCardsQuery query) {
-        Query mongoQuery = new Query().addCriteria(where("setCode").is(query.code().value()));
+        var mongoQuery = query.code()
+                .map(setCode -> new Query().addCriteria(where("setCode").is(setCode.value())))
+                .getOrElse(new Query().addCriteria(where("inCollection").is(query.owned())));
+
         return List.ofAll(mongoTemplate.find(mongoQuery, CardDocument.class))
                 .map(CardDocument::toCard);
     }
+
 }

@@ -8,8 +8,9 @@ import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse.CardSummary;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse.SetSummary;
-import fr.ignishky.mtgcollection.query.set.GetCardsQuery;
+import fr.ignishky.mtgcollection.query.card.GetCardsQuery;
 import fr.ignishky.mtgcollection.query.set.GetSetsQuery;
+import io.vavr.control.Option;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -42,7 +43,7 @@ class SetController implements SetApi {
 
     @Override
     public ResponseEntity<SetResponse> getCards(String setCode) {
-        var cards = queryBus.dispatch(new GetCardsQuery(new SetCode(setCode)))
+        var cards = queryBus.dispatch(new GetCardsQuery(Option.of(new SetCode(setCode)), false))
                 .map(CardSummary::toCardSummary);
         return cards.isEmpty()
                 ? notFound().build()
