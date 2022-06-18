@@ -3,6 +3,7 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CardResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CollectionRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.vavr.collection.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/collection")
+@Tag(name = "Collection", description = "All the needed endpoints to manipulate user cards collection")
 public interface CollectionApi {
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)

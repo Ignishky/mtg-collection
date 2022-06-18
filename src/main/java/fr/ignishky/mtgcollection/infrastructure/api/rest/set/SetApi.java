@@ -12,7 +12,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/sets")
-@Tag(name = "Card Sets")
+@Tag(name = "Card Sets", description = "All the needed endpoints to manipulate card sets")
 public interface SetApi {
 
     @PutMapping
