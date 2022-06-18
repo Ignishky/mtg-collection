@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.3'
+    id 'org.springframework.boot' version '2.7.0'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'jacoco'
@@ -7,10 +7,11 @@ plugins {
 }
 
 group = 'fr.ignishky'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -18,7 +19,7 @@ dependencies {
     implementation 'com.google.code.gson:gson'
     implementation 'io.vavr:vavr:0.10.4'
     implementation 'io.vavr:vavr-jackson:0.10.3'
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-web'
