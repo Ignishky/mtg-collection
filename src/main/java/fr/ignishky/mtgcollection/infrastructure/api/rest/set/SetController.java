@@ -11,15 +11,19 @@ import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse.
 import fr.ignishky.mtgcollection.query.card.GetCardsQuery;
 import fr.ignishky.mtgcollection.query.set.GetSetsQuery;
 import io.vavr.control.Option;
+import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
 
 @Controller
 class SetController implements SetApi {
+
+    private static final Logger LOGGER = getLogger(SetController.class);
 
     private final CommandBus commandBus;
     private final QueryBus queryBus;
@@ -36,15 +40,19 @@ class SetController implements SetApi {
 
     @Override
     public ResponseEntity<SetsResponse> getAll() {
+        LOGGER.info("Received call to `GET /sets`");
         var setsApis = queryBus.dispatch(new GetSetsQuery())
                 .map(SetSummary::toSetSummary);
+        LOGGER.info("Respond to `GET /sets` with {} sets", setsApis.size());
         return ok(new SetsResponse(setsApis));
     }
 
     @Override
     public ResponseEntity<SetResponse> getCards(String setCode) {
+        LOGGER.info("Received call to `GET /sets/{}`", setCode);
         var cards = queryBus.dispatch(new GetCardsQuery(Option.of(new SetCode(setCode)), false))
                 .map(CardSummary::toCardSummary);
+        LOGGER.info("Respond to `GET /sets/{}` with {} cards", setCode, cards.size());
         return cards.isEmpty()
                 ? notFound().build()
                 : ok(new SetResponse(cards));

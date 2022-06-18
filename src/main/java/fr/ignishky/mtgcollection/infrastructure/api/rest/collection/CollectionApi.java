@@ -1,5 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 
+import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CardResponse;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CollectionRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.vavr.collection.List;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,6 @@ public interface CollectionApi {
 
     @PutMapping(value = "/{cardId}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Add card to the user collection", tags = "Collection")
-    ResponseEntity<CardResponse> addCard(@PathVariable String cardId, @RequestBody CollectionRequestBody body);
+    ResponseEntity<CardResponse> addCard(@PathVariable String cardId, @RequestBody CollectionRequest request);
 
 }
