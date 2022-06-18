@@ -30,7 +30,7 @@ class SetScryfallRefererTest {
         List<Set> actual = referer.loadAll();
 
         // THEN
-        assertThat(actual).containsOnly(aFutureSet, aSet, anotherSet);
+        assertThat(actual).containsOnly(aFutureSet, aSet, anotherSet, aDigitalSet);
     }
 
 }

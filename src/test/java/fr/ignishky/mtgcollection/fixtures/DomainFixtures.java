@@ -14,6 +14,7 @@ public class DomainFixtures {
             new SetId(randomUUID()),
             new SetCode("a-set-code"),
             new SetName("a-set-name"),
+            false,
             "2011-09-12",
             365,
             new SetIcon("a-set-icon"));
@@ -21,6 +22,7 @@ public class DomainFixtures {
             new SetId(randomUUID()),
             new SetCode("another-set-code"),
             new SetName("another-set-name"),
+            false,
             "2018-10-12",
             165,
             new SetIcon("another-set-icon"));
@@ -28,9 +30,18 @@ public class DomainFixtures {
             new SetId(randomUUID()),
             new SetCode("wtf"),
             new SetName("NON-EXISTING SETS"),
+            false,
             "9999-12-31",
             63,
             new SetIcon("icon3"));
+    public static final Set aDigitalSet = new Set(
+            new SetId(randomUUID()),
+            new SetCode("mtga"),
+            new SetName("DIGITAL SET"),
+            true,
+            "2021-12-11",
+            13,
+            new SetIcon("icon4"));
 
     public static final Card aCard = new Card(
             CardId.fromString("66b5dddd-af38-494e-9047-f7311ff539da"),

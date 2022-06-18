@@ -14,13 +14,14 @@ public record SetScryfall(List<ScryfallData> data) {
             String id,
             String code,
             String name,
+            boolean digital,
             String released_at,
             int card_count,
             String icon_svg_uri
     ) {
 
         public Set toSet() {
-            return new Set(toSetId(id), new SetCode(code), new SetName(name), released_at, card_count, new SetIcon(icon_svg_uri));
+            return new Set(toSetId(id), new SetCode(code), new SetName(name), digital, released_at, card_count, new SetIcon(icon_svg_uri));
         }
 
     }

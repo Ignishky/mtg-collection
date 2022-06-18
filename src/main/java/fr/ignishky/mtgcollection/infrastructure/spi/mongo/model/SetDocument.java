@@ -22,7 +22,7 @@ public record SetDocument(
     }
 
     public static Set toSet(SetDocument document) {
-        return new Set(new SetId(document.id), new SetCode(document.code), new SetName(document.name), document.releaseDate, document.cardCount(),
+        return new Set(new SetId(document.id), new SetCode(document.code), new SetName(document.name), false, document.releaseDate, document.cardCount(),
                 new SetIcon(document.icon));
     }
 }

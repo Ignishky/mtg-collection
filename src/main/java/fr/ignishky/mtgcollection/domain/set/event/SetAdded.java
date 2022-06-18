@@ -29,7 +29,7 @@ public class SetAdded extends Event<SetId, Set, SetAdded.Payload> {
 
     @Override
     public Set apply(Set set) {
-        return new Set(aggregateId(), code, name, releaseDate, cardCount, icon);
+        return new Set(aggregateId(), code, name, false, releaseDate, cardCount, icon);
     }
 
     public record Payload(

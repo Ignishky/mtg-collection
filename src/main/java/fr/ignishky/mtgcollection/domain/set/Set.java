@@ -11,6 +11,7 @@ public record Set(
         SetId id,
         SetCode code,
         SetName name,
+        boolean isDigital,
         String releasedDate,
         int cardCount,
         SetIcon icon
@@ -24,9 +25,14 @@ public record Set(
         return cardCount > 0;
     }
 
+    public boolean isNotDigital() {
+        return !isDigital;
+    }
+
     public static AppliedEvent<Set, SetAdded> add(SetId id, SetCode code, SetName name, String releasedDate, int cardCount, SetIcon icon) {
         SetAdded setAdded = new SetAdded(id, code, name, releasedDate, cardCount, icon);
         Set set = setAdded.apply(null);
         return new AppliedEvent<>(set, setAdded);
     }
+
 }
