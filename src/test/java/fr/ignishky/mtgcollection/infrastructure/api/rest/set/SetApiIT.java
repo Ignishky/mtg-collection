@@ -70,8 +70,8 @@ class SetApiIT {
 
         var eventDocuments = mongoTemplate.findAll(EventDocument.class);
         assertThat(eventDocuments).hasSize(6);
-        assertEvent(eventDocuments.get(0), aSet.id(), "SetAdded", "{\"code\":\"a-set-code\",\"name\":\"a-set-name\",\"releaseDate\":\"2011-09-12\",\"cardCount\":365,\"icon\":\"a-set-icon\"}");
-        assertEvent(eventDocuments.get(1), anotherSet.id(), "SetAdded", "{\"code\":\"another-set-code\",\"name\":\"another-set-name\",\"releaseDate\":\"2018-10-12\",\"cardCount\":165,\"icon\":\"another-set-icon\"}");
+        assertEvent(eventDocuments.get(0), aSet.id(), "SetAdded", "{\"code\":\"a-set-code\",\"name\":\"a-set-name\",\"blockCode\":\"a-block-code\",\"releaseDate\":\"2011-09-12\",\"cardCount\":365,\"icon\":\"a-set-icon\"}");
+        assertEvent(eventDocuments.get(1), anotherSet.id(), "SetAdded", "{\"code\":\"another-set-code\",\"name\":\"another-set-name\",\"parentSetCode\":\"another-set-code\",\"releaseDate\":\"2018-10-12\",\"cardCount\":165,\"icon\":\"another-set-icon\"}");
         assertEvent(eventDocuments.get(2), aCard.id(), "CardAdded", "{\"name\":\"a-card-name\",\"setCode\":\"a-set-code\",\"image\":\"a-card-image\"}");
         assertEvent(eventDocuments.get(3), anExtraCard.id(), "CardAdded", "{\"name\":\"an-extra-card-name\",\"setCode\":\"a-set-code\",\"image\":\"an-extra-card-image\"}");
         assertEvent(eventDocuments.get(4), anotherCard.id(), "CardAdded", "{\"name\":\"another-card-name\",\"setCode\":\"another-set-code\",\"image\":\"another-card-image\"}");

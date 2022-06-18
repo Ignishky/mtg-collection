@@ -5,6 +5,7 @@ import fr.ignishky.mtgcollection.domain.card.CardId;
 import fr.ignishky.mtgcollection.domain.card.CardImage;
 import fr.ignishky.mtgcollection.domain.card.CardName;
 import fr.ignishky.mtgcollection.domain.set.*;
+import io.vavr.control.Option;
 
 import static java.util.UUID.randomUUID;
 
@@ -15,6 +16,8 @@ public class DomainFixtures {
             new SetCode("a-set-code"),
             new SetName("a-set-name"),
             false,
+            Option.none(),
+            Option.of(new SetCode("a-block-code")),
             "2011-09-12",
             365,
             new SetIcon("a-set-icon"));
@@ -23,14 +26,18 @@ public class DomainFixtures {
             new SetCode("another-set-code"),
             new SetName("another-set-name"),
             false,
+            Option.of(new SetCode("another-set-code")),
+            Option.none(),
             "2018-10-12",
             165,
             new SetIcon("another-set-icon"));
     public static final Set aFutureSet = new Set(
             new SetId(randomUUID()),
             new SetCode("wtf"),
-            new SetName("NON-EXISTING SETS"),
+            new SetName("NON-EXISTING SET"),
             false,
+            Option.none(),
+            Option.none(),
             "9999-12-31",
             63,
             new SetIcon("icon3"));
@@ -39,6 +46,8 @@ public class DomainFixtures {
             new SetCode("mtga"),
             new SetName("DIGITAL SET"),
             true,
+            Option.none(),
+            Option.none(),
             "2021-12-11",
             13,
             new SetIcon("icon4"));

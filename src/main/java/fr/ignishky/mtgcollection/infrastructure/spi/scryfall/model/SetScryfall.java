@@ -5,6 +5,7 @@ import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.domain.set.SetIcon;
 import fr.ignishky.mtgcollection.domain.set.SetName;
 import io.vavr.collection.List;
+import io.vavr.control.Option;
 
 import static fr.ignishky.mtgcollection.domain.set.SetId.toSetId;
 
@@ -15,14 +16,25 @@ public record SetScryfall(List<ScryfallData> data) {
             String code,
             String name,
             boolean digital,
+            String parent_set_code,
+            String block_code,
             String released_at,
             int card_count,
             String icon_svg_uri
     ) {
 
         public Set toSet() {
-            return new Set(toSetId(id), new SetCode(code), new SetName(name), digital, released_at, card_count, new SetIcon(icon_svg_uri));
+            return new Set(toSetId(id),
+                    new SetCode(code),
+                    new SetName(name),
+                    digital,
+                    Option.of(parent_set_code).map(SetCode::new),
+                    Option.of(block_code).map(SetCode::new),
+                    released_at,
+                    card_count,
+                    new SetIcon(icon_svg_uri));
         }
 
     }
+
 }

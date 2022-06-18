@@ -2,6 +2,7 @@ package fr.ignishky.mtgcollection.fixtures;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.set.Set;
+import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall.ScryfallData.Images;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfall;
@@ -28,6 +29,8 @@ public class SpiFixtures {
                 aSet.code().value(),
                 aSet.name().value(),
                 aSet.isDigital(),
+                aSet.parentSetCode().map(SetCode::value).getOrNull(),
+                aSet.blockCode().map(SetCode::value).getOrNull(),
                 aSet.releasedDate(),
                 aSet.cardCount(),
                 aSet.icon().url()

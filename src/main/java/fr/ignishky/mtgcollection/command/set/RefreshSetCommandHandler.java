@@ -44,9 +44,9 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
                 .filter(Set::hasCard)
                 .filter(Set::isNotDigital)
                 .filter(set -> !existingSets.contains(set))
-                .map(set -> Set.add(set.id(), set.code(), set.name(), set.releasedDate(), set.cardCount(), set.icon()));
+                .map(set -> Set.add(set.id(), set.code(), set.name(), set.parentSetCode(), set.blockCode(), set.releasedDate(), set.cardCount(), set.icon()));
 
-        List<Set> sets = setAppliedEvents.map(AppliedEvent::aggregate);
+        var sets = setAppliedEvents.map(AppliedEvent::aggregate);
         LOGGER.info("Saving {} sets ...", sets.size());
         setRepository.save(sets);
 
