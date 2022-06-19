@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import static fr.ignishky.mtgcollection.TestUtils.assertEvent;
@@ -58,24 +59,27 @@ class SetApiIT {
         when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:another-set-code&unique=prints", CardScryfall.class))
                 .thenReturn(anotherScryfallCards);
         when(restTemplate.getForObject("https://scryfall.mtg.test/page:2", CardScryfall.class)).thenReturn(anotherScryfallCards2);
+        when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:fail&unique=prints", CardScryfall.class))
+                .thenThrow(RestClientException.class);
 
         // WHEN
         ResultActions resultActions = mvc.perform(put("/sets"));
 
         // THEN
         resultActions.andExpect(status().isNoContent());
-        assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toSetDocument(aSet), toSetDocument(anotherSet));
+        assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toSetDocument(aSet), toSetDocument(anotherSet), toSetDocument(aFailedSet));
         assertThat(mongoTemplate.findAll(CardDocument.class))
                 .containsOnly(toCardDocument(aCard), toCardDocument(anotherCard), toCardDocument(anExtraCard), toCardDocument(anotherCard2));
 
         var eventDocuments = mongoTemplate.findAll(EventDocument.class);
-        assertThat(eventDocuments).hasSize(6);
-        assertEvent(eventDocuments.get(0), aSet.id(), "SetAdded", "{\"code\":\"a-set-code\",\"name\":\"a-set-name\",\"blockCode\":\"a-block-code\",\"releaseDate\":\"2011-09-12\",\"cardCount\":365,\"icon\":\"a-set-icon\"}");
-        assertEvent(eventDocuments.get(1), anotherSet.id(), "SetAdded", "{\"code\":\"another-set-code\",\"name\":\"another-set-name\",\"parentSetCode\":\"another-set-code\",\"releaseDate\":\"2018-10-12\",\"cardCount\":165,\"icon\":\"another-set-icon\"}");
-        assertEvent(eventDocuments.get(2), aCard.id(), "CardAdded", "{\"name\":\"a-card-name\",\"setCode\":\"a-set-code\",\"image\":\"a-card-image\"}");
-        assertEvent(eventDocuments.get(3), anExtraCard.id(), "CardAdded", "{\"name\":\"an-extra-card-name\",\"setCode\":\"a-set-code\",\"image\":\"an-extra-card-image\"}");
-        assertEvent(eventDocuments.get(4), anotherCard.id(), "CardAdded", "{\"name\":\"another-card-name\",\"setCode\":\"another-set-code\",\"image\":\"another-card-image\"}");
-        assertEvent(eventDocuments.get(5), anotherCard2.id(), "CardAdded", "{\"name\":\"another-card-name2\",\"setCode\":\"another-set-code\",\"image\":\"another-card-image2\"}");
+        assertThat(eventDocuments).hasSize(7);
+        assertEvent(eventDocuments.get(0), aFailedSet.id(), "SetAdded", "{\"code\":\"fail\",\"name\":\"FAILED SET\",\"releaseDate\":\"2021-12-01\",\"cardCount\":1,\"icon\":\"icon5\"}");
+        assertEvent(eventDocuments.get(1), aSet.id(), "SetAdded", "{\"code\":\"a-set-code\",\"name\":\"a-set-name\",\"blockCode\":\"a-block-code\",\"releaseDate\":\"2011-09-12\",\"cardCount\":365,\"icon\":\"a-set-icon\"}");
+        assertEvent(eventDocuments.get(2), anotherSet.id(), "SetAdded", "{\"code\":\"another-set-code\",\"name\":\"another-set-name\",\"parentSetCode\":\"another-set-code\",\"releaseDate\":\"2018-10-12\",\"cardCount\":165,\"icon\":\"another-set-icon\"}");
+        assertEvent(eventDocuments.get(3),  aCard.id(), "CardAdded", "{\"name\":\"a-card-name\",\"setCode\":\"a-set-code\",\"image\":\"a-card-image\"}");
+        assertEvent(eventDocuments.get(4),  anExtraCard.id(), "CardAdded", "{\"name\":\"an-extra-card-name\",\"setCode\":\"a-set-code\",\"image\":\"an-extra-card-image\"}");
+        assertEvent(eventDocuments.get(5),  anotherCard.id(), "CardAdded", "{\"name\":\"another-card-name\",\"setCode\":\"another-set-code\",\"image\":\"another-card-image\"}");
+        assertEvent(eventDocuments.get(6),  anotherCard2.id(), "CardAdded", "{\"name\":\"another-card-name2\",\"setCode\":\"another-set-code\",\"image\":\"another-card-image2\"}");
     }
 
     @Test

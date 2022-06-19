@@ -51,6 +51,16 @@ public class DomainFixtures {
             "2021-12-11",
             13,
             new SetIcon("icon4"));
+    public static final Set aFailedSet = new Set(
+            new SetId(randomUUID()),
+            new SetCode("fail"),
+            new SetName("FAILED SET"),
+            false,
+            Option.none(),
+            Option.none(),
+            "2021-12-01",
+            1,
+            new SetIcon("icon5"));
 
     public static final Card aCard = new Card(
             CardId.fromString("66b5dddd-af38-494e-9047-f7311ff539da"),
