@@ -1,6 +1,6 @@
 package fr.ignishky.mtgcollection.command.collection;
 
-import fr.ignishky.mtgcollection.domain.AppliedEvent;
+import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardRepository;
 import fr.ignishky.mtgcollection.domain.card.event.CardOwned;
@@ -23,8 +23,10 @@ public class AddOwnCardCommandHandler implements CommandHandler<AddOwnCardComman
 
     @Override
     public CommandResponse<Card> handle(AddOwnCardCommand command) {
-        Card card = repository.get(command.cardId()).getOrElseThrow(() -> new NoCardFoundException(command.cardId()));
+        Card card = repository.get(command.cardId())
+                .getOrElseThrow(() -> new NoCardFoundException(command.cardId()));
         AppliedEvent<Card, CardOwned> owned = card.owned(command.isFoiled());
+
         repository.save(owned.aggregate());
         return toCommandResponse(owned.aggregate(), List.of(owned.event()));
     }

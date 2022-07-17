@@ -1,6 +1,6 @@
 package fr.ignishky.mtgcollection.domain.set;
 
-import fr.ignishky.mtgcollection.domain.AppliedEvent;
+import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
 import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
 import fr.ignishky.mtgcollection.framework.domain.Aggregate;
 
@@ -22,7 +22,7 @@ public record Set(
     }
 
     public boolean hasCard() {
-        return cardCount > 0;
+        return 0 < cardCount;
     }
 
     public boolean isNotDigital() {

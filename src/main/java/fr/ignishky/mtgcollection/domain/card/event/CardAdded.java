@@ -10,29 +10,29 @@ import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 
 import java.time.Instant;
 
-public class CardAdded extends Event<CardId, Card, CardAdded.Payload> {
+public class CardAdded extends Event<CardId, Card, CardAdded.CardAddedPayload> {
 
     private final SetCode setCode;
-    private final CardName name;
-    private final CardImage image;
+    private final CardName cardName;
+    private final CardImage cardImage;
 
     public CardAdded(CardId aggregateId, SetCode setCode, CardName cardName, CardImage cardImage) {
         this(null, aggregateId, setCode, cardName, cardImage, Instants.now());
     }
 
     private CardAdded(String id, CardId aggregateId, SetCode setCode, CardName cardName, CardImage cardImage, Instant instant) {
-        super(id, aggregateId, Card.class, new Payload(cardName.name(), setCode.value(), cardImage.image()), instant);
-        this.name = cardName;
+        super(id, aggregateId, Card.class, new CardAddedPayload(cardName.name(), setCode.value(), cardImage.image()), instant);
+        this.cardName = cardName;
         this.setCode = setCode;
-        this.image = cardImage;
+        this.cardImage = cardImage;
     }
 
     @Override
     public Card apply(Card aggregate) {
-        return new Card(aggregateId(), setCode, name, image, null, null);
+        return new Card(aggregateId(), setCode, cardName, cardImage, false, false);
     }
 
-    public record Payload(
+    record CardAddedPayload(
             String name,
             String setCode,
             String image

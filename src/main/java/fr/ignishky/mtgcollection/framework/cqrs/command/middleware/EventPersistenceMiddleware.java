@@ -9,7 +9,7 @@ public class EventPersistenceMiddleware extends CommandMiddleware {
 
     private final EventStore eventStore;
 
-    public EventPersistenceMiddleware(CommandMiddleware next, EventStore eventStore) {
+    private EventPersistenceMiddleware(CommandMiddleware next, EventStore eventStore) {
         super(next);
         this.eventStore = eventStore;
     }
@@ -21,7 +21,7 @@ public class EventPersistenceMiddleware extends CommandMiddleware {
         return response;
     }
 
-    public static record Builder(EventStore eventStore) implements CommandMiddlewareBuilder {
+    public record Builder(EventStore eventStore) implements CommandMiddlewareBuilder {
 
         @Override
         public CommandMiddleware chain(CommandMiddleware next) {

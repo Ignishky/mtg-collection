@@ -7,17 +7,17 @@ import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 
 import java.time.Instant;
 
-public class CardOwned extends Event<CardId, Card, CardOwned.Payload> {
+public class CardOwned extends Event<CardId, Card, CardOwned.CardOwnedPayload> {
 
-    private final Boolean isOwned;
-    private final Boolean isFoiled;
+    private final boolean isOwned;
+    private final boolean isFoiled;
 
-    public CardOwned(CardId aggregateId, Boolean isOwned, Boolean isFoiled) {
+    public CardOwned(CardId aggregateId, boolean isOwned, boolean isFoiled) {
         this(null, aggregateId, isOwned, isFoiled, Instants.now());
     }
 
-    private CardOwned(String id, CardId aggregateId, Boolean isOwned, Boolean isFoiled, Instant instant) {
-        super(id, aggregateId, Card.class, new Payload(isOwned, isFoiled), instant);
+    private CardOwned(String id, CardId aggregateId, boolean isOwned, boolean isFoiled, Instant instant) {
+        super(id, aggregateId, Card.class, new CardOwnedPayload(isOwned, isFoiled), instant);
         this.isOwned = isOwned;
         this.isFoiled = isFoiled;
     }
@@ -27,9 +27,9 @@ public class CardOwned extends Event<CardId, Card, CardOwned.Payload> {
         return new Card(aggregate.id(), aggregate.setCode(), aggregate.cardName(), aggregate.cardImage(), isOwned, isFoiled);
     }
 
-    public record Payload(
-            Boolean isOwned,
-            Boolean isFoiled
+    record CardOwnedPayload(
+            boolean isOwned,
+            boolean isFoiled
     ) implements Event.Payload {
     }
 }

@@ -34,7 +34,7 @@ public class FrameworkConfiguration {
     }
 
     @Bean
-    public QueryBus queryBus(Set<QueryHandler<?, ?>> handlers) {
+    public QueryBus queryBus(Set<? extends QueryHandler<?, ?>> handlers) {
         return new DirectQueryBus(LinkedHashSet.of(
                 new LoggingQueryBusMiddleware.Builder(),
                 new QueryDispatcherMiddleware.Builder(handlers)

@@ -6,7 +6,7 @@ import fr.ignishky.mtgcollection.framework.cqrs.command.Command;
 
 public record AddOwnCardCommand(
         CardId cardId,
-        Boolean isFoiled
+        boolean isFoiled
 ) implements Command<Card> {
 
 }

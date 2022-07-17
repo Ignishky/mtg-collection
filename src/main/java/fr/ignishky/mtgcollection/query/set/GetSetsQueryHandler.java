@@ -7,7 +7,7 @@ import io.vavr.collection.List;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
+import static java.util.Comparator.comparing;
 
 @Component
 public class GetSetsQueryHandler implements QueryHandler<GetSetsQuery, List<Set>> {
@@ -22,7 +22,7 @@ public class GetSetsQueryHandler implements QueryHandler<GetSetsQuery, List<Set>
     public List<Set> handle(GetSetsQuery query) {
         return List.ofAll(mongoTemplate.findAll(SetDocument.class))
                 .map(SetDocument::toSet)
-                .sorted(Comparator.comparing(Set::releasedDate).reversed());
+                .sorted(comparing(Set::releasedDate).reversed());
     }
 
 }

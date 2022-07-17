@@ -6,7 +6,7 @@ import io.vavr.collection.Set;
 
 public interface QueryMiddlewareBuilder {
 
-    static QueryMiddleware build(Set<QueryMiddlewareBuilder> builders) {
+    static QueryMiddleware build(Set<? extends QueryMiddlewareBuilder> builders) {
         return List.ofAll(builders).foldRight(new CircuitBreakerMiddleware(), QueryMiddlewareBuilder::chain);
     }
 
@@ -14,7 +14,7 @@ public interface QueryMiddlewareBuilder {
 
     class CircuitBreakerMiddleware extends QueryMiddleware {
 
-        public CircuitBreakerMiddleware() {
+        CircuitBreakerMiddleware() {
             super(null);
         }
 

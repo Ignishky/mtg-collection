@@ -11,7 +11,7 @@ public class LoggingCommandBusMiddleware extends CommandMiddleware {
 
     private static final Logger LOGGER = getLogger(LoggingCommandBusMiddleware.class);
 
-    public LoggingCommandBusMiddleware(CommandMiddleware next) {
+    private LoggingCommandBusMiddleware(CommandMiddleware next) {
         super(next);
     }
 
@@ -19,8 +19,11 @@ public class LoggingCommandBusMiddleware extends CommandMiddleware {
     public <T> Try<CommandResponse<T>> handle(Command<T> message) {
         LOGGER.info("Executing {} with parameter {}", message.getClass().getSimpleName(), message);
         return next(message)
-                .onSuccess(s -> LOGGER.info("Success on {}. Result : {}, Events : {}", message.getClass().getSimpleName(), s.value(), s.events()))
-                .onFailure(f -> LOGGER.error("Error on {}", message.getClass().getSimpleName(), f));
+                .onSuccess(success -> LOGGER.info("Success on {}. Result : {}, Events : {}",
+                        message.getClass().getSimpleName(),
+                        success.value(),
+                        success.events()))
+                .onFailure(fail -> LOGGER.error("Error on {}", message.getClass().getSimpleName(), fail));
     }
 
     public record Builder() implements CommandMiddlewareBuilder {

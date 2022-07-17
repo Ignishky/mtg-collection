@@ -11,7 +11,12 @@ import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.*;
 
 public class SpiFixtures {
 
-    public static final SetScryfall aScryfallSets = new SetScryfall(List.of(getSetData(aFutureSet), getSetData(aSet), getSetData(anotherSet), getSetData(aDigitalSet)));
+    public static final SetScryfall aScryfallSets = new SetScryfall(List.of(
+            getSetData(aFutureSet),
+            getSetData(aSet),
+            getSetData(anotherSet),
+            getSetData(aDigitalSet)
+    ));
 
     public static final CardScryfall aScryfallCards = new CardScryfall(null, List.of(getCardData(aCard), getCardData(anExtraCard)));
     public static final CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(anotherCard)));
@@ -25,7 +30,8 @@ public class SpiFixtures {
                 aSet.isDigital(),
                 aSet.releasedDate(),
                 aSet.cardCount(),
-                aSet.icon().url());
+                aSet.icon().url()
+        );
     }
 
     private static CardScryfall.ScryfallData getCardData(Card aCard) {
@@ -34,7 +40,8 @@ public class SpiFixtures {
                 aCard.cardName().name(),
                 aCard.setCode().value(),
                 new Images(aCard.cardImage().image()),
-                null);
+                null
+        );
     }
 
 }

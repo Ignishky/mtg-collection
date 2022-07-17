@@ -10,7 +10,7 @@ public class DirectCommandBus implements CommandBus {
     private final CommandMiddleware chain;
 
     public DirectCommandBus(Set<CommandMiddlewareBuilder> builders) {
-        this.chain = CommandMiddlewareBuilder.build(builders);
+        chain = CommandMiddlewareBuilder.build(builders);
     }
 
     @Override

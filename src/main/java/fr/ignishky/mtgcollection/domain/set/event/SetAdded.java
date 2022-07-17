@@ -6,7 +6,7 @@ import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 
 import java.time.Instant;
 
-public class SetAdded extends Event<SetId, Set, SetAdded.Payload> {
+public class SetAdded extends Event<SetId, Set, SetAdded.SetAddedPayload> {
 
     private final SetCode code;
     private final SetName name;
@@ -19,7 +19,7 @@ public class SetAdded extends Event<SetId, Set, SetAdded.Payload> {
     }
 
     private SetAdded(String id, SetId aggregateId, SetCode code, SetName name, String releaseDate, int cardCount, SetIcon icon, Instant instant) {
-        super(id, aggregateId, Set.class, new Payload(code.value(), name.value(), releaseDate, cardCount, icon.url()), instant);
+        super(id, aggregateId, Set.class, new SetAddedPayload(code.value(), name.value(), releaseDate, cardCount, icon.url()), instant);
         this.code = code;
         this.name = name;
         this.releaseDate = releaseDate;
@@ -32,7 +32,7 @@ public class SetAdded extends Event<SetId, Set, SetAdded.Payload> {
         return new Set(aggregateId(), code, name, false, releaseDate, cardCount, icon);
     }
 
-    public record Payload(
+    public record SetAddedPayload(
             String code,
             String name,
             String releaseDate,

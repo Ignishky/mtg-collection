@@ -8,7 +8,7 @@ import io.vavr.control.Try;
 
 public interface CommandMiddlewareBuilder {
 
-    static CommandMiddleware build(Set<CommandMiddlewareBuilder> builders) {
+    static CommandMiddleware build(Set<? extends CommandMiddlewareBuilder> builders) {
         return List.ofAll(builders).foldRight(new CircuitBreakerMiddleware(), CommandMiddlewareBuilder::chain);
     }
 
@@ -16,7 +16,7 @@ public interface CommandMiddlewareBuilder {
 
     class CircuitBreakerMiddleware extends CommandMiddleware {
 
-        public CircuitBreakerMiddleware() {
+        CircuitBreakerMiddleware() {
             super(null);
         }
 

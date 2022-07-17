@@ -6,7 +6,7 @@ public abstract class QueryMiddleware {
 
     private final QueryMiddleware next;
 
-    protected QueryMiddleware(QueryMiddleware next) {
+    QueryMiddleware(QueryMiddleware next) {
         this.next = next;
     }
 

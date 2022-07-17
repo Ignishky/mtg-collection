@@ -1,6 +1,6 @@
 package fr.ignishky.mtgcollection.command.set;
 
-import fr.ignishky.mtgcollection.domain.AppliedEvent;
+import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardReferer;
 import fr.ignishky.mtgcollection.domain.card.CardRepository;

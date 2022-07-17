@@ -9,7 +9,7 @@ public class DirectQueryBus implements QueryBus {
     private final QueryMiddleware middlewareChain;
 
     public DirectQueryBus(Set<QueryMiddlewareBuilder> builders) {
-        this.middlewareChain = QueryMiddlewareBuilder.build(builders);
+        middlewareChain = QueryMiddlewareBuilder.build(builders);
     }
 
     @Override

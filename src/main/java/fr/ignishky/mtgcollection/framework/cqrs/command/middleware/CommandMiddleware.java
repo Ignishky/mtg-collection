@@ -8,13 +8,13 @@ public abstract class CommandMiddleware {
 
     private final CommandMiddleware next;
 
-    protected CommandMiddleware(CommandMiddleware next) {
+    CommandMiddleware(CommandMiddleware next) {
         this.next = next;
     }
 
     public abstract <T> Try<CommandResponse<T>> handle(Command<T> message);
 
     protected <T> Try<CommandResponse<T>> next(Command<T> message) {
-        return this.next.handle(message);
+        return next.handle(message);
     }
 }

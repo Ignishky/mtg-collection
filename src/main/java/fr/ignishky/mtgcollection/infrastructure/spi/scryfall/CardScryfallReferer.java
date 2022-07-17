@@ -42,10 +42,10 @@ public class CardScryfallReferer implements CardReferer {
         return cards
                 .flatMap(CardScryfall::data)
                 .map(CardScryfall.ScryfallData::toCard)
-                .filter(CardScryfallReferer::withImage);
+                .filter(CardScryfallReferer::hasImage);
     }
 
-    private static boolean withImage(Card card) {
+    private static boolean hasImage(Card card) {
         return card.cardImage().image() != null;
     }
 

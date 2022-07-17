@@ -90,7 +90,7 @@ class CollectionApiIT {
 
         var eventDocuments = mongoTemplate.findAll(EventDocument.class);
         assertThat(eventDocuments).hasSize(1);
-        assertEvent(eventDocuments.get(0), "Card", aCard.id().toString(), "CardOwned", "{\"isOwned\":true,\"isFoiled\":true}");
+        assertEvent(eventDocuments.get(0), aCard.id(), "CardOwned", "{\"isOwned\":true,\"isFoiled\":true}");
     }
 
 }
