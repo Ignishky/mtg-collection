@@ -1,13 +1,10 @@
 package fr.ignishky.mtgcollection.domain.card.exception;
 
-import fr.ignishky.mtgcollection.domain.card.CardId;
+import java.io.Serial;
 
 public class NoCardFoundException extends RuntimeException {
 
-    private final CardId cardId;
-
-    public NoCardFoundException(CardId cardId) {
-        this.cardId = cardId;
-    }
+    @Serial
+    private static final long serialVersionUID = -969144432515343212L;
 
 }

@@ -3,6 +3,7 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 import fr.ignishky.mtgcollection.command.collection.AddOwnCardCommand;
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardId;
+import fr.ignishky.mtgcollection.domain.card.exception.NoCardFoundException;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CardResponse;
@@ -10,7 +11,6 @@ import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.Collec
 import fr.ignishky.mtgcollection.query.card.GetCardsQuery;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
-import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,8 +19,7 @@ import java.util.UUID;
 
 import static fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CardResponse.toCardResponse;
 import static org.slf4j.LoggerFactory.getLogger;
-import static org.springframework.http.ResponseEntity.notFound;
-import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.http.ResponseEntity.*;
 
 @Controller
 public class CollectionController implements CollectionApi {
@@ -49,19 +48,25 @@ public class CollectionController implements CollectionApi {
         LOGGER.info("Received call to `PUT /collection/{}` with body {}", cardId, request);
         var dispatch = commandBus.dispatch(new AddOwnCardCommand(new CardId(UUID.fromString(cardId)), request.isFoiled()));
 
-        return dispatch.isSuccess()
-                ? success(cardId, dispatch)
-                : failure(cardId);
+        return dispatch.fold(
+                cause -> failure(cardId, cause),
+                CollectionController::success
+        );
     }
 
-    private static ResponseEntity<CardResponse> success(String cardId, Try<Card> dispatch) {
-        LOGGER.info("Respond to `PUT /collection/{}` with a success", cardId);
-        return ok().body(toCardResponse(dispatch.get()));
+    private static ResponseEntity<CardResponse> success(Card card) {
+        LOGGER.info("Respond to `PUT /collection/{}` with a success", card.id());
+        return ok().body(toCardResponse(card));
     }
 
-    private static ResponseEntity<CardResponse> failure(String cardId) {
-        LOGGER.info("Respond to `PUT /collection/{}` with a failure", cardId);
-        return notFound().build();
+    private static ResponseEntity<CardResponse> failure(String cardId, Throwable cause) {
+        if(cause instanceof NoCardFoundException e) {
+            LOGGER.info("Respond to `PUT /collection/{}` with a 404", cardId);
+            return notFound().build();
+        } else {
+            LOGGER.error("Respond to `PUT /collection/{}` with a 500", cardId);
+            return internalServerError().build();
+        }
     }
 
 }

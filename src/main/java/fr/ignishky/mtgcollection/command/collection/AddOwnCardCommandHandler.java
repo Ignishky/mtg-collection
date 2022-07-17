@@ -23,8 +23,7 @@ public class AddOwnCardCommandHandler implements CommandHandler<AddOwnCardComman
 
     @Override
     public CommandResponse<Card> handle(AddOwnCardCommand command) {
-        Card card = repository.get(command.cardId())
-                .getOrElseThrow(() -> new NoCardFoundException(command.cardId()));
+        Card card = repository.get(command.cardId()).getOrElseThrow(NoCardFoundException::new);
         AppliedEvent<Card, CardOwned> owned = card.owned(command.isFoiled());
 
         repository.save(owned.aggregate());
