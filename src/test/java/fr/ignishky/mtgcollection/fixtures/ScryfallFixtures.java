@@ -10,6 +10,8 @@ import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall.
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfall;
 import io.vavr.collection.List;
 
+import static fr.ignishky.mtgcollection.domain.set.SetType.alchemy;
+import static fr.ignishky.mtgcollection.domain.set.SetType.expansion;
 import static fr.ignishky.mtgcollection.fixtures.CardFixtures.*;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.*;
 
@@ -19,6 +21,7 @@ public class ScryfallFixtures {
             .withSetCode(new SetCode("wtf"))
             .withSetName(new SetName("NON-EXISTING SET"))
             .withReleaseDate("9999-12-31")
+            .withSetType(expansion)
             .withCardCount(63)
             .withSetIcon(new SetIcon("icon3"))
             .generate();
@@ -27,10 +30,12 @@ public class ScryfallFixtures {
             .withSetCode(new SetCode("mtga"))
             .withSetName(new SetName("DIGITAL SET"))
             .withReleaseDate("2021-12-11")
+            .withSetType(alchemy)
             .withCardCount(13)
             .withSetIcon(new SetIcon("icon4"))
             .withDigital(true)
             .generate();
+
     public static final SetScryfall aScryfallSets = new SetScryfall(List.of(getSetData(aFutureSet), getSetData(aFailedSet), getSetData(StreetOfNewCapenna), getSetData(Ikoria), getSetData(aDigitalSet)));
 
     public static final CardScryfall aScryfallCards = new CardScryfall(null, List.of(getCardData(aCard), getCardData(anExtraCard)));
@@ -46,6 +51,7 @@ public class ScryfallFixtures {
                 aSet.parentSetCode().map(SetCode::value).getOrNull(),
                 aSet.blockCode().map(SetCode::value).getOrNull(),
                 aSet.releasedDate(),
+                aSet.setType().name(),
                 aSet.cardCount(),
                 aSet.icon().url()
         );

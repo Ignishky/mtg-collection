@@ -74,9 +74,9 @@ class SetApiIT {
 
         var eventDocuments = mongoTemplate.findAll(EventDocument.class);
         assertThat(eventDocuments).hasSize(7);
-        assertEvent(eventDocuments.get(0), aFailedSet.id(), "SetAdded", "{\"code\":\"fail\",\"name\":\"FAILED SET\",\"releaseDate\":\"2021-12-01\",\"cardCount\":1,\"icon\":\"icon5\"}");
-        assertEvent(eventDocuments.get(1), StreetOfNewCapenna.id(), "SetAdded", "{\"code\":\"snc\",\"name\":\"Streets of New Capenna\",\"releaseDate\":\"2022-04-29\",\"cardCount\":467,\"icon\":\"https://scryfall.mtgc.test/sets/snc.svg\"}");
-        assertEvent(eventDocuments.get(2), Ikoria.id(), "SetAdded", "{\"code\":\"iko\",\"name\":\"Ikoria: Lair of Behemoths\",\"releaseDate\":\"2020-04-24\",\"cardCount\":390,\"icon\":\"https://scryfall.mtgc.test/sets/iko.svg\"}");
+        assertEvent(eventDocuments.get(0), aFailedSet.id(), "SetAdded", "{\"code\":\"fail\",\"name\":\"FAILED SET\",\"releaseDate\":\"2021-12-01\",\"setType\":\"expansion\",\"cardCount\":1,\"icon\":\"icon5\"}");
+        assertEvent(eventDocuments.get(1), StreetOfNewCapenna.id(), "SetAdded", "{\"code\":\"snc\",\"name\":\"Streets of New Capenna\",\"releaseDate\":\"2022-04-29\",\"setType\":\"expansion\",\"cardCount\":467,\"icon\":\"https://scryfall.mtgc.test/sets/snc.svg\"}");
+        assertEvent(eventDocuments.get(2), Ikoria.id(), "SetAdded", "{\"code\":\"iko\",\"name\":\"Ikoria: Lair of Behemoths\",\"releaseDate\":\"2020-04-24\",\"setType\":\"expansion\",\"cardCount\":390,\"icon\":\"https://scryfall.mtgc.test/sets/iko.svg\"}");
         assertEvent(eventDocuments.get(3), aCard.id(), "CardAdded", "{\"name\":\"a-card-name\",\"setCode\":\"snc\",\"image\":\"a-card-image\"}");
         assertEvent(eventDocuments.get(4), anExtraCard.id(), "CardAdded", "{\"name\":\"an-extra-card-name\",\"setCode\":\"snc\",\"image\":\"an-extra-card-image\"}");
         assertEvent(eventDocuments.get(5), anotherCard.id(), "CardAdded", "{\"name\":\"another-card-name\",\"setCode\":\"iko\",\"image\":\"another-card-image\"}");

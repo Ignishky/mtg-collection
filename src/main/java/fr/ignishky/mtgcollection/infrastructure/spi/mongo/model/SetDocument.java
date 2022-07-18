@@ -1,5 +1,9 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.mongo.model;
 
+import fr.ignishky.mtgcollection.domain.block.Block;
+import fr.ignishky.mtgcollection.domain.block.BlockCode;
+import fr.ignishky.mtgcollection.domain.block.BlockIcon;
+import fr.ignishky.mtgcollection.domain.block.BlockName;
 import fr.ignishky.mtgcollection.domain.set.*;
 import io.vavr.control.Option;
 import org.springframework.data.annotation.Id;
@@ -16,6 +20,7 @@ public record SetDocument(
         String parentSetCode,
         String blockCode,
         String releaseDate,
+        SetType setType,
         int cardCount,
         String icon
 ) {
@@ -27,6 +32,7 @@ public record SetDocument(
                 set.parentSetCode().map(SetCode::value).getOrNull(),
                 set.blockCode().map(SetCode::value).getOrNull(),
                 set.releasedDate(),
+                set.setType(),
                 set.cardCount(),
                 set.icon().url());
     }
@@ -39,7 +45,9 @@ public record SetDocument(
                 Option.of(document.parentSetCode).map(SetCode::new),
                 Option.of(document.blockCode).map(SetCode::new),
                 document.releaseDate,
+                document.setType,
                 document.cardCount(),
                 new SetIcon(document.icon));
     }
+
 }

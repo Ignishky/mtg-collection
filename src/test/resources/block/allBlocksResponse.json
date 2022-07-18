@@ -1,0 +1,14 @@
+{
+  "blocks": [
+    {
+      "code": "snc",
+      "name": "Streets of New Capenna",
+      "icon": "https://scryfall.mtgc.test/sets/snc.svg"
+    },
+    {
+      "code": "iko",
+      "name": "Ikoria: Lair of Behemoths",
+      "icon": "https://scryfall.mtgc.test/sets/iko.svg"
+    }
+  ]
+}

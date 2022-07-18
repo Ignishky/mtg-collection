@@ -16,6 +16,7 @@ public record Set(
         Option<SetCode> parentSetCode,
         Option<SetCode> blockCode,
         String releasedDate,
+        SetType setType,
         int cardCount,
         SetIcon icon
 ) implements Aggregate<SetId> {
@@ -32,8 +33,8 @@ public record Set(
         return !isDigital;
     }
 
-    public static AppliedEvent<Set, SetAdded> add(SetId id, SetCode code, SetName name, Option<SetCode> parentSetCode, Option<SetCode> blockCode, String releasedDate, int cardCount, SetIcon icon) {
-        SetAdded setAdded = new SetAdded(id, code, name, parentSetCode, blockCode, releasedDate, cardCount, icon);
+    public static AppliedEvent<Set, SetAdded> add(SetId id, SetCode code, SetName name, Option<SetCode> parentSetCode, Option<SetCode> blockCode, String releasedDate, SetType setType, int cardCount, SetIcon icon) {
+        SetAdded setAdded = new SetAdded(id, code, name, parentSetCode, blockCode, releasedDate, setType, cardCount, icon);
         Set set = setAdded.apply(null);
         return new AppliedEvent<>(set, setAdded);
     }
