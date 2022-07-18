@@ -20,8 +20,9 @@ import org.springframework.web.client.RestTemplate;
 
 import static fr.ignishky.mtgcollection.TestUtils.assertEvent;
 import static fr.ignishky.mtgcollection.TestUtils.readFile;
-import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.*;
-import static fr.ignishky.mtgcollection.fixtures.SpiFixtures.*;
+import static fr.ignishky.mtgcollection.fixtures.CardFixtures.*;
+import static fr.ignishky.mtgcollection.fixtures.ScryfallFixtures.*;
+import static fr.ignishky.mtgcollection.fixtures.SetFixtures.*;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument.toCardDocument;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument.toSetDocument;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,7 +41,7 @@ class SetApiIT {
     private MockMvc mvc;
     @Autowired
     private MongoTemplate mongoTemplate;
-    
+
     @MockBean
     private RestTemplate restTemplate;
 
@@ -54,12 +55,12 @@ class SetApiIT {
     void should_load_sets_from_scryfall_and_save_them_into_mongo() throws Exception {
         // GIVEN
         when(restTemplate.getForObject("http://scryfall.mtg.test/sets", SetScryfall.class)).thenReturn(aScryfallSets);
-        when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:a-set-code&unique=prints", CardScryfall.class))
+        when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:%s&unique=prints".formatted(StreetOfNewCapenna.code()), CardScryfall.class))
                 .thenReturn(aScryfallCards);
-        when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:another-set-code&unique=prints", CardScryfall.class))
+        when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:%s&unique=prints".formatted(Ikoria.code()), CardScryfall.class))
                 .thenReturn(anotherScryfallCards);
         when(restTemplate.getForObject("https://scryfall.mtg.test/page:2", CardScryfall.class)).thenReturn(anotherScryfallCards2);
-        when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:fail&unique=prints", CardScryfall.class))
+        when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:%s&unique=prints".formatted(aFailedSet.code()), CardScryfall.class))
                 .thenThrow(RestClientException.class);
 
         // WHEN
@@ -67,25 +68,25 @@ class SetApiIT {
 
         // THEN
         resultActions.andExpect(status().isNoContent());
-        assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toSetDocument(aSet), toSetDocument(anotherSet), toSetDocument(aFailedSet));
+        assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toSetDocument(StreetOfNewCapenna), toSetDocument(Ikoria), toSetDocument(aFailedSet));
         assertThat(mongoTemplate.findAll(CardDocument.class))
                 .containsOnly(toCardDocument(aCard), toCardDocument(anotherCard), toCardDocument(anExtraCard), toCardDocument(anotherCard2));
 
         var eventDocuments = mongoTemplate.findAll(EventDocument.class);
         assertThat(eventDocuments).hasSize(7);
         assertEvent(eventDocuments.get(0), aFailedSet.id(), "SetAdded", "{\"code\":\"fail\",\"name\":\"FAILED SET\",\"releaseDate\":\"2021-12-01\",\"cardCount\":1,\"icon\":\"icon5\"}");
-        assertEvent(eventDocuments.get(1), aSet.id(), "SetAdded", "{\"code\":\"a-set-code\",\"name\":\"a-set-name\",\"blockCode\":\"a-block-code\",\"releaseDate\":\"2011-09-12\",\"cardCount\":365,\"icon\":\"a-set-icon\"}");
-        assertEvent(eventDocuments.get(2), anotherSet.id(), "SetAdded", "{\"code\":\"another-set-code\",\"name\":\"another-set-name\",\"parentSetCode\":\"another-set-code\",\"releaseDate\":\"2018-10-12\",\"cardCount\":165,\"icon\":\"another-set-icon\"}");
-        assertEvent(eventDocuments.get(3),  aCard.id(), "CardAdded", "{\"name\":\"a-card-name\",\"setCode\":\"a-set-code\",\"image\":\"a-card-image\"}");
-        assertEvent(eventDocuments.get(4),  anExtraCard.id(), "CardAdded", "{\"name\":\"an-extra-card-name\",\"setCode\":\"a-set-code\",\"image\":\"an-extra-card-image\"}");
-        assertEvent(eventDocuments.get(5),  anotherCard.id(), "CardAdded", "{\"name\":\"another-card-name\",\"setCode\":\"another-set-code\",\"image\":\"another-card-image\"}");
-        assertEvent(eventDocuments.get(6),  anotherCard2.id(), "CardAdded", "{\"name\":\"another-card-name2\",\"setCode\":\"another-set-code\",\"image\":\"another-card-image2\"}");
+        assertEvent(eventDocuments.get(1), StreetOfNewCapenna.id(), "SetAdded", "{\"code\":\"snc\",\"name\":\"Streets of New Capenna\",\"releaseDate\":\"2022-04-29\",\"cardCount\":467,\"icon\":\"https://scryfall.mtgc.test/sets/snc.svg\"}");
+        assertEvent(eventDocuments.get(2), Ikoria.id(), "SetAdded", "{\"code\":\"iko\",\"name\":\"Ikoria: Lair of Behemoths\",\"releaseDate\":\"2020-04-24\",\"cardCount\":390,\"icon\":\"https://scryfall.mtgc.test/sets/iko.svg\"}");
+        assertEvent(eventDocuments.get(3), aCard.id(), "CardAdded", "{\"name\":\"a-card-name\",\"setCode\":\"snc\",\"image\":\"a-card-image\"}");
+        assertEvent(eventDocuments.get(4), anExtraCard.id(), "CardAdded", "{\"name\":\"an-extra-card-name\",\"setCode\":\"snc\",\"image\":\"an-extra-card-image\"}");
+        assertEvent(eventDocuments.get(5), anotherCard.id(), "CardAdded", "{\"name\":\"another-card-name\",\"setCode\":\"iko\",\"image\":\"another-card-image\"}");
+        assertEvent(eventDocuments.get(6), anotherCard2.id(), "CardAdded", "{\"name\":\"another-card-name2\",\"setCode\":\"iko\",\"image\":\"another-card-image2\"}");
     }
 
     @Test
     void should_return_all_sets_from_repository() throws Exception {
         // GIVEN
-        mongoTemplate.insertAll(List.of(toSetDocument(aSet), toSetDocument(anotherSet)).asJava());
+        mongoTemplate.insertAll(List.of(toSetDocument(Ikoria), toSetDocument(StreetOfNewCapenna)).asJava());
 
         // WHEN
         ResultActions resultActions = mvc.perform(get("/sets"));
@@ -104,7 +105,7 @@ class SetApiIT {
         mongoTemplate.insertAll(List.of(toCardDocument(anotherCard)).asJava());
 
         // WHEN
-        ResultActions resultActions = mvc.perform(get("/sets/%s".formatted(aSet.code())));
+        ResultActions resultActions = mvc.perform(get("/sets/%s".formatted(StreetOfNewCapenna.code())));
 
         // THEN
         resultActions.andExpect(status().isNotFound());
@@ -116,7 +117,7 @@ class SetApiIT {
         mongoTemplate.insertAll(List.of(toCardDocument(aCard), toCardDocument(anotherCard), toCardDocument(anExtraCard)).asJava());
 
         // WHEN
-        ResultActions resultActions = mvc.perform(get("/sets/%s".formatted(aSet.code())));
+        ResultActions resultActions = mvc.perform(get("/sets/%s".formatted(StreetOfNewCapenna.code())));
 
         // THEN
         resultActions.andExpectAll(

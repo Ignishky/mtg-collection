@@ -7,7 +7,7 @@ import io.vavr.collection.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;
 
-import static fr.ignishky.mtgcollection.fixtures.DomainFixtures.aSet;
+import static fr.ignishky.mtgcollection.fixtures.SetFixtures.StreetOfNewCapenna;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,7 +27,7 @@ class CardScryfallRefererTest {
         when(restTemplate.getForObject(anyString(), any())).thenReturn(null);
 
         // WHEN
-        List<Card> cards = referer.load(aSet.code());
+        List<Card> cards = referer.load(StreetOfNewCapenna.code());
 
         // THEN
         assertThat(cards).isEmpty();

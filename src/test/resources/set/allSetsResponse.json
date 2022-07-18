@@ -1,14 +1,14 @@
 {
   "sets": [
     {
-      "code": "another-set-code",
-      "name": "another-set-name",
-      "icon": "another-set-icon"
+      "code": "snc",
+      "name": "Streets of New Capenna",
+      "icon": "https://scryfall.mtgc.test/sets/snc.svg"
     },
     {
-      "code": "a-set-code",
-      "name": "a-set-name",
-      "icon": "a-set-icon"
+      "code": "iko",
+      "name": "Ikoria: Lair of Behemoths",
+      "icon": "https://scryfall.mtgc.test/sets/iko.svg"
     }
   ]
 }
