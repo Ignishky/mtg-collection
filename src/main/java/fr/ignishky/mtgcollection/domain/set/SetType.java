@@ -1,6 +1,13 @@
 package fr.ignishky.mtgcollection.domain.set;
 
-public enum SetType {
+public enum SetType implements Comparable<SetType>{
+    // sorted
+    expansion,
+    memorabilia,
+    token,
+    promo,
+
+    //non-sorted,
     alchemy,
     archenemy,
     arsenal,
@@ -9,18 +16,14 @@ public enum SetType {
     core,
     draft_innovation,
     duel_deck,
-    expansion,
     from_the_vault,
     funny,
     masters,
     masterpiece,
-    memorabilia,
     planechase,
     premium_deck,
-    promo,
     spellbook,
     starter,
-    token,
     treasure_chest,
     vanguard
 }

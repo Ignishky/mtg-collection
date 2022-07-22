@@ -1,0 +1,24 @@
+{
+  "sets": [
+    {
+      "code": "khm",
+      "name": "Kaldheim",
+      "icon": "https://scryfall.mtgc.test/sets/khm.svg"
+    },
+    {
+      "code": "akhm",
+      "name": "Kaldheim Art Series",
+      "icon": "https://scryfall.mtgc.test/sets/khm.svg"
+    },
+    {
+      "code": "tkhm",
+      "name": "Kaldheim Tokens",
+      "icon": "https://scryfall.mtgc.test/sets/khm.svg"
+    },
+    {
+      "code": "pkhm",
+      "name": "Kaldheim Promos",
+      "icon": "https://scryfall.mtgc.test/sets/khm.svg"
+    }
+  ]
+}

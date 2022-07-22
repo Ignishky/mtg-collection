@@ -6,10 +6,7 @@ import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse.CardSummary;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse.SetSummary;
 import fr.ignishky.mtgcollection.query.card.GetCardsQuery;
-import fr.ignishky.mtgcollection.query.set.GetSetsQuery;
 import io.vavr.control.Option;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -36,15 +33,6 @@ class SetController implements SetApi {
     public ResponseEntity<Void> loadAll() {
         commandBus.dispatch(new RefreshSetCommand());
         return new ResponseEntity<>(NO_CONTENT);
-    }
-
-    @Override
-    public ResponseEntity<SetsResponse> getAll() {
-        LOGGER.info("Received call to `GET /sets`");
-        var setsApis = queryBus.dispatch(new GetSetsQuery())
-                .map(SetSummary::toSetSummary);
-        LOGGER.info("Respond to `GET /sets` with {} sets", setsApis.size());
-        return ok(new SetsResponse(setsApis));
     }
 
     @Override

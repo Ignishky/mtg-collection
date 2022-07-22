@@ -57,7 +57,7 @@ class SetApiIT {
         when(restTemplate.getForObject("http://scryfall.mtg.test/sets", SetScryfall.class)).thenReturn(aScryfallSets);
         when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:%s&unique=prints".formatted(StreetOfNewCapenna.code()), CardScryfall.class))
                 .thenReturn(aScryfallCards);
-        when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:%s&unique=prints".formatted(Ikoria.code()), CardScryfall.class))
+        when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:%s&unique=prints".formatted(Kaldheim.code()), CardScryfall.class))
                 .thenReturn(anotherScryfallCards);
         when(restTemplate.getForObject("https://scryfall.mtg.test/page:2", CardScryfall.class)).thenReturn(anotherScryfallCards2);
         when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:%s&unique=prints".formatted(aFailedSet.code()), CardScryfall.class))
@@ -68,7 +68,7 @@ class SetApiIT {
 
         // THEN
         resultActions.andExpect(status().isNoContent());
-        assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toSetDocument(StreetOfNewCapenna), toSetDocument(Ikoria), toSetDocument(aFailedSet));
+        assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toSetDocument(StreetOfNewCapenna), toSetDocument(Kaldheim), toSetDocument(aFailedSet));
         assertThat(mongoTemplate.findAll(CardDocument.class))
                 .containsOnly(toCardDocument(aCard), toCardDocument(anotherCard), toCardDocument(anExtraCard), toCardDocument(anotherCard2));
 
@@ -76,27 +76,11 @@ class SetApiIT {
         assertThat(eventDocuments).hasSize(7);
         assertEvent(eventDocuments.get(0), aFailedSet.id(), "SetAdded", "{\"code\":\"fail\",\"name\":\"FAILED SET\",\"releaseDate\":\"2021-12-01\",\"setType\":\"expansion\",\"cardCount\":1,\"icon\":\"icon5\"}");
         assertEvent(eventDocuments.get(1), StreetOfNewCapenna.id(), "SetAdded", "{\"code\":\"snc\",\"name\":\"Streets of New Capenna\",\"releaseDate\":\"2022-04-29\",\"setType\":\"expansion\",\"cardCount\":467,\"icon\":\"https://scryfall.mtgc.test/sets/snc.svg\"}");
-        assertEvent(eventDocuments.get(2), Ikoria.id(), "SetAdded", "{\"code\":\"iko\",\"name\":\"Ikoria: Lair of Behemoths\",\"releaseDate\":\"2020-04-24\",\"setType\":\"expansion\",\"cardCount\":390,\"icon\":\"https://scryfall.mtgc.test/sets/iko.svg\"}");
+        assertEvent(eventDocuments.get(2), Kaldheim.id(), "SetAdded", "{\"code\":\"khm\",\"name\":\"Kaldheim\",\"releaseDate\":\"2020-04-24\",\"setType\":\"expansion\",\"cardCount\":390,\"icon\":\"https://scryfall.mtgc.test/sets/khm.svg\"}");
         assertEvent(eventDocuments.get(3), aCard.id(), "CardAdded", "{\"name\":\"a-card-name\",\"setCode\":\"snc\",\"image\":\"a-card-image\"}");
         assertEvent(eventDocuments.get(4), anExtraCard.id(), "CardAdded", "{\"name\":\"an-extra-card-name\",\"setCode\":\"snc\",\"image\":\"an-extra-card-image\"}");
-        assertEvent(eventDocuments.get(5), anotherCard.id(), "CardAdded", "{\"name\":\"another-card-name\",\"setCode\":\"iko\",\"image\":\"another-card-image\"}");
-        assertEvent(eventDocuments.get(6), anotherCard2.id(), "CardAdded", "{\"name\":\"another-card-name2\",\"setCode\":\"iko\",\"image\":\"another-card-image2\"}");
-    }
-
-    @Test
-    void should_return_all_sets_from_repository() throws Exception {
-        // GIVEN
-        mongoTemplate.insertAll(List.of(toSetDocument(Ikoria), toSetDocument(StreetOfNewCapenna)).asJava());
-
-        // WHEN
-        ResultActions resultActions = mvc.perform(get("/sets"));
-
-        // THEN
-        resultActions.andExpectAll(
-                status().isOk(),
-                content().contentType(APPLICATION_JSON),
-                content().json(readFile("/set/allSetsResponse.json"), true)
-        );
+        assertEvent(eventDocuments.get(5), anotherCard.id(), "CardAdded", "{\"name\":\"another-card-name\",\"setCode\":\"khm\",\"image\":\"another-card-image\"}");
+        assertEvent(eventDocuments.get(6), anotherCard2.id(), "CardAdded", "{\"name\":\"another-card-name2\",\"setCode\":\"khm\",\"image\":\"another-card-image2\"}");
     }
 
     @Test

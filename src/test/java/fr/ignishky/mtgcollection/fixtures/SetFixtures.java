@@ -30,23 +30,43 @@ public class SetFixtures {
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/archie.svg"))
             .generate();
 
-    public static final Set Ikoria = new SetGenerator()
-            .withSetCode(new SetCode("iko"))
-            .withSetName(new SetName("Ikoria: Lair of Behemoths"))
+    public static final Set Kaldheim = new SetGenerator()
+            .withSetCode(new SetCode("khm"))
+            .withSetName(new SetName("Kaldheim"))
             .withReleaseDate("2020-04-24")
             .withSetType(expansion)
             .withCardCount(390)
-            .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/iko.svg"))
+            .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
             .generate();
 
-    public static final Set IkoriaToken = new SetGenerator()
-            .withSetCode(new SetCode("tiko"))
-            .withSetName(new SetName("Ikoria: Lair of Behemoths Tokens"))
-            .withParentSetCode(Ikoria.code())
+    public static final Set KaldheimArtSeries = new SetGenerator()
+            .withSetCode(new SetCode("akhm"))
+            .withSetName(new SetName("Kaldheim Art Series"))
+            .withParentSetCode(Kaldheim.code())
+            .withReleaseDate("2020-04-24")
+            .withSetType(memorabilia)
+            .withCardCount(15)
+            .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
+            .generate();
+
+    public static final Set KaldheimToken = new SetGenerator()
+            .withSetCode(new SetCode("tkhm"))
+            .withSetName(new SetName("Kaldheim Tokens"))
+            .withParentSetCode(Kaldheim.code())
             .withReleaseDate("2020-04-24")
             .withSetType(token)
             .withCardCount(15)
-            .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/iko.svg"))
+            .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
+            .generate();
+
+    public static final Set KaldheimPromo = new SetGenerator()
+            .withSetCode(new SetCode("pkhm"))
+            .withSetName(new SetName("Kaldheim Promos"))
+            .withParentSetCode(Kaldheim.code())
+            .withReleaseDate("2020-04-24")
+            .withSetType(promo)
+            .withCardCount(136)
+            .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
             .generate();
 
     public static final Set DuelDecks1 = new SetGenerator()

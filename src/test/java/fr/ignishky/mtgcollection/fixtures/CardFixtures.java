@@ -5,8 +5,7 @@ import fr.ignishky.mtgcollection.domain.card.CardId;
 import fr.ignishky.mtgcollection.domain.card.CardImage;
 import fr.ignishky.mtgcollection.domain.card.CardName;
 
-import static fr.ignishky.mtgcollection.fixtures.SetFixtures.Ikoria;
-import static fr.ignishky.mtgcollection.fixtures.SetFixtures.StreetOfNewCapenna;
+import static fr.ignishky.mtgcollection.fixtures.SetFixtures.*;
 import static java.util.UUID.randomUUID;
 
 public class CardFixtures {
@@ -42,14 +41,14 @@ public class CardFixtures {
             false);
     public static final Card anotherCard = new Card(
             new CardId(randomUUID()),
-            Ikoria.code(),
+            Kaldheim.code(),
             new CardName("another-card-name"),
             new CardImage("another-card-image"),
             false,
             false);
     public static final Card anotherCard2 = new Card(
             new CardId(randomUUID()),
-            Ikoria.code(),
+            Kaldheim.code(),
             new CardName("another-card-name2"),
             new CardImage("another-card-image2"),
             false,

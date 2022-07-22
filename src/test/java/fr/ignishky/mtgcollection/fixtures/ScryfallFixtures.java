@@ -36,7 +36,7 @@ public class ScryfallFixtures {
             .withDigital(true)
             .generate();
 
-    public static final SetScryfall aScryfallSets = new SetScryfall(List.of(getSetData(aFutureSet), getSetData(aFailedSet), getSetData(StreetOfNewCapenna), getSetData(Ikoria), getSetData(aDigitalSet)));
+    public static final SetScryfall aScryfallSets = new SetScryfall(List.of(getSetData(aFutureSet), getSetData(aFailedSet), getSetData(StreetOfNewCapenna), getSetData(Kaldheim), getSetData(aDigitalSet)));
 
     public static final CardScryfall aScryfallCards = new CardScryfall(null, List.of(getCardData(aCard), getCardData(anExtraCard)));
     public static final CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(anotherCard)));

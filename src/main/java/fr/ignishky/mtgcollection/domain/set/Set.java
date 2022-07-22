@@ -19,7 +19,7 @@ public record Set(
         SetType setType,
         int cardCount,
         SetIcon icon
-) implements Aggregate<SetId> {
+) implements Aggregate<SetId>, Comparable<Set> {
 
     public boolean hasBeenReleased() {
         return parse(releasedDate).isBefore(now());
@@ -37,6 +37,11 @@ public record Set(
         SetAdded setAdded = new SetAdded(id, code, name, parentSetCode, blockCode, releasedDate, setType, cardCount, icon);
         Set set = setAdded.apply(null);
         return new AppliedEvent<>(set, setAdded);
+    }
+
+    @Override
+    public int compareTo(Set set) {
+        return this.setType.compareTo(set.setType);
     }
 
 }

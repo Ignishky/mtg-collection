@@ -1,6 +1,5 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.block;
 
-import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
 import io.vavr.collection.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,20 +31,19 @@ public class BlockApiIT {
     @BeforeEach
     void setUp() {
         mongoTemplate.dropCollection(SetDocument.class);
-        mongoTemplate.dropCollection(CardDocument.class);
-    }
-
-    @Test
-    void should_return_all_blocks_from_repository() throws Exception {
-        // GIVEN
         mongoTemplate.insertAll(List.of(
-                toSetDocument(Ikoria),
-                toSetDocument(IkoriaToken),
+                toSetDocument(KaldheimArtSeries),
+                toSetDocument(KaldheimPromo),
+                toSetDocument(KaldheimToken),
+                toSetDocument(Kaldheim),
                 toSetDocument(JudgeGiftCards2022),
                 toSetDocument(StreetOfNewCapenna),
                 toSetDocument(DuelDecks1)
         ).asJava());
+    }
 
+    @Test
+    void should_return_all_blocks_from_repository() throws Exception {
         // WHEN
         ResultActions resultActions = mvc.perform(get("/blocks"));
 
@@ -54,6 +52,19 @@ public class BlockApiIT {
                 status().isOk(),
                 content().contentType(APPLICATION_JSON),
                 content().json(readFile("/block/allBlocksResponse.json"), true)
+        );
+    }
+
+    @Test
+    void should_return_all_sets_from_a_given_block() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc.perform(get("/blocks/khm"));
+
+        // THEN
+        resultActions.andExpectAll(
+                status().isOk(),
+                content().contentType(APPLICATION_JSON),
+                content().json(readFile("/block/khmSetsResponse.json"), true)
         );
     }
 

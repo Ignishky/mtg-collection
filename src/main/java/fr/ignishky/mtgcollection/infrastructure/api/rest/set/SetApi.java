@@ -1,7 +1,6 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,18 +21,11 @@ public interface SetApi {
             responses = @ApiResponse(responseCode = "204", description = "All sets and cards have been downloaded."))
     ResponseEntity<Void> loadAll();
 
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
-    @Operation(
-            summary = "Return all the sets cards available",
-            description = "The response contain all the sets sorting by publishing date.",
-            responses = @ApiResponse(responseCode = "200", description = "The full list of available card sets."))
-    ResponseEntity<SetsResponse> getAll();
-
     @GetMapping(value = "/{setCode}", produces = APPLICATION_JSON_VALUE)
     @Operation(
             summary = "Return all the cards from a given set",
             description = "The response contain a summary of all the cards in the given set.",
-            responses = @ApiResponse(responseCode = "200", description = "The list of cards in te given sets."))
+            responses = @ApiResponse(responseCode = "200", description = "The list of cards in the given set."))
     ResponseEntity<SetResponse> getCards(@PathVariable String setCode);
 
 }
