@@ -9,6 +9,6 @@ import io.vavr.control.Option;
 public record GetCardsQuery(
         Option<SetCode> code,
         boolean owned
-) implements Query<List<Card>> {
+) implements Query<GetCardsResponse> {
 
 }

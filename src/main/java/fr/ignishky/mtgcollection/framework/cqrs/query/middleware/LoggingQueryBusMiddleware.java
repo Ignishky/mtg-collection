@@ -22,7 +22,7 @@ public class LoggingQueryBusMiddleware extends QueryMiddleware {
 
             return result;
         } catch (Exception e) {
-            LOGGER.error("Error on {} for query {}", query.getClass().getSimpleName(), query);
+            LOGGER.error("Error on {} for query {}", query.getClass().getSimpleName(), query, e);
             throw e;
         }
     }

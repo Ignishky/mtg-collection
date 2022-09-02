@@ -38,12 +38,14 @@ class SetController implements SetApi {
     @Override
     public ResponseEntity<SetResponse> getCards(String setCode) {
         LOGGER.info("Received call to `GET /sets/{}`", setCode);
-        var cards = queryBus.dispatch(new GetCardsQuery(Option.of(new SetCode(setCode)), false))
+        var getCardsResponse = queryBus.dispatch(new GetCardsQuery(Option.of(new SetCode(setCode)), false));
+        var cards = getCardsResponse.cards()
                 .map(CardSummary::toCardSummary);
         LOGGER.info("Respond to `GET /sets/{}` with {} cards", setCode, cards.size());
+
         return cards.isEmpty()
                 ? notFound().build()
-                : ok(new SetResponse(cards));
+                : ok(new SetResponse(getCardsResponse.setName().getOrNull(), cards));
     }
 
 }

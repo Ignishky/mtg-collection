@@ -86,7 +86,7 @@ class SetApiIT {
     @Test
     void should_return_not_found_when_set_code_is_unknown() throws Exception {
         // GIVEN
-        mongoTemplate.insertAll(List.of(toCardDocument(anotherCard)).asJava());
+        mongoTemplate.insertAll(List.of(toSetDocument(StreetOfNewCapenna), toCardDocument(anotherCard)).asJava());
 
         // WHEN
         ResultActions resultActions = mvc.perform(get("/sets/%s".formatted(StreetOfNewCapenna.code())));
@@ -98,7 +98,7 @@ class SetApiIT {
     @Test
     void should_return_all_cards_for_a_given_set_from_repository() throws Exception {
         // GIVEN
-        mongoTemplate.insertAll(List.of(toCardDocument(aCard), toCardDocument(anotherCard), toCardDocument(anExtraCard)).asJava());
+        mongoTemplate.insertAll(List.of(toSetDocument(StreetOfNewCapenna), toCardDocument(aCard), toCardDocument(anotherCard), toCardDocument(anExtraCard)).asJava());
 
         // WHEN
         ResultActions resultActions = mvc.perform(get("/sets/%s".formatted(StreetOfNewCapenna.code())));

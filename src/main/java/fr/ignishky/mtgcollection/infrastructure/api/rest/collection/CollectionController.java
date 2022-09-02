@@ -38,6 +38,7 @@ public class CollectionController implements CollectionApi {
     public ResponseEntity<List<CardResponse>> getCollection() {
         LOGGER.info("Received call to `GET /collection`");
         var ownedCards = queryBus.dispatch(new GetCardsQuery(Option.none(), true))
+                .cards()
                 .map(CardResponse::toCardResponse);
         LOGGER.info("Respond to `GET /collection` with {} cards", ownedCards.size());
         return ok(ownedCards);

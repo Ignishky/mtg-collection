@@ -7,6 +7,8 @@ import io.vavr.collection.List;
 import java.util.UUID;
 
 public record SetResponse(
+        @Schema(description = "The name of the set.")
+        String name,
         @Schema(description = "The list of the cards for the given set.")
         List<CardSummary> cards
 ) {
