@@ -20,7 +20,9 @@ public interface QueryMiddlewareBuilder {
 
         @Override
         public <Q extends Query<R>, R> R handle(Q query) {
-            throw new IllegalStateException("No final middleware provided in the chain");
+            throw new IllegalStateException("No final query middleware provided in the chain");
         }
+
     }
+
 }

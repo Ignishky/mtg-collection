@@ -31,7 +31,7 @@ public class CardScryfallReferer implements CardReferer {
         LOGGER.info("Loading cards from {} ...", setCode.value());
         String url = "%s/cards/search?order=set&q=e:%s&unique=prints".formatted(scryfallProperties.baseUrl(), setCode.value());
         List<CardScryfall> cards = List.empty();
-        while(url != null) {
+        while (url != null) {
             CardScryfall cardScryfall;
             try {
                 cardScryfall = restTemplate.getForObject(url.replace("%3A", ":"), CardScryfall.class);

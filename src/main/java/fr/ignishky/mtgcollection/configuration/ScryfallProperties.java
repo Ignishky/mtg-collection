@@ -8,4 +8,5 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 public record ScryfallProperties(
         String baseUrl
 ) {
+
 }

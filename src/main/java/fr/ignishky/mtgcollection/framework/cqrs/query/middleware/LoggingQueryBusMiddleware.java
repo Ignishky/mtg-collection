@@ -33,5 +33,7 @@ public class LoggingQueryBusMiddleware extends QueryMiddleware {
         public QueryMiddleware chain(QueryMiddleware next) {
             return new LoggingQueryBusMiddleware(next);
         }
+
     }
+
 }

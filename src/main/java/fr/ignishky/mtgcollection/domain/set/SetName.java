@@ -1,4 +1,7 @@
 package fr.ignishky.mtgcollection.domain.set;
 
-public record SetName(String value) {
+public record SetName(
+        String value
+) {
+
 }

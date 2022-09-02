@@ -10,4 +10,5 @@ public record GetCardsQuery(
         Option<SetCode> code,
         boolean owned
 ) implements Query<List<Card>> {
+
 }

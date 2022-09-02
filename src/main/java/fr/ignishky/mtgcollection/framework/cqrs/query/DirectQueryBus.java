@@ -16,4 +16,5 @@ public class DirectQueryBus implements QueryBus {
     public <R> R dispatch(Query<R> query) {
         return middlewareChain.handle(query);
     }
+
 }

@@ -22,10 +22,10 @@ public class OpenApiConfiguration {
 
     private static void buildMtgCollectionAPI(OpenAPI openApi, BuildProperties buildProperties) {
         openApi.info(new Info()
-                        .title("Mtg-Collection")
-                        .description("An application to manage your collection of MTG cards.")
-                        .license(new License().name("Apache V2.0"))
-                        .version(buildProperties.getVersion()));
+                .title("Mtg-Collection")
+                .description("An application to manage your collection of MTG cards.")
+                .license(new License().name("Apache V2.0"))
+                .version(buildProperties.getVersion()));
     }
 
 }

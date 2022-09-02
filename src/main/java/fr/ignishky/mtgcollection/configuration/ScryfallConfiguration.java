@@ -26,4 +26,5 @@ public class ScryfallConfiguration {
         objectMapper.registerModule(new VavrModule());
         return objectMapper;
     }
+
 }

@@ -17,7 +17,7 @@ import static fr.ignishky.mtgcollection.fixtures.SetFixtures.*;
 
 public class ScryfallFixtures {
 
-    private static final Set aFutureSet = new SetFixtures.SetGenerator()
+    private static final Set aFutureSet = new SetGenerator()
             .withSetCode(new SetCode("wtf"))
             .withSetName(new SetName("NON-EXISTING SET"))
             .withReleaseDate("9999-12-31")
@@ -26,7 +26,7 @@ public class ScryfallFixtures {
             .withSetIcon(new SetIcon("icon3"))
             .generate();
 
-    public static final Set aDigitalSet = new SetFixtures.SetGenerator()
+    private static final Set aDigitalSet = new SetGenerator()
             .withSetCode(new SetCode("mtga"))
             .withSetName(new SetName("DIGITAL SET"))
             .withReleaseDate("2021-12-11")

@@ -10,4 +10,5 @@ public interface CardRepository {
     void save(List<Card> cards);
 
     Option<Card> get(CardId cardId);
+
 }

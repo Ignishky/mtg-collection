@@ -19,4 +19,5 @@ public class MongoConfiguration {
     public void setUpMongoEscapeCharacterConversion() {
         mappingMongoConverter.setTypeMapper(new DefaultMongoTypeMapper(null));
     }
+
 }

@@ -7,6 +7,7 @@ import fr.ignishky.mtgcollection.domain.card.CardName;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.framework.common.Instants;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
+import fr.ignishky.mtgcollection.framework.cqrs.event.Payload;
 
 import java.time.Instant;
 
@@ -36,7 +37,8 @@ public class CardAdded extends Event<CardId, Card, CardAdded.CardAddedPayload> {
             String name,
             String setCode,
             String image
-    ) implements Event.Payload {
+    ) implements Payload {
+
     }
 
 }

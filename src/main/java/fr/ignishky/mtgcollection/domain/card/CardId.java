@@ -6,8 +6,8 @@ public record CardId(
         UUID id
 ) {
 
-    public static CardId fromString(String uuidAsString) {
-        return new CardId(UUID.fromString(uuidAsString));
+    public static CardId fromString(String name) {
+        return new CardId(UUID.fromString(name));
     }
 
     @Override

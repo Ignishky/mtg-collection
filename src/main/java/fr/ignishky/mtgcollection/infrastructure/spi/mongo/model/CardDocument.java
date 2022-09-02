@@ -40,4 +40,5 @@ public record CardDocument(
                 document.isFoiled
         );
     }
+
 }

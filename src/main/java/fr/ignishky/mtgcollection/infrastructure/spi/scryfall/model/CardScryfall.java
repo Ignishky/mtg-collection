@@ -13,6 +13,7 @@ public record CardScryfall(
         String next_page,
         List<ScryfallData> data
 ) {
+
     public record ScryfallData(
             UUID id,
             String name,
@@ -20,6 +21,7 @@ public record CardScryfall(
             Images image_uris,
             List<CardFaces> card_faces
     ) {
+
         public Card toCard() {
             return new Card(
                     new CardId(id),
@@ -35,9 +37,13 @@ public record CardScryfall(
         }
 
         public record Images(String normal) {
+
         }
 
         public record CardFaces(Images image_uris) {
+
         }
+
     }
+
 }

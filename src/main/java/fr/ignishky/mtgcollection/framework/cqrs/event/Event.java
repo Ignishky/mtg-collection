@@ -4,7 +4,7 @@ import fr.ignishky.mtgcollection.framework.domain.Aggregate;
 
 import java.time.Instant;
 
-public abstract class Event<I, A extends Aggregate<I>, P extends Event.Payload> {
+public abstract class Event<I, A extends Aggregate<I>, P extends Payload> {
 
     private final String id;
     private final I aggregateId;
@@ -41,8 +41,5 @@ public abstract class Event<I, A extends Aggregate<I>, P extends Event.Payload> 
     }
 
     public abstract A apply(A aggregate);
-
-    public interface Payload {
-    }
 
 }

@@ -16,7 +16,8 @@ public record EventDocument(
         String name,
         String payload,
         Instant instant
-        ) {
+) {
+
     private static final Gson GSON = new Gson();
 
     public static EventDocument fromEvent(Event<?, ?, ?> event) {
@@ -29,4 +30,5 @@ public record EventDocument(
                 event.instant()
         );
     }
+
 }

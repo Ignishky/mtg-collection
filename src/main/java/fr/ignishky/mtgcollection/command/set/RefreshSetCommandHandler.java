@@ -1,6 +1,5 @@
 package fr.ignishky.mtgcollection.command.set;
 
-import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardReferer;
 import fr.ignishky.mtgcollection.domain.card.CardRepository;
@@ -10,6 +9,7 @@ import fr.ignishky.mtgcollection.domain.set.SetRepository;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandHandler;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
+import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
 import io.vavr.collection.List;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class RefreshSetCommandHandler implements CommandHandler<RefreshSetCommand, Void> {
 
     private static final Logger LOGGER = getLogger(RefreshSetCommandHandler.class);
-    
+
     private final SetReferer setReferer;
     private final CardReferer cardReferer;
     private final SetRepository setRepository;
@@ -37,13 +37,19 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
     @Override
     public CommandResponse<Void> handle(RefreshSetCommand command) {
 
-        List<Set> existingSets = setRepository.getAll();
-
         var setAppliedEvents = setReferer.loadAll()
                 .filter(Set::hasBeenReleased)
                 .filter(Set::hasCard)
                 .filter(Set::isNotDigital)
-                .map(set -> Set.add(set.id(), set.code(), set.name(), set.parentSetCode(), set.blockCode(), set.releasedDate(), set.setType(), set.cardCount(), set.icon()));
+                .map(set -> Set.add(set.id(),
+                        set.code(),
+                        set.name(),
+                        set.parentSetCode(),
+                        set.blockCode(),
+                        set.releasedDate(),
+                        set.setType(),
+                        set.cardCount(),
+                        set.icon()));
 
         var sets = setAppliedEvents.map(AppliedEvent::aggregate);
         LOGGER.info("Saving {} sets ...", sets.size());

@@ -30,4 +30,5 @@ public interface CardMongoRepository extends CardRepository, MongoRepository<Car
     default Option<Card> get(CardId cardId) {
         return Option.ofOptional(findById(cardId.id())).map(CardDocument::toCard);
     }
+
 }

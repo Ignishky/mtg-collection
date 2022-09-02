@@ -60,7 +60,7 @@ public class CollectionController implements CollectionApi {
     }
 
     private static ResponseEntity<CardResponse> failure(String cardId, Throwable cause) {
-        if(cause instanceof NoCardFoundException e) {
+        if (cause instanceof NoCardFoundException) {
             LOGGER.info("Respond to `PUT /collection/{}` with a 404", cardId);
             return notFound().build();
         } else {

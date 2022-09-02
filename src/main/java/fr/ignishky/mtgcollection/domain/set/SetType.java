@@ -1,6 +1,6 @@
 package fr.ignishky.mtgcollection.domain.set;
 
-public enum SetType implements Comparable<SetType>{
+public enum SetType {
     // sorted
     expansion,
     memorabilia,

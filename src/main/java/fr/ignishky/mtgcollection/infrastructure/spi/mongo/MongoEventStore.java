@@ -21,4 +21,5 @@ public class MongoEventStore implements EventStore {
         events.map(EventDocument::fromEvent)
                 .forEach(mongoTemplate::save);
     }
+
 }

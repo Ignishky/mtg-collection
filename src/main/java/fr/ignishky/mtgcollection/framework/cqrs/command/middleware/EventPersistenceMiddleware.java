@@ -15,8 +15,8 @@ public class EventPersistenceMiddleware extends CommandMiddleware {
     }
 
     @Override
-    public <T> Try<CommandResponse<T>> handle(Command<T> message) {
-        var response = next(message);
+    public <T> Try<CommandResponse<T>> handle(Command<T> command) {
+        var response = next(command);
         response.map(CommandResponse::events).onSuccess(eventStore::store);
         return response;
     }
@@ -27,5 +27,7 @@ public class EventPersistenceMiddleware extends CommandMiddleware {
         public CommandMiddleware chain(CommandMiddleware next) {
             return new EventPersistenceMiddleware(next, eventStore);
         }
+
     }
+
 }

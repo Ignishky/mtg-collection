@@ -40,4 +40,5 @@ public class FrameworkConfiguration {
                 new QueryDispatcherMiddleware.Builder(handlers)
         ));
     }
+
 }

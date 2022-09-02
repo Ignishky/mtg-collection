@@ -21,8 +21,10 @@ public interface CommandMiddlewareBuilder {
         }
 
         @Override
-        public <T> Try<CommandResponse<T>> handle(Command<T> message) {
-            throw new IllegalStateException("No final middleware provided in the chain");
+        public <T> Try<CommandResponse<T>> handle(Command<T> command) {
+            throw new IllegalStateException("No final command middleware provided in the chain");
         }
+
     }
+
 }

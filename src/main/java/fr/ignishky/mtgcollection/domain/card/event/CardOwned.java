@@ -4,6 +4,7 @@ import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardId;
 import fr.ignishky.mtgcollection.framework.common.Instants;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
+import fr.ignishky.mtgcollection.framework.cqrs.event.Payload;
 
 import java.time.Instant;
 
@@ -30,6 +31,8 @@ public class CardOwned extends Event<CardId, Card, CardOwned.CardOwnedPayload> {
     record CardOwnedPayload(
             boolean isOwned,
             boolean isFoiled
-    ) implements Event.Payload {
+    ) implements Payload {
+
     }
+
 }

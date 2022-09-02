@@ -16,14 +16,14 @@ public class LoggingCommandBusMiddleware extends CommandMiddleware {
     }
 
     @Override
-    public <T> Try<CommandResponse<T>> handle(Command<T> message) {
-        LOGGER.info("Executing {} with parameter {}", message.getClass().getSimpleName(), message);
-        return next(message)
+    public <T> Try<CommandResponse<T>> handle(Command<T> command) {
+        LOGGER.info("Executing {} with parameter {}", command.getClass().getSimpleName(), command);
+        return next(command)
                 .onSuccess(success -> LOGGER.info("Success on {}. Result : {}, Events : {}",
-                        message.getClass().getSimpleName(),
+                        command.getClass().getSimpleName(),
                         success.value(),
                         success.events()))
-                .onFailure(fail -> LOGGER.error("Error on {}", message.getClass().getSimpleName(), fail));
+                .onFailure(fail -> LOGGER.error("Error on {}", command.getClass().getSimpleName(), fail));
     }
 
     public record Builder() implements CommandMiddlewareBuilder {
@@ -32,6 +32,7 @@ public class LoggingCommandBusMiddleware extends CommandMiddleware {
         public CommandMiddleware chain(CommandMiddleware next) {
             return new LoggingCommandBusMiddleware(next);
         }
+
     }
 
 }

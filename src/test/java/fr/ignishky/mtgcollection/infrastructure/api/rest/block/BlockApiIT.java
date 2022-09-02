@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static fr.ignishky.mtgcollection.TestUtils.readFile;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.*;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.block.BlockApi.BLOCK_ENDPOINT;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument.toSetDocument;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class BlockApiIT {
+class BlockApiIT {
 
     @Autowired
     private MockMvc mvc;
@@ -45,7 +46,7 @@ public class BlockApiIT {
     @Test
     void should_return_all_blocks_from_repository() throws Exception {
         // WHEN
-        ResultActions resultActions = mvc.perform(get("/blocks"));
+        ResultActions resultActions = mvc.perform(get(BLOCK_ENDPOINT));
 
         // THEN
         resultActions.andExpectAll(
@@ -58,7 +59,7 @@ public class BlockApiIT {
     @Test
     void should_return_all_sets_from_a_given_block() throws Exception {
         // WHEN
-        ResultActions resultActions = mvc.perform(get("/blocks/khm"));
+        ResultActions resultActions = mvc.perform(get(BLOCK_ENDPOINT + "/khm"));
 
         // THEN
         resultActions.andExpectAll(

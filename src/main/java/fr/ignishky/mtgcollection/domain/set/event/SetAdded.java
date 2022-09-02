@@ -3,6 +3,7 @@ package fr.ignishky.mtgcollection.domain.set.event;
 import fr.ignishky.mtgcollection.domain.set.*;
 import fr.ignishky.mtgcollection.framework.common.Instants;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
+import fr.ignishky.mtgcollection.framework.cqrs.event.Payload;
 import io.vavr.control.Option;
 
 import java.time.Instant;
@@ -18,8 +19,8 @@ public class SetAdded extends Event<SetId, Set, SetAdded.SetAddedPayload> {
     private final int cardCount;
     private final SetIcon icon;
 
-    public SetAdded(SetId setId, SetCode code, SetName name, Option<SetCode> parentSetCode, Option<SetCode> blockCode, String releaseDate, SetType setType, int cardCount, SetIcon icon) {
-        this(null, setId, code, name, parentSetCode, blockCode, releaseDate, setType, cardCount, icon, Instants.now());
+    public SetAdded(SetId aggregateId, SetCode code, SetName name, Option<SetCode> parentSetCode, Option<SetCode> blockCode, String releaseDate, SetType setType, int cardCount, SetIcon icon) {
+        this(null, aggregateId, code, name, parentSetCode, blockCode, releaseDate, setType, cardCount, icon, Instants.now());
     }
 
     private SetAdded(String id, SetId aggregateId, SetCode code, SetName name, Option<SetCode> parentSetCode, Option<SetCode> blockCode, String releaseDate, SetType setType, int cardCount, SetIcon icon, Instant instant) {
@@ -48,7 +49,8 @@ public class SetAdded extends Event<SetId, Set, SetAdded.SetAddedPayload> {
             String setType,
             int cardCount,
             String icon
-    ) implements Event.Payload {
+    ) implements Payload {
+
     }
 
 }

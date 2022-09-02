@@ -20,18 +20,21 @@ public class CommandDispatcherMiddleware extends CommandMiddleware {
     }
 
     @Override
-    public <T> Try<CommandResponse<T>> handle(Command<T> message) {
-        return handlers.get(message.getClass())
-                .map(handler -> Try.of(() -> (CommandResponse<T>) handler.handle(message)))
-                .getOrElse(Try.failure(new IllegalArgumentException("handler not found for %s".formatted(message.getClass()))));
+    public <T> Try<CommandResponse<T>> handle(Command<T> command) {
+        return handlers.get(command.getClass())
+                .map(handler -> Try.of(() -> (CommandResponse<T>) handler.handle(command)))
+                .getOrElse(Try.failure(new IllegalArgumentException("command handler not found for %s".formatted(command.getClass()))));
     }
 
-    public record Builder(Set<CommandHandler<?, ?>> handlers) implements CommandMiddlewareBuilder {
+    public record Builder(
+            Set<CommandHandler<?, ?>> handlers
+    ) implements CommandMiddlewareBuilder {
 
         @Override
         public CommandDispatcherMiddleware chain(CommandMiddleware next) {
             return new CommandDispatcherMiddleware(next, List.ofAll(handlers));
         }
+
     }
 
 }

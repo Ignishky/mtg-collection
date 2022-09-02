@@ -41,7 +41,7 @@ public record Set(
 
     @Override
     public int compareTo(Set set) {
-        return this.setType.compareTo(set.setType);
+        return setType.compareTo(set.setType);
     }
 
 }

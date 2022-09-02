@@ -90,7 +90,7 @@ public class SetFixtures {
     @With
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class SetGenerator {
+    static class SetGenerator {
 
         private SetId setId = new SetId(randomUUID());
         private SetCode setCode;

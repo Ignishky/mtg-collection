@@ -20,14 +20,18 @@ public class QueryDispatcherMiddleware extends QueryMiddleware {
         return handlers
                 .get(query.getClass())
                 .map(handler -> (R) handler.handle(query))
-                .getOrElseThrow(() -> new IllegalArgumentException("handler not found for %s".formatted(query.getClass())));
+                .getOrElseThrow(() -> new IllegalArgumentException("query handler not found for %s".formatted(query.getClass())));
     }
 
-    public record Builder(java.util.Set<? extends QueryHandler<?, ?>> handlers) implements QueryMiddlewareBuilder {
+    public record Builder(
+            java.util.Set<? extends QueryHandler<?, ?>> handlers
+    ) implements QueryMiddlewareBuilder {
 
         @Override
         public QueryMiddleware chain(QueryMiddleware next) {
             return new QueryDispatcherMiddleware(next, List.ofAll(handlers));
         }
+
     }
+
 }

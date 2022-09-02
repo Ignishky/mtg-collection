@@ -12,9 +12,10 @@ public abstract class CommandMiddleware {
         this.next = next;
     }
 
-    public abstract <T> Try<CommandResponse<T>> handle(Command<T> message);
+    public abstract <T> Try<CommandResponse<T>> handle(Command<T> command);
 
-    protected <T> Try<CommandResponse<T>> next(Command<T> message) {
-        return next.handle(message);
+    protected <T> Try<CommandResponse<T>> next(Command<T> command) {
+        return next.handle(command);
     }
+
 }

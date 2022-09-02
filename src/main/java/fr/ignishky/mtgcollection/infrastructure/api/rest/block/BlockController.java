@@ -3,7 +3,7 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.block;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlocksResponse;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlocksResponse.BlockSummary;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlockSummary;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse.SetSummary;
 import fr.ignishky.mtgcollection.query.block.GetBlocksQuery;

@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("/blocks")
+@RequestMapping(BlockApi.BLOCK_ENDPOINT)
 @Tag(name = "Blocks", description = "All the needed endpoints to manage blocks")
 public interface BlockApi {
+
+    String BLOCK_ENDPOINT = "/blocks";
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @Operation(

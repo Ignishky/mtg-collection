@@ -26,4 +26,5 @@ public class VavrSeqSupportConverter implements ModelConverter {
         }
         return chain.hasNext() ? chain.next().resolve(type, context, chain) : null;
     }
+
 }
