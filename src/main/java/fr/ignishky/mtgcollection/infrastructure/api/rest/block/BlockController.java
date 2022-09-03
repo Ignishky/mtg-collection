@@ -2,10 +2,9 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.block;
 
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.ApiResponseMapper;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlocksResponse;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlockSummary;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse.SetSummary;
 import fr.ignishky.mtgcollection.query.block.GetBlocksQuery;
 import fr.ignishky.mtgcollection.query.set.GetSetsQuery;
 import org.slf4j.Logger;
@@ -30,7 +29,7 @@ public class BlockController implements BlockApi {
     public ResponseEntity<BlocksResponse> getAll() {
         LOGGER.info("Received call to `GET /blocks`");
         var blocks = queryBus.dispatch(new GetBlocksQuery())
-                .map(BlockSummary::toBlockSummary);
+                .map(ApiResponseMapper::toBlockSummary);
         LOGGER.info("Respond to `GET /blocks` with {} blocks", blocks.size());
         return ok(new BlocksResponse(blocks));
     }
@@ -39,7 +38,7 @@ public class BlockController implements BlockApi {
     public ResponseEntity<SetsResponse> getSets(String blockCode) {
         LOGGER.info("Received call to `GET /blocks/{}`", blockCode);
         var blocks = queryBus.dispatch(new GetSetsQuery(new SetCode(blockCode)))
-                .map(SetSummary::toSetSummary);
+                .map(ApiResponseMapper::toSetSummary);
         LOGGER.info("Respond to `GET /blocks/{}` with {} blocks", blockCode, blocks.size());
         return ok(new SetsResponse(blocks));
     }

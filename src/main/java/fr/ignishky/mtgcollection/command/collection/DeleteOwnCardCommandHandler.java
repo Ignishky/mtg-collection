@@ -2,7 +2,6 @@ package fr.ignishky.mtgcollection.command.collection;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardRepository;
-import fr.ignishky.mtgcollection.domain.card.event.CardOwned;
 import fr.ignishky.mtgcollection.domain.card.event.CardRetired;
 import fr.ignishky.mtgcollection.domain.card.exception.NoCardFoundException;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandHandler;

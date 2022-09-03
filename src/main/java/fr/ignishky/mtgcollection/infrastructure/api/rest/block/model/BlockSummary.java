@@ -1,6 +1,5 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.block.model;
 
-import fr.ignishky.mtgcollection.domain.block.Block;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record BlockSummary(
@@ -12,9 +11,5 @@ public record BlockSummary(
                 example = "https://c2.scryfall.com/file/scryfall-symbols/sets/mir.svg?1644814800")
         String icon
 ) {
-
-    public static BlockSummary toBlockSummary(Block block) {
-        return new BlockSummary(block.code().value(), block.name().value(), block.icon().url());
-    }
 
 }

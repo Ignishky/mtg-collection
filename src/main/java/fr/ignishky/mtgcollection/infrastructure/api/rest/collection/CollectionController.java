@@ -7,6 +7,7 @@ import fr.ignishky.mtgcollection.domain.card.CardId;
 import fr.ignishky.mtgcollection.domain.card.exception.NoCardFoundException;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.ApiResponseMapper;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CardResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CollectionRequest;
 import fr.ignishky.mtgcollection.query.card.GetCardsQuery;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
-import static fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CardResponse.toCardResponse;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.ApiResponseMapper.toCardResponse;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.http.ResponseEntity.*;
 
@@ -40,7 +41,7 @@ public class CollectionController implements CollectionApi {
         LOGGER.info("Received call to `GET /collection`");
         var ownedCards = queryBus.dispatch(new GetCardsQuery(Option.none(), true))
                 .cards()
-                .map(CardResponse::toCardResponse);
+                .map(ApiResponseMapper::toCardResponse);
         LOGGER.info("Respond to `GET /collection` with {} cards", ownedCards.size());
         return ok(ownedCards);
     }

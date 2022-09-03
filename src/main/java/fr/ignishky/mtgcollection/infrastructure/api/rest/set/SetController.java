@@ -4,8 +4,8 @@ import fr.ignishky.mtgcollection.command.set.RefreshSetCommand;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.ApiResponseMapper;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse.CardSummary;
 import fr.ignishky.mtgcollection.query.card.GetCardsQuery;
 import io.vavr.control.Option;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ class SetController implements SetApi {
         LOGGER.info("Received call to `GET /sets/{}`", setCode);
         var getCardsResponse = queryBus.dispatch(new GetCardsQuery(Option.of(new SetCode(setCode)), false));
         var cards = getCardsResponse.cards()
-                .map(CardSummary::toCardSummary);
+                .map(ApiResponseMapper::toCardSummary);
         LOGGER.info("Respond to `GET /sets/{}` with {} cards", setCode, cards.size());
 
         return cards.isEmpty()
