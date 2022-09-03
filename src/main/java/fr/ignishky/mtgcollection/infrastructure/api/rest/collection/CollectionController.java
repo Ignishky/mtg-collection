@@ -46,36 +46,36 @@ public class CollectionController implements CollectionApi {
     }
 
     @Override
-    public ResponseEntity<CardResponse> addCard(String cardId, CollectionRequest request) {
+    public ResponseEntity<CardResponse> addCard(UUID cardId, CollectionRequest request) {
         LOGGER.info("Received call to `PUT /collection/{}` with body {}", cardId, request);
-        return commandBus.dispatch(new AddOwnCardCommand(new CardId(UUID.fromString(cardId)), request.isFoiled()))
+        return commandBus.dispatch(new AddOwnCardCommand(new CardId(cardId), request.isFoiled()))
                 .fold(
-                        cause -> failure(cardId, cause),
-                        CollectionController::success
+                        cause -> failure("PUT", cardId, cause),
+                        card -> success("PUT", card)
                 );
     }
 
     @Override
-    public ResponseEntity<CardResponse> deleteCard(String cardId) {
+    public ResponseEntity<CardResponse> deleteCard(UUID cardId) {
         LOGGER.info("Received call to `DELETE /collection/{}`", cardId);
-        return commandBus.dispatch(new DeleteOwnCardCommand(new CardId(UUID.fromString(cardId))))
+        return commandBus.dispatch(new DeleteOwnCardCommand(new CardId(cardId)))
                 .fold(
-                        cause -> failure(cardId, cause),
-                        CollectionController::success
+                        cause -> failure("DELETE", cardId, cause),
+                        card -> success("DELETE", card)
                 );
     }
 
-    private static ResponseEntity<CardResponse> success(Card card) {
-        LOGGER.info("Respond to `PUT /collection/{}` with a success", card.id());
+    private static ResponseEntity<CardResponse> success(String httpVerb, Card card) {
+        LOGGER.info("Respond to `{} /collection/{}` with a success", httpVerb, card.id());
         return ok().body(toCardResponse(card));
     }
 
-    private static ResponseEntity<CardResponse> failure(String cardId, Throwable cause) {
+    private static ResponseEntity<CardResponse> failure(String httpVerb, UUID cardId, Throwable cause) {
         if (cause instanceof NoCardFoundException) {
-            LOGGER.info("Respond to `PUT /collection/{}` with a 404", cardId);
+            LOGGER.info("Respond to `{} /collection/{}` with a 404", httpVerb, cardId);
             return notFound().build();
         } else {
-            LOGGER.error("Respond to `PUT /collection/{}` with a 500", cardId);
+            LOGGER.error("Respond to `{} /collection/{}` with a 500", httpVerb, cardId);
             return internalServerError().build();
         }
     }

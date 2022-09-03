@@ -8,6 +8,8 @@ import io.vavr.collection.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -21,10 +23,10 @@ public interface CollectionApi {
 
     @PutMapping(value = "/{cardId}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Add card to the user collection", tags = "Collection")
-    ResponseEntity<CardResponse> addCard(@PathVariable String cardId, @RequestBody CollectionRequest request);
+    ResponseEntity<CardResponse> addCard(@PathVariable UUID cardId, @RequestBody CollectionRequest request);
 
-    @DeleteMapping(value = "/{cardId}")
+    @DeleteMapping(value = "/{cardId}", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Remove card from the user collection", tags = "Collection")
-    ResponseEntity<CardResponse> deleteCard(@PathVariable String cardId);
+    ResponseEntity<CardResponse> deleteCard(@PathVariable UUID cardId);
 
 }
