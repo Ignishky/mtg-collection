@@ -6,8 +6,10 @@ import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.domain.set.SetIcon;
 import fr.ignishky.mtgcollection.domain.set.SetName;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall;
-import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall.ScryfallData.Images;
+import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfallData;
+import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardImages;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfall;
+import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfallData;
 import io.vavr.collection.List;
 
 import static fr.ignishky.mtgcollection.domain.set.SetType.alchemy;
@@ -42,8 +44,8 @@ public class ScryfallFixtures {
     public static final CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(anotherCard)));
     public static final CardScryfall anotherScryfallCards2 = new CardScryfall(null, List.of(getCardData(anotherCard2)));
 
-    private static SetScryfall.ScryfallData getSetData(Set aSet) {
-        return new SetScryfall.ScryfallData(
+    private static SetScryfallData getSetData(Set aSet) {
+        return new SetScryfallData(
                 aSet.id().id().toString(),
                 aSet.code().value(),
                 aSet.name().value(),
@@ -57,12 +59,12 @@ public class ScryfallFixtures {
         );
     }
 
-    private static CardScryfall.ScryfallData getCardData(Card aCard) {
-        return new CardScryfall.ScryfallData(
+    private static CardScryfallData getCardData(Card aCard) {
+        return new CardScryfallData(
                 aCard.id().id(),
                 aCard.cardName().name(),
                 aCard.setCode().value(),
-                new Images(aCard.cardImage().image()),
+                new CardImages(aCard.cardImage().image()),
                 null
         );
     }

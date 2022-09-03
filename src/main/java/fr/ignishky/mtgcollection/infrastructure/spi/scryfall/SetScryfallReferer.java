@@ -25,7 +25,7 @@ class SetScryfallReferer implements SetReferer {
         return Option.of(restTemplate.getForObject("%s/sets".formatted(scryfallProperties.baseUrl()), SetScryfall.class))
                 .map(SetScryfall::data)
                 .getOrElse(List.empty())
-                .map(SetScryfall.ScryfallData::toSet);
+                .map(ScryfallMapper::toSet);
     }
 
 }

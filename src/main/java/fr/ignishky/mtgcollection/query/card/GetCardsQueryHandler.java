@@ -2,6 +2,7 @@ package fr.ignishky.mtgcollection.query.card;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryHandler;
+import fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
 import io.vavr.collection.List;
@@ -41,7 +42,7 @@ public class GetCardsQueryHandler implements QueryHandler<GetCardsQuery, GetCard
                 .map(setCode -> new Query().addCriteria(where("setCode").is(setCode.value())))
                 .orElse(Option.of(new Query().addCriteria(where("inCollection").is(query.owned()))))
                 .transform(cardQuery -> List.ofAll(mongoTemplate.find(cardQuery.get(), CardDocument.class)))
-                .map(CardDocument::toCard);
+                .map(MongoDocumentMapper::toCard);
     }
 
 }

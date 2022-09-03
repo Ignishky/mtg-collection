@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static fr.ignishky.mtgcollection.TestUtils.assertEvent;
 import static fr.ignishky.mtgcollection.TestUtils.readFile;
 import static fr.ignishky.mtgcollection.fixtures.CardFixtures.*;
-import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument.toCardDocument;
+import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper.toCardDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

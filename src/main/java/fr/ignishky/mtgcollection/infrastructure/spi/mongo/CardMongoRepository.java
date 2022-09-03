@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument.toCardDocument;
+import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper.toCardDocument;
 
 @Repository
 public interface CardMongoRepository extends CardRepository, MongoRepository<CardDocument, UUID> {
@@ -23,12 +23,12 @@ public interface CardMongoRepository extends CardRepository, MongoRepository<Car
 
     @Override
     default void save(List<Card> cards) {
-        saveAll(cards.map(CardDocument::toCardDocument));
+        saveAll(cards.map(MongoDocumentMapper::toCardDocument));
     }
 
     @Override
     default Option<Card> get(CardId cardId) {
-        return Option.ofOptional(findById(cardId.id())).map(CardDocument::toCard);
+        return Option.ofOptional(findById(cardId.id())).map(MongoDocumentMapper::toCard);
     }
 
 }

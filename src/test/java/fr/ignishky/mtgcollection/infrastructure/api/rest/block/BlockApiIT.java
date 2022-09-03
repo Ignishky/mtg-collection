@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import static fr.ignishky.mtgcollection.TestUtils.readFile;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.*;
 import static fr.ignishky.mtgcollection.infrastructure.api.rest.block.BlockApi.BLOCK_ENDPOINT;
-import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument.toSetDocument;
+import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper.toSetDocument;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
