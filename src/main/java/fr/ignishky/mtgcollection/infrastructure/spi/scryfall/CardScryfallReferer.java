@@ -41,7 +41,7 @@ public class CardScryfallReferer implements CardReferer {
             }
             if (cardScryfall != null) {
                 cards = cards.append(cardScryfall);
-                url = cardScryfall.next_page();
+                url = cardScryfall.nextPage();
             } else {
                 url = null;
             }

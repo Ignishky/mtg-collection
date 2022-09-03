@@ -1,5 +1,10 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model;
 
-public record CardFaces(CardImages image_uris) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record CardFaces(
+        @JsonProperty("image_uris")
+        CardImages imageUris
+) {
 
 }

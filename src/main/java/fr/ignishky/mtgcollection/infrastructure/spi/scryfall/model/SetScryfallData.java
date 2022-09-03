@@ -1,16 +1,23 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record SetScryfallData(
         String id,
         String code,
         String name,
         boolean digital,
-        String parent_set_code,
-        String block_code,
-        String released_at,
-        String set_type,
+        @JsonProperty("parent_set_code")
+        String parentSetCode,
+        @JsonProperty("block_code")
+        String blockCode,
+        @JsonProperty("released_at")
+        String releasedAt,
+        @JsonProperty("set_type")
+        String setType,
         int card_count,
-        String icon_svg_uri
+        @JsonProperty("icon_svg_uri")
+        String iconSvgUri
 ) {
 
 }
