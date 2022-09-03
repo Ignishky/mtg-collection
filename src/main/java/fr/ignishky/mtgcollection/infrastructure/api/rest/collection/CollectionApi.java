@@ -23,4 +23,8 @@ public interface CollectionApi {
     @Operation(summary = "Add card to the user collection", tags = "Collection")
     ResponseEntity<CardResponse> addCard(@PathVariable String cardId, @RequestBody CollectionRequest request);
 
+    @DeleteMapping(value = "/{cardId}")
+    @Operation(summary = "Remove card from the user collection", tags = "Collection")
+    ResponseEntity<CardResponse> deleteCard(@PathVariable String cardId);
+
 }

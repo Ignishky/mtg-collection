@@ -13,13 +13,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static fr.ignishky.mtgcollection.TestUtils.*;
+import static fr.ignishky.mtgcollection.TestUtils.assertEvent;
+import static fr.ignishky.mtgcollection.TestUtils.readFile;
 import static fr.ignishky.mtgcollection.fixtures.CardFixtures.*;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument.toCardDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -56,7 +56,7 @@ class CollectionApiIT {
     }
 
     @Test
-    void should_reject_adding_invalid_card_into_collection() throws Exception {
+    void should_reject_adding_unknown_card_into_collection() throws Exception {
         // WHEN
         var response = mvc.perform(put("/collection/%s".formatted(aCard.id()))
                 .contentType(APPLICATION_JSON)
@@ -71,7 +71,7 @@ class CollectionApiIT {
     }
 
     @Test
-    void should_add_existing_card_to_collection() throws Exception {
+    void should_add_card_to_collection() throws Exception {
         // GIVEN
         mongoTemplate.save(toCardDocument(aCard));
 
@@ -91,6 +91,38 @@ class CollectionApiIT {
         var eventDocuments = mongoTemplate.findAll(EventDocument.class);
         assertThat(eventDocuments).hasSize(1);
         assertEvent(eventDocuments.get(0), aCard.id(), "CardOwned", "{\"isOwned\":true,\"isFoiled\":true}");
+    }
+
+    @Test
+    void should_reject_deleting_unknown_card_from_collection() throws Exception {
+        // WHEN
+        var response = mvc.perform(delete("/collection/%s".formatted(aCard.id())));
+
+        // THEN
+        response.andExpectAll(
+                status().isNotFound()
+        );
+        assertThat(mongoTemplate.findAll(CardDocument.class)).isEmpty();
+        assertThat(mongoTemplate.findAll(EventDocument.class)).isEmpty();
+    }
+
+    @Test
+    void should_delete_card_from_collection() throws Exception {
+        // GIVEN
+        mongoTemplate.save(toCardDocument(aOwnedCard));
+
+        // WHEN
+        var response = mvc.perform(delete("/collection/%s".formatted(aCard.id())));
+
+        // THEN
+        response.andExpectAll(
+                status().isOk()
+        );
+        assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toCardDocument(aCard));
+
+        var eventDocuments = mongoTemplate.findAll(EventDocument.class);
+        assertThat(eventDocuments).hasSize(1);
+        assertEvent(eventDocuments.get(0), aCard.id(), "CardRetired", "{}");
     }
 
 }

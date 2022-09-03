@@ -1,6 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 
 import fr.ignishky.mtgcollection.command.collection.AddOwnCardCommand;
+import fr.ignishky.mtgcollection.command.collection.DeleteOwnCardCommand;
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardId;
 import fr.ignishky.mtgcollection.domain.card.exception.NoCardFoundException;
@@ -47,12 +48,21 @@ public class CollectionController implements CollectionApi {
     @Override
     public ResponseEntity<CardResponse> addCard(String cardId, CollectionRequest request) {
         LOGGER.info("Received call to `PUT /collection/{}` with body {}", cardId, request);
-        var dispatch = commandBus.dispatch(new AddOwnCardCommand(new CardId(UUID.fromString(cardId)), request.isFoiled()));
+        return commandBus.dispatch(new AddOwnCardCommand(new CardId(UUID.fromString(cardId)), request.isFoiled()))
+                .fold(
+                        cause -> failure(cardId, cause),
+                        CollectionController::success
+                );
+    }
 
-        return dispatch.fold(
-                cause -> failure(cardId, cause),
-                CollectionController::success
-        );
+    @Override
+    public ResponseEntity<CardResponse> deleteCard(String cardId) {
+        LOGGER.info("Received call to `DELETE /collection/{}`", cardId);
+        return commandBus.dispatch(new DeleteOwnCardCommand(new CardId(UUID.fromString(cardId))))
+                .fold(
+                        cause -> failure(cardId, cause),
+                        CollectionController::success
+                );
     }
 
     private static ResponseEntity<CardResponse> success(Card card) {

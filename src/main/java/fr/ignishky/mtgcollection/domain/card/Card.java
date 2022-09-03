@@ -1,5 +1,6 @@
 package fr.ignishky.mtgcollection.domain.card;
 
+import fr.ignishky.mtgcollection.domain.card.event.CardRetired;
 import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
 import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
 import fr.ignishky.mtgcollection.domain.card.event.CardOwned;
@@ -23,6 +24,12 @@ public record Card(
 
     public AppliedEvent<Card, CardOwned> owned(boolean isFoiled) {
         CardOwned event = new CardOwned(id, true, isFoiled);
+        Card card = event.apply(this);
+        return new AppliedEvent<>(card, event);
+    }
+
+    public AppliedEvent<Card, CardRetired> retired() {
+        CardRetired event = new CardRetired(id);
         Card card = event.apply(this);
         return new AppliedEvent<>(card, event);
     }
