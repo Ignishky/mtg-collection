@@ -10,6 +10,9 @@ import static java.util.UUID.randomUUID;
 
 public class CardFixtures {
 
+    private CardFixtures() {
+    }
+
     public static final Card aCard = new Card(
             CardId.fromString("66b5dddd-af38-494e-9047-f7311ff539da"),
             StreetOfNewCapenna.code(),

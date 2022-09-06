@@ -11,11 +11,14 @@ import static java.util.UUID.randomUUID;
 
 public class SetFixtures {
 
+    private SetFixtures() {
+    }
+
     public static final Set StreetOfNewCapenna = new SetGenerator()
             .withSetCode(new SetCode("snc"))
             .withSetName(new SetName("Streets of New Capenna"))
             .withReleaseDate("2022-04-29")
-            .withSetType(expansion)
+            .withSetType(EXPANSION)
             .withCardCount(467)
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/snc.svg"))
             .generate();
@@ -25,7 +28,7 @@ public class SetFixtures {
             .withSetName(new SetName("Judge Gift Cards 2022\""))
             .withBlockCode(new SetCode("jgp"))
             .withReleaseDate("2022-01-01")
-            .withSetType(promo)
+            .withSetType(PROMO)
             .withCardCount(8)
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/archie.svg"))
             .generate();
@@ -34,7 +37,7 @@ public class SetFixtures {
             .withSetCode(new SetCode("khm"))
             .withSetName(new SetName("Kaldheim"))
             .withReleaseDate("2020-04-24")
-            .withSetType(expansion)
+            .withSetType(EXPANSION)
             .withCardCount(390)
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
             .generate();
@@ -44,7 +47,7 @@ public class SetFixtures {
             .withSetName(new SetName("Kaldheim Art Series"))
             .withParentSetCode(Kaldheim.code())
             .withReleaseDate("2020-04-24")
-            .withSetType(memorabilia)
+            .withSetType(MEMORABILIA)
             .withCardCount(15)
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
             .generate();
@@ -54,7 +57,7 @@ public class SetFixtures {
             .withSetName(new SetName("Kaldheim Tokens"))
             .withParentSetCode(Kaldheim.code())
             .withReleaseDate("2020-04-24")
-            .withSetType(token)
+            .withSetType(TOKEN)
             .withCardCount(15)
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
             .generate();
@@ -64,7 +67,7 @@ public class SetFixtures {
             .withSetName(new SetName("Kaldheim Promos"))
             .withParentSetCode(Kaldheim.code())
             .withReleaseDate("2020-04-24")
-            .withSetType(promo)
+            .withSetType(PROMO)
             .withCardCount(136)
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
             .generate();
@@ -73,7 +76,7 @@ public class SetFixtures {
             .withSetCode(new SetCode("ddu"))
             .withSetName(new SetName("Duel Decks: Elves vs. Inventors"))
             .withReleaseDate("2018-04-06")
-            .withSetType(duel_deck)
+            .withSetType(DUEL_DECK)
             .withCardCount(76)
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/ddu.svg"))
             .generate();
@@ -82,7 +85,7 @@ public class SetFixtures {
             .withSetCode(new SetCode("fail"))
             .withSetName(new SetName("FAILED SET"))
             .withReleaseDate("2021-12-01")
-            .withSetType(expansion)
+            .withSetType(EXPANSION)
             .withCardCount(1)
             .withSetIcon(new SetIcon("icon5"))
             .generate();

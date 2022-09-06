@@ -13,6 +13,9 @@ import static fr.ignishky.mtgcollection.domain.set.SetId.toSetId;
 
 class ScryfallMapper {
 
+    private ScryfallMapper() {
+    }
+
     static Set toSet(SetScryfallData setScryfallData) {
         return new Set(toSetId(setScryfallData.id()),
                 new SetCode(setScryfallData.code()),

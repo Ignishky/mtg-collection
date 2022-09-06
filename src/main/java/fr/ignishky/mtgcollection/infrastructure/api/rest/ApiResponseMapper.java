@@ -10,6 +10,9 @@ import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetSummary;
 
 public class ApiResponseMapper {
 
+    private ApiResponseMapper() {
+    }
+
     public static BlockSummary toBlockSummary(Block block) {
         return new BlockSummary(block.code().value(), block.name().value(), block.icon().url());
     }

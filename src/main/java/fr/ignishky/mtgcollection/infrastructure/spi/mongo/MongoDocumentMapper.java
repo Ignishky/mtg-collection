@@ -16,6 +16,9 @@ public class MongoDocumentMapper {
 
     private static final Gson GSON = new Gson();
 
+    private MongoDocumentMapper() {
+    }
+
     public static SetDocument toSetDocument(Set set) {
         return new SetDocument(set.id().id(),
                 set.code().value(),

@@ -12,18 +12,21 @@ import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfall;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfallData;
 import io.vavr.collection.List;
 
-import static fr.ignishky.mtgcollection.domain.set.SetType.alchemy;
-import static fr.ignishky.mtgcollection.domain.set.SetType.expansion;
+import static fr.ignishky.mtgcollection.domain.set.SetType.ALCHEMY;
+import static fr.ignishky.mtgcollection.domain.set.SetType.EXPANSION;
 import static fr.ignishky.mtgcollection.fixtures.CardFixtures.*;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.*;
 
 public class ScryfallFixtures {
 
+    private ScryfallFixtures() {
+    }
+
     private static final Set aFutureSet = new SetGenerator()
             .withSetCode(new SetCode("wtf"))
             .withSetName(new SetName("NON-EXISTING SET"))
             .withReleaseDate("9999-12-31")
-            .withSetType(expansion)
+            .withSetType(EXPANSION)
             .withCardCount(63)
             .withSetIcon(new SetIcon("icon3"))
             .generate();
@@ -32,13 +35,19 @@ public class ScryfallFixtures {
             .withSetCode(new SetCode("mtga"))
             .withSetName(new SetName("DIGITAL SET"))
             .withReleaseDate("2021-12-11")
-            .withSetType(alchemy)
+            .withSetType(ALCHEMY)
             .withCardCount(13)
             .withSetIcon(new SetIcon("icon4"))
             .withDigital(true)
             .generate();
 
-    public static final SetScryfall aScryfallSets = new SetScryfall(List.of(getSetData(aFutureSet), getSetData(aFailedSet), getSetData(StreetOfNewCapenna), getSetData(Kaldheim), getSetData(aDigitalSet)));
+    public static final SetScryfall aScryfallSets = new SetScryfall(List.of(
+            getSetData(aFutureSet),
+            getSetData(aFailedSet),
+            getSetData(StreetOfNewCapenna),
+            getSetData(Kaldheim),
+            getSetData(aDigitalSet)
+    ));
 
     public static final CardScryfall aScryfallCards = new CardScryfall(null, List.of(getCardData(aCard), getCardData(anExtraCard)));
     public static final CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(anotherCard)));

@@ -10,7 +10,7 @@ import fr.ignishky.mtgcollection.framework.cqrs.query.QueryHandler;
 import io.vavr.collection.List;
 import org.springframework.stereotype.Component;
 
-import static fr.ignishky.mtgcollection.domain.set.SetType.expansion;
+import static fr.ignishky.mtgcollection.domain.set.SetType.EXPANSION;
 import static java.util.Comparator.comparing;
 
 @Component
@@ -25,7 +25,7 @@ public class GetBlocksQueryHandler implements QueryHandler<GetBlocksQuery, List<
     @Override
     public List<Block> handle(GetBlocksQuery query) {
         return setRepository.getAll()
-                .filter(set -> set.setType() == expansion)
+                .filter(set -> set.setType() == EXPANSION)
                 .sorted(comparing(Set::releasedDate).reversed())
                 .map(GetBlocksQueryHandler::toBlock);
     }
