@@ -3,7 +3,9 @@ package fr.ignishky.mtgcollection.command.set;
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardReferer;
 import fr.ignishky.mtgcollection.domain.card.CardRepository;
+import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
 import fr.ignishky.mtgcollection.domain.set.Set;
+import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.domain.set.SetReferer;
 import fr.ignishky.mtgcollection.domain.set.SetRepository;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandHandler;
@@ -56,13 +58,20 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
         setRepository.save(sets);
 
         var cardAppliedEvents = sets.map(Set::code)
-                .flatMap(cardReferer::load)
-                .map(card -> Card.add(card.id(), card.setCode(), card.cardName(), card.cardImage()));
-        LOGGER.info("Saving {} cards", cardAppliedEvents.size());
-        cardRepository.save(cardAppliedEvents.map(AppliedEvent::aggregate));
+                .flatMap(this::loadCardsFromSet);
 
         List<Event<?, ?, ?>> events = List.ofAll(setAppliedEvents.map(AppliedEvent::event));
         return toCommandResponse(events.appendAll(cardAppliedEvents.map(AppliedEvent::event)));
+    }
+
+    private List<AppliedEvent<Card, CardAdded>> loadCardsFromSet(SetCode setCode) {
+        var cards = cardReferer.load(setCode)
+                .map(card -> Card.add(card.id(), card.setCode(), card.cardName(), card.cardImage()));
+
+        LOGGER.info("Saving {} cards", cards.size());
+        cardRepository.save(cards.map(AppliedEvent::aggregate));
+
+        return cards;
     }
 
 }
