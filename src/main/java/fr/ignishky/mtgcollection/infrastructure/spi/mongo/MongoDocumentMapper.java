@@ -1,15 +1,14 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.mongo;
 
 import com.google.gson.Gson;
-import fr.ignishky.mtgcollection.domain.card.Card;
-import fr.ignishky.mtgcollection.domain.card.CardId;
-import fr.ignishky.mtgcollection.domain.card.CardImage;
-import fr.ignishky.mtgcollection.domain.card.CardName;
+import fr.ignishky.mtgcollection.domain.card.*;
 import fr.ignishky.mtgcollection.domain.set.*;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.EventDocument;
+import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.PriceRecord;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
+import io.vavr.collection.List;
 import io.vavr.control.Option;
 
 public class MongoDocumentMapper {
@@ -45,10 +44,12 @@ public class MongoDocumentMapper {
     }
 
     public static CardDocument toCardDocument(Card aCard) {
-        return new CardDocument(aCard.id().id(),
+        return new CardDocument(
+                aCard.id().id(),
                 aCard.setCode().value(),
                 aCard.cardName().name(),
                 aCard.cardImage().image(),
+                aCard.prices().map(price -> new PriceRecord(price.eur(), price.eurFoil())).asJava(),
                 aCard.isOwned(),
                 aCard.isFoiled()
         );
@@ -59,12 +60,13 @@ public class MongoDocumentMapper {
                 new SetCode(document.setCode()),
                 new CardName(document.name()),
                 new CardImage(document.image()),
+                List.ofAll(document.prices()).map(priceRecord -> new Price(null, priceRecord.eur(), priceRecord.eurFoil())),
                 document.inCollection(),
                 document.isFoiled()
         );
     }
 
-    public static EventDocument fromEvent(Event<?, ?, ?> event) {
+    static EventDocument fromEvent(Event<?, ?, ?> event) {
         return new EventDocument(
                 event.id(),
                 event.aggregateClass().getSimpleName(),

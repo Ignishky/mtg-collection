@@ -60,13 +60,13 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
         var cardAppliedEvents = sets.map(Set::code)
                 .flatMap(this::loadCardsFromSet);
 
-        List<Event<?, ?, ?>> events = List.ofAll(setAppliedEvents.map(AppliedEvent::event));
+        List<Event<?, ?, ?>> events = setAppliedEvents.map(AppliedEvent::event);
         return toCommandResponse(events.appendAll(cardAppliedEvents.map(AppliedEvent::event)));
     }
 
     private List<AppliedEvent<Card, CardAdded>> loadCardsFromSet(SetCode setCode) {
         var cards = cardReferer.load(setCode)
-                .map(card -> Card.add(card.id(), card.setCode(), card.cardName(), card.cardImage()));
+                .map(card -> Card.add(card.id(), card.setCode(), card.cardName(), card.cardImage(), card.prices()));
 
         LOGGER.info("Saving {} cards", cards.size());
         cardRepository.save(cards.map(AppliedEvent::aggregate));

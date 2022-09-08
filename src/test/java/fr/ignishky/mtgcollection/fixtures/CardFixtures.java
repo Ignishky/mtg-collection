@@ -1,9 +1,9 @@
 package fr.ignishky.mtgcollection.fixtures;
 
-import fr.ignishky.mtgcollection.domain.card.Card;
-import fr.ignishky.mtgcollection.domain.card.CardId;
-import fr.ignishky.mtgcollection.domain.card.CardImage;
-import fr.ignishky.mtgcollection.domain.card.CardName;
+import fr.ignishky.mtgcollection.domain.card.*;
+import io.vavr.collection.List;
+
+import java.time.LocalDate;
 
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.*;
 import static java.util.UUID.randomUUID;
@@ -18,6 +18,7 @@ public class CardFixtures {
             StreetOfNewCapenna.code(),
             new CardName("a-card-name"),
             new CardImage("a-card-image"),
+            List.of(new Price(LocalDate.of(2022, 8, 25), "1.50", null)),
             false,
             false);
     public static final Card aOwnedCard = new Card(
@@ -25,6 +26,7 @@ public class CardFixtures {
             aCard.setCode(),
             aCard.cardName(),
             aCard.cardImage(),
+            aCard.prices(),
             true,
             true);
 
@@ -33,6 +35,7 @@ public class CardFixtures {
             StreetOfNewCapenna.code(),
             new CardName("an-extra-card-name"),
             new CardImage("an-extra-card-image"),
+            List.of(new Price(LocalDate.of(2021, 10, 12), "1.00", "2.00")),
             false,
             false);
     public static final Card anExtraOwnedCard = new Card(
@@ -40,6 +43,7 @@ public class CardFixtures {
             anExtraCard.setCode(),
             anExtraCard.cardName(),
             anExtraCard.cardImage(),
+            anExtraCard.prices(),
             true,
             false);
     public static final Card anotherCard = new Card(
@@ -47,6 +51,7 @@ public class CardFixtures {
             Kaldheim.code(),
             new CardName("another-card-name"),
             new CardImage("another-card-image"),
+            List.of(new Price(LocalDate.of(2022, 9, 1), "0.00", "0.00")),
             false,
             false);
     public static final Card anotherCard2 = new Card(
@@ -54,6 +59,7 @@ public class CardFixtures {
             Kaldheim.code(),
             new CardName("another-card-name2"),
             new CardImage("another-card-image2"),
+            List.of(new Price(LocalDate.of(2022, 9, 2), "0.00", "0.00")),
             false,
             false);
 

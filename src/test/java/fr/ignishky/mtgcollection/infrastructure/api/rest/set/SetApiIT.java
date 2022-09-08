@@ -77,10 +77,10 @@ class SetApiIT {
         assertEvent(eventDocuments.get(0), aFailedSet.id(), "SetAdded", "{\"code\":\"fail\",\"name\":\"FAILED SET\",\"releaseDate\":\"2021-12-01\",\"setType\":\"EXPANSION\",\"cardCount\":1,\"icon\":\"icon5\"}");
         assertEvent(eventDocuments.get(1), StreetOfNewCapenna.id(), "SetAdded", "{\"code\":\"snc\",\"name\":\"Streets of New Capenna\",\"releaseDate\":\"2022-04-29\",\"setType\":\"EXPANSION\",\"cardCount\":467,\"icon\":\"https://scryfall.mtgc.test/sets/snc.svg\"}");
         assertEvent(eventDocuments.get(2), Kaldheim.id(), "SetAdded", "{\"code\":\"khm\",\"name\":\"Kaldheim\",\"releaseDate\":\"2020-04-24\",\"setType\":\"EXPANSION\",\"cardCount\":390,\"icon\":\"https://scryfall.mtgc.test/sets/khm.svg\"}");
-        assertEvent(eventDocuments.get(3), aCard.id(), "CardAdded", "{\"name\":\"a-card-name\",\"setCode\":\"snc\",\"image\":\"a-card-image\"}");
-        assertEvent(eventDocuments.get(4), anExtraCard.id(), "CardAdded", "{\"name\":\"an-extra-card-name\",\"setCode\":\"snc\",\"image\":\"an-extra-card-image\"}");
-        assertEvent(eventDocuments.get(5), anotherCard.id(), "CardAdded", "{\"name\":\"another-card-name\",\"setCode\":\"khm\",\"image\":\"another-card-image\"}");
-        assertEvent(eventDocuments.get(6), anotherCard2.id(), "CardAdded", "{\"name\":\"another-card-name2\",\"setCode\":\"khm\",\"image\":\"another-card-image2\"}");
+        assertEvent(eventDocuments.get(3), aCard.id(), "CardAdded", "{\"name\":\"a-card-name\",\"setCode\":\"snc\",\"image\":\"a-card-image\",\"eur\":\"1.50\"}");
+        assertEvent(eventDocuments.get(4), anExtraCard.id(), "CardAdded", "{\"name\":\"an-extra-card-name\",\"setCode\":\"snc\",\"image\":\"an-extra-card-image\",\"eur\":\"1.00\",\"eurFoil\":\"2.00\"}");
+        assertEvent(eventDocuments.get(5), anotherCard.id(), "CardAdded", "{\"name\":\"another-card-name\",\"setCode\":\"khm\",\"image\":\"another-card-image\",\"eur\":\"0.00\",\"eurFoil\":\"0.00\"}");
+        assertEvent(eventDocuments.get(6), anotherCard2.id(), "CardAdded", "{\"name\":\"another-card-name2\",\"setCode\":\"khm\",\"image\":\"another-card-image2\",\"eur\":\"0.00\",\"eurFoil\":\"0.00\"}");
     }
 
     @Test

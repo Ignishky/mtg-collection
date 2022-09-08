@@ -20,7 +20,7 @@ public class CardRetired extends Event<CardId, Card, CardRetired.CardRetiredPayl
 
     @Override
     public Card apply(Card aggregate) {
-        return new Card(aggregate.id(), aggregate.setCode(), aggregate.cardName(), aggregate.cardImage(), false, false);
+        return new Card(aggregate.id(), aggregate.setCode(), aggregate.cardName(), aggregate.cardImage(), aggregate.prices(), false, false);
     }
 
     record CardRetiredPayload() implements Payload {

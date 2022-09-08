@@ -6,11 +6,11 @@ import java.time.Instant;
 
 public abstract class Event<I, A extends Aggregate<I>, P extends Payload> {
 
-    private final String id;
-    private final I aggregateId;
+    protected final String id;
+    protected final I aggregateId;
     private final Class<A> aggregateClass;
-    private final P payload;
-    private final Instant instant;
+    protected final P payload;
+    protected final Instant instant;
 
     protected Event(String id, I aggregateId, Class<A> aggregateClass, P payload, Instant instant) {
         this.id = id;

@@ -12,7 +12,8 @@ public record CardScryfallData(
         @JsonProperty("image_uris")
         CardImages imageUris,
         @JsonProperty("card_faces")
-        List<CardFaces> cardFaces
+        List<CardFaces> cardFaces,
+        Prices prices
 ) {
 
 }

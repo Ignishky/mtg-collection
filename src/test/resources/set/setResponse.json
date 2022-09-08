@@ -5,6 +5,10 @@
       "id": "66b5dddd-af38-494e-9047-f7311ff539da",
       "name": "a-card-name",
       "image": "a-card-image",
+      "price": {
+        "eur": "1.50",
+        "eur_foil": "-"
+      },
       "isOwned": false,
       "isFoiled": false
     },
@@ -12,6 +16,10 @@
       "id": "e8bf4f70-9f31-4936-86a8-4d126a86e102",
       "name": "an-extra-card-name",
       "image": "an-extra-card-image",
+      "price": {
+        "eur": "1.00",
+        "eur_foil": "2.00"
+      },
       "isOwned": false,
       "isFoiled": false
     }

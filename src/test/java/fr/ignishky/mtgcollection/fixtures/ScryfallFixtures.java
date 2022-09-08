@@ -5,11 +5,7 @@ import fr.ignishky.mtgcollection.domain.set.Set;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.domain.set.SetIcon;
 import fr.ignishky.mtgcollection.domain.set.SetName;
-import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall;
-import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfallData;
-import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardImages;
-import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfall;
-import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfallData;
+import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.*;
 import io.vavr.collection.List;
 
 import static fr.ignishky.mtgcollection.domain.set.SetType.ALCHEMY;
@@ -74,7 +70,8 @@ public class ScryfallFixtures {
                 aCard.cardName().name(),
                 aCard.setCode().value(),
                 new CardImages(aCard.cardImage().image()),
-                null
+                null,
+                new Prices(aCard.prices().head().eur(), aCard.prices().head().eurFoil())
         );
     }
 

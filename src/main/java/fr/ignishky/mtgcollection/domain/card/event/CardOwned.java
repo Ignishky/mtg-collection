@@ -25,7 +25,7 @@ public class CardOwned extends Event<CardId, Card, CardOwned.CardOwnedPayload> {
 
     @Override
     public Card apply(Card aggregate) {
-        return new Card(aggregate.id(), aggregate.setCode(), aggregate.cardName(), aggregate.cardImage(), isOwned, isFoiled);
+        return new Card(aggregate.id(), aggregate.setCode(), aggregate.cardName(), aggregate.cardImage(), aggregate.prices(), isOwned, isFoiled);
     }
 
     record CardOwnedPayload(
