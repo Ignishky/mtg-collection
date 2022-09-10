@@ -5,6 +5,7 @@ import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardReferer;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall;
+import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfallData;
 import io.vavr.collection.List;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -48,12 +49,9 @@ public class CardScryfallReferer implements CardReferer {
         }
         return cards
                 .flatMap(CardScryfall::data)
-                .map(ScryfallMapper::toCard)
-                .filter(CardScryfallReferer::hasImage);
-    }
-
-    private static boolean hasImage(Card card) {
-        return card.cardImage().image() != null;
+                .filter(CardScryfallData::isNotDigital)
+                .filter(CardScryfallData::hasImage)
+                .map(ScryfallMapper::toCard);
     }
 
 }

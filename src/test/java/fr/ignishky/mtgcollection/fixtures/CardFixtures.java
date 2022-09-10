@@ -62,5 +62,13 @@ public class CardFixtures {
             List.of(new Price(LocalDate.of(2022, 9, 2), "0.00", "0.00")),
             false,
             false);
+    public static final Card anotherCard3 = new Card(
+            new CardId(randomUUID()),
+            Kaldheim.code(),
+            new CardName("another-card-name3"),
+            new CardImage("another-card-image3"),
+            List.of(new Price(LocalDate.of(2022, 9, 3), null, null)),
+            false,
+            false);
 
 }

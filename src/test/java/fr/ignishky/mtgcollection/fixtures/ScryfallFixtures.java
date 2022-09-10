@@ -45,9 +45,9 @@ public class ScryfallFixtures {
             getSetData(aDigitalSet)
     ));
 
-    public static final CardScryfall aScryfallCards = new CardScryfall(null, List.of(getCardData(aCard), getCardData(anExtraCard)));
-    public static final CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(anotherCard)));
-    public static final CardScryfall anotherScryfallCards2 = new CardScryfall(null, List.of(getCardData(anotherCard2)));
+    public static final CardScryfall aScryfallCards = new CardScryfall(null, List.of(getCardData(aCard, false), getCardData(anExtraCard, false)));
+    public static final CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(anotherCard, false), getCardData(anotherCard3, true)));
+    public static final CardScryfall anotherScryfallCards2 = new CardScryfall(null, List.of(getCardData(anotherCard2, false)));
 
     private static SetScryfallData getSetData(Set aSet) {
         return new SetScryfallData(
@@ -64,11 +64,12 @@ public class ScryfallFixtures {
         );
     }
 
-    private static CardScryfallData getCardData(Card aCard) {
+    private static CardScryfallData getCardData(Card aCard, boolean isDigital) {
         return new CardScryfallData(
                 aCard.id().id(),
                 aCard.cardName().name(),
                 aCard.setCode().value(),
+                isDigital,
                 new CardImages(aCard.cardImage().image()),
                 null,
                 new Prices(aCard.prices().head().eur(), aCard.prices().head().eurFoil())
