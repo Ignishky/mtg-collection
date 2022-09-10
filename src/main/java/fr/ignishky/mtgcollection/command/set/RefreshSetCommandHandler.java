@@ -66,7 +66,7 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
 
     private List<AppliedEvent<Card, CardAdded>> loadCardsFromSet(SetCode setCode) {
         var cards = cardReferer.load(setCode)
-                .map(card -> Card.add(card.id(), card.setCode(), card.cardName(), card.cardImage(), card.prices()));
+                .map(card -> Card.add(card.id(), card.setCode(), card.cardName(), card.cardImage(), card.prices().head()));
 
         LOGGER.info("Saving {} cards", cards.size());
         cardRepository.save(cards.map(AppliedEvent::aggregate));

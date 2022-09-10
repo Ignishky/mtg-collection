@@ -17,18 +17,18 @@ public class CardAdded extends Event<CardId, Card, CardAdded.CardAddedPayload> {
     private final SetCode setCode;
     private final CardName cardName;
     private final CardImage cardImage;
-    private final List<Price> prices;
+    private final Price price;
 
-    public CardAdded(CardId aggregateId, SetCode setCode, CardName cardName, CardImage cardImage, List<Price> prices) {
-        this(null, aggregateId, setCode, cardName, cardImage, prices, Instants.now());
+    public CardAdded(CardId aggregateId, SetCode setCode, CardName cardName, CardImage cardImage, Price price) {
+        this(null, aggregateId, setCode, cardName, cardImage, price, Instants.now());
     }
 
-    private CardAdded(String id, CardId aggregateId, SetCode setCode, CardName cardName, CardImage cardImage, List<Price> prices, Instant instant) {
-        super(id, aggregateId, Card.class, new CardAddedPayload(cardName.name(), setCode.value(), cardImage.image(), prices.head().eur(), prices.head().eurFoil()), instant);
+    private CardAdded(String id, CardId aggregateId, SetCode setCode, CardName cardName, CardImage cardImage, Price price, Instant instant) {
+        super(id, aggregateId, Card.class, new CardAddedPayload(cardName.name(), setCode.value(), cardImage.image(), price.eur(), price.eurFoil()), instant);
         this.cardName = cardName;
         this.setCode = setCode;
         this.cardImage = cardImage;
-        this.prices = prices;
+        this.price = price;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class CardAdded extends Event<CardId, Card, CardAdded.CardAddedPayload> {
                 setCode,
                 cardName,
                 cardImage,
-                priceList.append(new Price(ofInstant(instant, systemDefault()), prices.head().eur(), prices.head().eurFoil())),
+                priceList.append(new Price(ofInstant(instant, systemDefault()), price.eur(), price.eurFoil())),
                 false,
                 false);
     }

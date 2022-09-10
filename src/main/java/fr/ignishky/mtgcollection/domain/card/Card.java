@@ -18,8 +18,8 @@ public record Card(
         boolean isFoiled
 ) implements Aggregate<CardId> {
 
-    public static AppliedEvent<Card, CardAdded> add(CardId cardId, SetCode setCode, CardName cardName, CardImage cardImage, List<Price> prices) {
-        CardAdded event = new CardAdded(cardId, setCode, cardName, cardImage, prices);
+    public static AppliedEvent<Card, CardAdded> add(CardId cardId, SetCode setCode, CardName cardName, CardImage cardImage, Price price) {
+        CardAdded event = new CardAdded(cardId, setCode, cardName, cardImage, price);
         Card card = event.apply(null);
         return new AppliedEvent<>(card, event);
     }
