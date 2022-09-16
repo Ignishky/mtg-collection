@@ -1,9 +1,9 @@
 package fr.ignishky.mtgcollection.command.set;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
+import fr.ignishky.mtgcollection.domain.card.CardId;
 import fr.ignishky.mtgcollection.domain.card.CardReferer;
 import fr.ignishky.mtgcollection.domain.card.CardRepository;
-import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
 import fr.ignishky.mtgcollection.domain.set.Set;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.domain.set.SetReferer;
@@ -13,6 +13,7 @@ import fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
 import io.vavr.collection.List;
+import io.vavr.control.Option;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -57,16 +58,23 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
         LOGGER.info("Saving {} sets ...", sets.size());
         setRepository.save(sets);
 
-        var cardAppliedEvents = sets.map(Set::code)
+        var cardAppliedEvents = sets
+                .map(Set::code)
                 .flatMap(this::loadCardsFromSet);
 
         List<Event<?, ?, ?>> events = setAppliedEvents.map(AppliedEvent::event);
         return toCommandResponse(events.appendAll(cardAppliedEvents.map(AppliedEvent::event)));
     }
 
-    private List<AppliedEvent<Card, CardAdded>> loadCardsFromSet(SetCode setCode) {
-        var cards = cardReferer.load(setCode)
-                .map(card -> Card.add(card.id(), card.setCode(), card.cardName(), card.cardImage(), card.prices().head()));
+    private List<AppliedEvent<Card, ? extends Event<CardId, Card, ?>>> loadCardsFromSet(SetCode setCode) {
+        List<AppliedEvent<Card, ? extends Event<CardId, Card, ?>>> cards = cardReferer.load(setCode)
+                .map(card -> {
+                            Option<Card> existingCard = cardRepository.get(card.id());
+                            return existingCard.isEmpty()
+                                    ? Card.add(card.id(), card.setCode(), card.cardName(), card.cardImage(), card.prices().head())
+                                    : card.update(card.id(), card.prices().head(), existingCard.get().isOwned(), existingCard.get().isFoiled());
+                        }
+                );
 
         LOGGER.info("Saving {} cards", cards.size());
         cardRepository.save(cards.map(AppliedEvent::aggregate));

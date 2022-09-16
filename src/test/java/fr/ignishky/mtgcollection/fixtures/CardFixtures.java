@@ -21,12 +21,20 @@ public class CardFixtures {
             List.of(new Price(LocalDate.of(2022, 8, 25), "1.50", null)),
             false,
             false);
-    public static final Card aOwnedCard = new Card(
+    public static final Card anOwnedCard = new Card(
             aCard.id(),
             aCard.setCode(),
             aCard.cardName(),
             aCard.cardImage(),
             aCard.prices(),
+            true,
+            true);
+    public static final Card anUpdatedOwnedCard = new Card(
+            aCard.id(),
+            aCard.setCode(),
+            aCard.cardName(),
+            aCard.cardImage(),
+            aCard.prices().append(aCard.prices().head()),
             true,
             true);
 
@@ -62,7 +70,7 @@ public class CardFixtures {
             List.of(new Price(LocalDate.of(2022, 9, 2), "0.00", "0.00")),
             false,
             false);
-    public static final Card anotherCard3 = new Card(
+    static final Card anotherCard3 = new Card(
             new CardId(randomUUID()),
             Kaldheim.code(),
             new CardName("another-card-name3"),

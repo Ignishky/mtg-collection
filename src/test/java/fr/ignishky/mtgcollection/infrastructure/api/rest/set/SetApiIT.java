@@ -1,5 +1,8 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
+import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
+import fr.ignishky.mtgcollection.domain.card.event.CardUpdated;
+import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.EventDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
@@ -54,6 +57,7 @@ class SetApiIT {
     @Test
     void should_load_sets_from_scryfall_and_save_them_into_mongo() throws Exception {
         // GIVEN
+        mongoTemplate.insert(toCardDocument(anOwnedCard));
         when(restTemplate.getForObject("http://scryfall.mtg.test/sets", SetScryfall.class)).thenReturn(aScryfallSets);
         when(restTemplate.getForObject("http://scryfall.mtg.test/cards/search?order=set&q=e:%s&unique=prints".formatted(StreetOfNewCapenna.code()), CardScryfall.class))
                 .thenReturn(aScryfallCards);
@@ -70,17 +74,17 @@ class SetApiIT {
         resultActions.andExpect(status().isNoContent());
         assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toSetDocument(StreetOfNewCapenna), toSetDocument(Kaldheim), toSetDocument(aFailedSet));
         assertThat(mongoTemplate.findAll(CardDocument.class))
-                .containsOnly(toCardDocument(aCard), toCardDocument(anotherCard), toCardDocument(anExtraCard), toCardDocument(anotherCard2));
+                .containsOnly(toCardDocument(anUpdatedOwnedCard), toCardDocument(anotherCard), toCardDocument(anExtraCard), toCardDocument(anotherCard2));
 
         var eventDocuments = mongoTemplate.findAll(EventDocument.class);
         assertThat(eventDocuments).hasSize(7);
-        assertEvent(eventDocuments.get(0), aFailedSet.id(), "SetAdded", "{\"code\":\"fail\",\"name\":\"FAILED SET\",\"releaseDate\":\"2021-12-01\",\"setType\":\"EXPANSION\",\"cardCount\":1,\"icon\":\"icon5\"}");
-        assertEvent(eventDocuments.get(1), StreetOfNewCapenna.id(), "SetAdded", "{\"code\":\"snc\",\"name\":\"Streets of New Capenna\",\"releaseDate\":\"2022-04-29\",\"setType\":\"EXPANSION\",\"cardCount\":467,\"icon\":\"https://scryfall.mtgc.test/sets/snc.svg\"}");
-        assertEvent(eventDocuments.get(2), Kaldheim.id(), "SetAdded", "{\"code\":\"khm\",\"name\":\"Kaldheim\",\"releaseDate\":\"2020-04-24\",\"setType\":\"EXPANSION\",\"cardCount\":390,\"icon\":\"https://scryfall.mtgc.test/sets/khm.svg\"}");
-        assertEvent(eventDocuments.get(3), aCard.id(), "CardAdded", "{\"name\":\"a-card-name\",\"setCode\":\"snc\",\"image\":\"a-card-image\",\"eur\":\"1.50\"}");
-        assertEvent(eventDocuments.get(4), anExtraCard.id(), "CardAdded", "{\"name\":\"an-extra-card-name\",\"setCode\":\"snc\",\"image\":\"an-extra-card-image\",\"eur\":\"1.00\",\"eurFoil\":\"2.00\"}");
-        assertEvent(eventDocuments.get(5), anotherCard.id(), "CardAdded", "{\"name\":\"another-card-name\",\"setCode\":\"khm\",\"image\":\"another-card-image\",\"eur\":\"0.00\",\"eurFoil\":\"0.00\"}");
-        assertEvent(eventDocuments.get(6), anotherCard2.id(), "CardAdded", "{\"name\":\"another-card-name2\",\"setCode\":\"khm\",\"image\":\"another-card-image2\",\"eur\":\"0.00\",\"eurFoil\":\"0.00\"}");
+        assertEvent(eventDocuments.get(0), aFailedSet.id(), SetAdded.class.getSimpleName(), "{\"code\":\"fail\",\"name\":\"FAILED SET\",\"releaseDate\":\"2021-12-01\",\"setType\":\"EXPANSION\",\"cardCount\":1,\"icon\":\"icon5\"}");
+        assertEvent(eventDocuments.get(1), StreetOfNewCapenna.id(), SetAdded.class.getSimpleName(), "{\"code\":\"snc\",\"name\":\"Streets of New Capenna\",\"releaseDate\":\"2022-04-29\",\"setType\":\"EXPANSION\",\"cardCount\":467,\"icon\":\"https://scryfall.mtgc.test/sets/snc.svg\"}");
+        assertEvent(eventDocuments.get(2), Kaldheim.id(), SetAdded.class.getSimpleName(), "{\"code\":\"khm\",\"name\":\"Kaldheim\",\"releaseDate\":\"2020-04-24\",\"setType\":\"EXPANSION\",\"cardCount\":390,\"icon\":\"https://scryfall.mtgc.test/sets/khm.svg\"}");
+        assertEvent(eventDocuments.get(3), aCard.id(), CardUpdated.class.getSimpleName(), "{\"eur\":\"1.50\",\"isOwned\":true,\"isFoiled\":true}");
+        assertEvent(eventDocuments.get(4), anExtraCard.id(), CardAdded.class.getSimpleName(), "{\"name\":\"an-extra-card-name\",\"setCode\":\"snc\",\"image\":\"an-extra-card-image\",\"eur\":\"1.00\",\"eurFoil\":\"2.00\"}");
+        assertEvent(eventDocuments.get(5), anotherCard.id(), CardAdded.class.getSimpleName(), "{\"name\":\"another-card-name\",\"setCode\":\"khm\",\"image\":\"another-card-image\",\"eur\":\"0.00\",\"eurFoil\":\"0.00\"}");
+        assertEvent(eventDocuments.get(6), anotherCard2.id(), CardAdded.class.getSimpleName(), "{\"name\":\"another-card-name2\",\"setCode\":\"khm\",\"image\":\"another-card-image2\",\"eur\":\"0.00\",\"eurFoil\":\"0.00\"}");
     }
 
     @Test
