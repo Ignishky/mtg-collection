@@ -1,5 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 
+import fr.ignishky.mtgcollection.domain.card.event.CardOwned;
+import fr.ignishky.mtgcollection.domain.card.event.CardRetired;
 import fr.ignishky.mtgcollection.fixtures.InstantFreezeExtension;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.EventDocument;
@@ -91,7 +93,7 @@ class CollectionApiIT {
 
         var eventDocuments = mongoTemplate.findAll(EventDocument.class);
         assertThat(eventDocuments).hasSize(1);
-        assertEvent(eventDocuments.get(0), aCard.id(), "CardOwned", "{\"isOwned\":true,\"isFoiled\":true}");
+        assertEvent(eventDocuments.get(0), aCard.id(), CardOwned.class, "{\"isOwned\":true,\"isFoiled\":true}");
     }
 
     @Test
@@ -123,7 +125,7 @@ class CollectionApiIT {
 
         var eventDocuments = mongoTemplate.findAll(EventDocument.class);
         assertThat(eventDocuments).hasSize(1);
-        assertEvent(eventDocuments.get(0), aCard.id(), "CardRetired", "{}");
+        assertEvent(eventDocuments.get(0), aCard.id(), CardRetired.class, "{}");
     }
 
 }

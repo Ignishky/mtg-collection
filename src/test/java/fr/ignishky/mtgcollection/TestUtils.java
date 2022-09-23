@@ -25,17 +25,17 @@ public class TestUtils {
         }
     }
 
-    public static void assertEvent(EventDocument event, SetId aggregateId, String name, String payload) {
+    public static void assertEvent(EventDocument event, SetId aggregateId, Class<?> clazz, String payload) {
         assertThat(event.aggregateName()).isEqualTo("Set");
         assertThat(event.aggregateId()).isEqualTo(aggregateId.toString());
-        assertThat(event.name()).isEqualTo(name);
+        assertThat(event.name()).isEqualTo(clazz.getSimpleName());
         assertThat(event.payload()).isEqualTo(payload);
     }
 
-    public static void assertEvent(EventDocument event, CardId aggregateId, String name, String payload) {
+    public static void assertEvent(EventDocument event, CardId aggregateId, Class<?> clazz, String payload) {
         assertThat(event.aggregateName()).isEqualTo("Card");
         assertThat(event.aggregateId()).isEqualTo(aggregateId.toString());
-        assertThat(event.name()).isEqualTo(name);
+        assertThat(event.name()).isEqualTo(clazz.getSimpleName());
         assertThat(event.payload()).isEqualTo(payload);
     }
 

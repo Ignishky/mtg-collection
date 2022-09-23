@@ -18,7 +18,7 @@ public class ScryfallFixtures {
     private ScryfallFixtures() {
     }
 
-    private static final Set aFutureSet = new SetGenerator()
+    public static final Set aFutureSet = new SetGenerator()
             .withSetCode(new SetCode("wtf"))
             .withSetName(new SetName("NON-EXISTING SET"))
             .withReleaseDate("9999-12-31")
@@ -27,7 +27,7 @@ public class ScryfallFixtures {
             .withSetIcon(new SetIcon("icon3"))
             .generate();
 
-    private static final Set aDigitalSet = new SetGenerator()
+    public static final Set aDigitalSet = new SetGenerator()
             .withSetCode(new SetCode("mtga"))
             .withSetName(new SetName("DIGITAL SET"))
             .withReleaseDate("2021-12-11")
@@ -37,25 +37,30 @@ public class ScryfallFixtures {
             .withDigital(true)
             .generate();
 
+    public static final Set aFailedSet = new SetGenerator()
+            .withSetCode(new SetCode("fail"))
+            .withSetName(new SetName("FAILED SET"))
+            .withReleaseDate("2021-12-01")
+            .withSetType(EXPANSION)
+            .withCardCount(1)
+            .withSetIcon(new SetIcon("icon5"))
+            .generate();
+
     public static final SetScryfall onlySNC = new SetScryfall(List.of(
             getSetData(SNC)
     ));
 
     public static final SetScryfall aScryfallSets = new SetScryfall(List.of(
-            getSetData(aFutureSet),
-            getSetData(aFailedSet),
             getSetData(SNC),
-            getSetData(Kaldheim),
-            getSetData(aDigitalSet)
+            getSetData(Kaldheim)
     ));
 
     public static final CardScryfall aScryfallCardWithoutPrices = new CardScryfall(null, List.of(getCardWithoutPrices()));
-
     public static final CardScryfall aScryfallCards = new CardScryfall(null, List.of(getCardData(aCard, false), getCardData(anExtraCard, false)));
     public static final CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(anotherCard, false), getCardData(anotherCard3, true)));
     public static final CardScryfall anotherScryfallCards2 = new CardScryfall(null, List.of(getCardData(anotherCard2, false)));
 
-    private static SetScryfallData getSetData(Set aSet) {
+    public static SetScryfallData getSetData(Set aSet) {
         return new SetScryfallData(
                 aSet.id().id().toString(),
                 aSet.code().value(),

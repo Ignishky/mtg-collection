@@ -81,15 +81,6 @@ public class SetFixtures {
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/ddu.svg"))
             .generate();
 
-    public static final Set aFailedSet = new SetGenerator()
-            .withSetCode(new SetCode("fail"))
-            .withSetName(new SetName("FAILED SET"))
-            .withReleaseDate("2021-12-01")
-            .withSetType(EXPANSION)
-            .withCardCount(1)
-            .withSetIcon(new SetIcon("icon5"))
-            .generate();
-
     @With
     @NoArgsConstructor
     @AllArgsConstructor
