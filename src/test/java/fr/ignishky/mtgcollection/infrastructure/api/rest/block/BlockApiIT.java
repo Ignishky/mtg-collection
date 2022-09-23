@@ -38,7 +38,7 @@ class BlockApiIT {
                 toSetDocument(KaldheimToken),
                 toSetDocument(Kaldheim),
                 toSetDocument(JudgeGiftCards2022),
-                toSetDocument(StreetOfNewCapenna),
+                toSetDocument(SNC),
                 toSetDocument(DuelDecks1)
         ).asJava());
     }

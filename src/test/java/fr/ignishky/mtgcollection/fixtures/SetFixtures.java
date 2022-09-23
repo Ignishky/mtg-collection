@@ -14,7 +14,7 @@ public class SetFixtures {
     private SetFixtures() {
     }
 
-    public static final Set StreetOfNewCapenna = new SetGenerator()
+    public static final Set SNC = new SetGenerator()
             .withSetCode(new SetCode("snc"))
             .withSetName(new SetName("Streets of New Capenna"))
             .withReleaseDate("2022-04-29")

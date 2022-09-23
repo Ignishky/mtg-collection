@@ -9,6 +9,8 @@ import fr.ignishky.mtgcollection.framework.domain.Aggregate;
 import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
 import io.vavr.collection.List;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 public record Card(
         CardId id,
         SetCode setCode,
@@ -41,6 +43,10 @@ public record Card(
         var event = new CardRetired(id);
         var card = event.apply(this);
         return new AppliedEvent<>(card, event);
+    }
+
+    public boolean hasPrice() {
+        return prices.nonEmpty() && isNotBlank(prices.head().eur()) || isNotBlank(prices.head().eurFoil());
     }
 
 }

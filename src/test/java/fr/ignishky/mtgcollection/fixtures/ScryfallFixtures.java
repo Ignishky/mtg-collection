@@ -37,13 +37,19 @@ public class ScryfallFixtures {
             .withDigital(true)
             .generate();
 
+    public static final SetScryfall onlySNC = new SetScryfall(List.of(
+            getSetData(SNC)
+    ));
+
     public static final SetScryfall aScryfallSets = new SetScryfall(List.of(
             getSetData(aFutureSet),
             getSetData(aFailedSet),
-            getSetData(StreetOfNewCapenna),
+            getSetData(SNC),
             getSetData(Kaldheim),
             getSetData(aDigitalSet)
     ));
+
+    public static final CardScryfall aScryfallCardWithoutPrices = new CardScryfall(null, List.of(getCardWithoutPrices()));
 
     public static final CardScryfall aScryfallCards = new CardScryfall(null, List.of(getCardData(aCard, false), getCardData(anExtraCard, false)));
     public static final CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(anotherCard, false), getCardData(anotherCard3, true)));
@@ -61,6 +67,18 @@ public class ScryfallFixtures {
                 aSet.setType().name(),
                 aSet.cardCount(),
                 aSet.icon().url()
+        );
+    }
+
+    private static CardScryfallData getCardWithoutPrices() {
+        return new CardScryfallData(
+                aCard.id().id(),
+                aCard.cardName().name(),
+                aCard.setCode().value(),
+                false,
+                new CardImages(aCard.cardImage().image()),
+                null,
+                new Prices("", "")
         );
     }
 

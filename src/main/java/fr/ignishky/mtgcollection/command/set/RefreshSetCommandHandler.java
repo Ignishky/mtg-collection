@@ -53,16 +53,19 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
                         set.setType(),
                         set.cardCount(),
                         set.icon()));
+        var existingSets = setRepository.getAll();
+        var newSets = setAppliedEvents.filter(appliedEvents -> !existingSets.contains(appliedEvents.aggregate()));
 
-        var sets = setAppliedEvents.map(AppliedEvent::aggregate);
-        LOGGER.info("Saving {} sets ...", sets.size());
+        var sets = newSets.map(AppliedEvent::aggregate);
+        LOGGER.info("Saving {} new sets ...", sets.size());
         setRepository.save(sets);
 
-        var cardAppliedEvents = sets
+        var cardAppliedEvents = setAppliedEvents
+                .map(AppliedEvent::aggregate)
                 .map(Set::code)
                 .flatMap(this::loadCardsFromSet);
 
-        List<Event<?, ?, ?>> events = setAppliedEvents.map(AppliedEvent::event);
+        List<Event<?, ?, ?>> events = newSets.map(AppliedEvent::event);
         return toCommandResponse(events.appendAll(cardAppliedEvents.map(AppliedEvent::event)));
     }
 
@@ -70,9 +73,13 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
         List<AppliedEvent<Card, ? extends Event<CardId, Card, ?>>> cards = cardReferer.load(setCode)
                 .map(card -> {
                             Option<Card> existingCard = cardRepository.get(card.id());
-                            return existingCard.isEmpty()
-                                    ? Card.add(card.id(), card.setCode(), card.cardName(), card.cardImage(), card.prices().head())
-                                    : card.update(card.id(), card.prices().head(), existingCard.get().isOwned(), existingCard.get().isFoiled());
+                            AppliedEvent<Card, ? extends Event<CardId, Card, ?>> event = new AppliedEvent<>(null, null);
+                            if (existingCard.isEmpty()) {
+                                event = Card.add(card.id(), card.setCode(), card.cardName(), card.cardImage(), card.prices().head());
+                            } else if (card.hasPrice()) {
+                                event = card.update(card.id(), card.prices().head(), existingCard.get().isOwned(), existingCard.get().isFoiled());
+                            }
+                            return event;
                         }
                 );
 
