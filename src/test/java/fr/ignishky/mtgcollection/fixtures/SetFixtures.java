@@ -23,7 +23,7 @@ public class SetFixtures {
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/snc.svg"))
             .generate();
 
-    public static final Set JudgeGiftCards2022 = new SetGenerator()
+    public static final Set P22 = new SetGenerator()
             .withSetCode(new SetCode("p22"))
             .withSetName(new SetName("Judge Gift Cards 2022\""))
             .withBlockCode(new SetCode("jgp"))
@@ -33,7 +33,7 @@ public class SetFixtures {
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/archie.svg"))
             .generate();
 
-    public static final Set Kaldheim = new SetGenerator()
+    public static final Set KHM = new SetGenerator()
             .withSetCode(new SetCode("khm"))
             .withSetName(new SetName("Kaldheim"))
             .withReleaseDate("2020-04-24")
@@ -42,37 +42,37 @@ public class SetFixtures {
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
             .generate();
 
-    public static final Set KaldheimArtSeries = new SetGenerator()
+    public static final Set AKHM = new SetGenerator()
             .withSetCode(new SetCode("akhm"))
             .withSetName(new SetName("Kaldheim Art Series"))
-            .withParentSetCode(Kaldheim.code())
+            .withParentSetCode(KHM.code())
             .withReleaseDate("2020-04-24")
             .withSetType(MEMORABILIA)
             .withCardCount(15)
-            .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
+            .withSetIcon(KHM.icon())
             .generate();
 
-    public static final Set KaldheimToken = new SetGenerator()
+    public static final Set TKHM = new SetGenerator()
             .withSetCode(new SetCode("tkhm"))
             .withSetName(new SetName("Kaldheim Tokens"))
-            .withParentSetCode(Kaldheim.code())
+            .withParentSetCode(KHM.code())
             .withReleaseDate("2020-04-24")
             .withSetType(TOKEN)
             .withCardCount(15)
-            .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
+            .withSetIcon(KHM.icon())
             .generate();
 
-    public static final Set KaldheimPromo = new SetGenerator()
+    public static final Set PKHM = new SetGenerator()
             .withSetCode(new SetCode("pkhm"))
             .withSetName(new SetName("Kaldheim Promos"))
-            .withParentSetCode(Kaldheim.code())
+            .withParentSetCode(KHM.code())
             .withReleaseDate("2020-04-24")
             .withSetType(PROMO)
             .withCardCount(136)
-            .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
+            .withSetIcon(KHM.icon())
             .generate();
 
-    public static final Set DuelDecks1 = new SetGenerator()
+    public static final Set DDU = new SetGenerator()
             .withSetCode(new SetCode("ddu"))
             .withSetName(new SetName("Duel Decks: Elves vs. Inventors"))
             .withReleaseDate("2018-04-06")
@@ -97,7 +97,7 @@ public class SetFixtures {
         private int cardCount;
         private SetIcon setIcon;
 
-        public Set generate() {
+        Set generate() {
             return new Set(setId, setCode, setName, isDigital, Option.of(parentSetCode), Option.of(blockCode), releaseDate, setType, cardCount, setIcon);
         }
 

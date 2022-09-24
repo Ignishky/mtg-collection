@@ -13,66 +13,66 @@ public class CardFixtures {
     private CardFixtures() {
     }
 
-    public static final Card aCard = new Card(
+    public static final Card ledgerShredder = new Card(
             CardId.fromString("66b5dddd-af38-494e-9047-f7311ff539da"),
             SNC.code(),
-            new CardName("a-card-name"),
-            new CardImage("a-card-image"),
+            new CardName("Ledger Shredder"),
+            new CardImage("LedgerShredder.png"),
             List.of(new Price(LocalDate.of(2022, 8, 25), "1.50", null)),
             false,
             false);
-    public static final Card anOwnedCard = new Card(
-            aCard.id(),
-            aCard.setCode(),
-            aCard.cardName(),
-            aCard.cardImage(),
-            aCard.prices(),
+    public static final Card ledgerShredderOwnedFoiled = new Card(
+            ledgerShredder.id(),
+            ledgerShredder.setCode(),
+            ledgerShredder.cardName(),
+            ledgerShredder.cardImage(),
+            ledgerShredder.prices(),
             true,
             true);
     public static final Card anUpdatedOwnedCard = new Card(
-            aCard.id(),
-            aCard.setCode(),
-            aCard.cardName(),
-            aCard.cardImage(),
-            aCard.prices().append(aCard.prices().head()),
+            ledgerShredder.id(),
+            ledgerShredder.setCode(),
+            ledgerShredder.cardName(),
+            ledgerShredder.cardImage(),
+            ledgerShredder.prices().append(ledgerShredder.prices().head()),
             true,
             true);
 
-    public static final Card anExtraCard = new Card(
+    public static final Card depopulate = new Card(
             CardId.fromString("e8bf4f70-9f31-4936-86a8-4d126a86e102"),
             SNC.code(),
-            new CardName("an-extra-card-name"),
-            new CardImage("an-extra-card-image"),
+            new CardName("Depopulate"),
+            new CardImage("Depopulate.png"),
             List.of(new Price(LocalDate.of(2021, 10, 12), "1.00", "2.00")),
             false,
             false);
-    public static final Card anExtraOwnedCard = new Card(
-            anExtraCard.id(),
-            anExtraCard.setCode(),
-            anExtraCard.cardName(),
-            anExtraCard.cardImage(),
-            anExtraCard.prices(),
+    public static final Card depopulateOwned = new Card(
+            depopulate.id(),
+            depopulate.setCode(),
+            depopulate.cardName(),
+            depopulate.cardImage(),
+            depopulate.prices(),
             true,
             false);
-    public static final Card anotherCard = new Card(
+    public static final Card vorinclex = new Card(
             new CardId(randomUUID()),
-            Kaldheim.code(),
-            new CardName("another-card-name"),
-            new CardImage("another-card-image"),
+            KHM.code(),
+            new CardName("Vorinclex"),
+            new CardImage("Vorinclex.png"),
             List.of(new Price(LocalDate.of(2022, 9, 1), "0.00", "0.00")),
             false,
             false);
-    public static final Card anotherCard2 = new Card(
+    public static final Card esika = new Card(
             new CardId(randomUUID()),
-            Kaldheim.code(),
-            new CardName("another-card-name2"),
-            new CardImage("another-card-image2"),
+            KHM.code(),
+            new CardName("Esika"),
+            new CardImage("Esika.png"),
             List.of(new Price(LocalDate.of(2022, 9, 2), "0.00", "0.00")),
             false,
             false);
-    static final Card anotherCard3 = new Card(
+    static final Card aDigitalCard = new Card(
             new CardId(randomUUID()),
-            Kaldheim.code(),
+            KHM.code(),
             new CardName("another-card-name3"),
             new CardImage("another-card-image3"),
             List.of(new Price(LocalDate.of(2022, 9, 3), null, null)),

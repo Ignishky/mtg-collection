@@ -28,10 +28,10 @@ import static fr.ignishky.mtgcollection.TestUtils.assertEvent;
 import static fr.ignishky.mtgcollection.TestUtils.readFile;
 import static fr.ignishky.mtgcollection.fixtures.CardFixtures.*;
 import static fr.ignishky.mtgcollection.fixtures.ScryfallFixtures.*;
-import static fr.ignishky.mtgcollection.fixtures.SetFixtures.Kaldheim;
+import static fr.ignishky.mtgcollection.fixtures.SetFixtures.KHM;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.SNC;
-import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper.toCardDocument;
-import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper.toSetDocument;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.SetApi.SETS_PATH;
+import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -72,7 +72,7 @@ class SetApiIT {
                     .thenReturn(new SetScryfall(List.of(getSetData(aFutureSet))));
 
             // WHEN
-            var resultActions = mvc.perform(put("/sets"));
+            var resultActions = mvc.perform(put(SETS_PATH));
 
             // THEN
             resultActions.andExpect(status().isNoContent());
@@ -89,7 +89,7 @@ class SetApiIT {
                     .thenReturn(new SetScryfall(List.of(getSetData(aDigitalSet))));
 
             // WHEN
-            var resultActions = mvc.perform(put("/sets"));
+            var resultActions = mvc.perform(put(SETS_PATH));
 
             // THEN
             resultActions.andExpect(status().isNoContent());
@@ -108,67 +108,66 @@ class SetApiIT {
                     .thenThrow(RestClientException.class);
 
             // WHEN
-            var resultActions = mvc.perform(put("/sets"));
+            var resultActions = mvc.perform(put(SETS_PATH));
 
             // THEN
             resultActions.andExpect(status().isNoContent());
 
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(1);
-            assertEvent(eventDocuments.get(0), aFailedSet.id(), SetAdded.class, "{\"code\":\"fail\",\"name\":\"FAILED SET\",\"releaseDate\":\"2021-12-01\",\"setType\":\"EXPANSION\",\"cardCount\":1,\"icon\":\"icon5\"}");
+            assertEvent(eventDocuments.get(0), aFailedSet.id(), SetAdded.class, readFile("/set/setFailedAdded.json"));
 
-            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toSetDocument(aFailedSet));
+            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(aFailedSet));
             assertThat(mongoTemplate.findAll(CardDocument.class)).isEmpty();
         }
 
         @Test
         void should_ignore_update_when_referer_sent_card_with_no_price() throws Exception {
             // GIVEN
-            saveIntoMongo(aCard);
+            save(ledgerShredder);
             when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class))
-                    .thenReturn(onlySNC);
+                    .thenReturn(new SetScryfall(List.of(getSetData(SNC))));
             when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class))
-                    .thenReturn(aScryfallCardWithoutPrices);
+                    .thenReturn(ledgerShredderWithoutPrice);
 
             // WHEN
-            var resultActions = mvc.perform(put("/sets"));
+            var resultActions = mvc.perform(put(SETS_PATH));
 
             // THEN
             resultActions.andExpect(status().isNoContent());
 
             assertThat(mongoTemplate.findAll(EventDocument.class)).isEmpty();
-
-            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toSetDocument(SNC));
-            assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toCardDocument(aCard));
+            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC));
+            assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toDocument(ledgerShredder));
         }
 
         @Test
         void should_load_sets_from_scryfall_and_save_them_into_mongo() throws Exception {
             // GIVEN
-            saveIntoMongo(anOwnedCard);
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(aScryfallSets);
-            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class))
-                    .thenReturn(aScryfallCards);
-            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(Kaldheim.code()), CardScryfall.class))
-                    .thenReturn(anotherScryfallCards);
-            when(restTemplate.getForObject("https://scryfall.mtg.test/page:2", CardScryfall.class)).thenReturn(anotherScryfallCards2);
+            save(ledgerShredderOwnedFoiled);
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class))
+                    .thenReturn(new SetScryfall(List.of(getSetData(SNC), getSetData(KHM))));
+            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class)).thenReturn(singleSNCPage);
+            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(KHM.code()), CardScryfall.class)).thenReturn(firstKHMPage);
+            when(restTemplate.getForObject("https://scryfall.mtg.test/page:2", CardScryfall.class)).thenReturn(lastKHMPage);
 
             // WHEN
-            ResultActions resultActions = mvc.perform(put("/sets"));
+            ResultActions resultActions = mvc.perform(put(SETS_PATH));
 
             // THEN
             resultActions.andExpect(status().isNoContent());
-            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toSetDocument(SNC), toSetDocument(Kaldheim));
-            assertThat(mongoTemplate.findAll(CardDocument.class))
-                    .containsOnly(toCardDocument(anUpdatedOwnedCard), toCardDocument(anotherCard), toCardDocument(anExtraCard), toCardDocument(anotherCard2));
 
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(5);
-            assertEvent(eventDocuments.get(0), Kaldheim.id(), SetAdded.class, "{\"code\":\"khm\",\"name\":\"Kaldheim\",\"releaseDate\":\"2020-04-24\",\"setType\":\"EXPANSION\",\"cardCount\":390,\"icon\":\"https://scryfall.mtgc.test/sets/khm.svg\"}");
-            assertEvent(eventDocuments.get(1), aCard.id(), CardUpdated.class, "{\"eur\":\"1.50\",\"isOwned\":true,\"isFoiled\":true}");
-            assertEvent(eventDocuments.get(2), anExtraCard.id(), CardAdded.class, "{\"name\":\"an-extra-card-name\",\"setCode\":\"snc\",\"image\":\"an-extra-card-image\",\"eur\":\"1.00\",\"eurFoil\":\"2.00\"}");
-            assertEvent(eventDocuments.get(3), anotherCard.id(), CardAdded.class, "{\"name\":\"another-card-name\",\"setCode\":\"khm\",\"image\":\"another-card-image\",\"eur\":\"0.00\",\"eurFoil\":\"0.00\"}");
-            assertEvent(eventDocuments.get(4), anotherCard2.id(), CardAdded.class, "{\"name\":\"another-card-name2\",\"setCode\":\"khm\",\"image\":\"another-card-image2\",\"eur\":\"0.00\",\"eurFoil\":\"0.00\"}");
+            assertEvent(eventDocuments.get(0), KHM.id(), SetAdded.class, readFile("/set/setKhmAdded.json"));
+            assertEvent(eventDocuments.get(1), ledgerShredder.id(), CardUpdated.class, readFile("/set/cardUpdateEvent.json"));
+            assertEvent(eventDocuments.get(2), depopulate.id(), CardAdded.class, readFile("/set/cardDepopulateAdded.json"));
+            assertEvent(eventDocuments.get(3), vorinclex.id(), CardAdded.class, readFile("/set/cardVorinclexAdded.json"));
+            assertEvent(eventDocuments.get(4), esika.id(), CardAdded.class, readFile("/set/cardEsikaAdded.json"));
+
+            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC), toDocument(KHM));
+            assertThat(mongoTemplate.findAll(CardDocument.class))
+                    .containsOnly(toDocument(anUpdatedOwnedCard), toDocument(vorinclex), toDocument(depopulate), toDocument(esika));
         }
 
     }
@@ -179,10 +178,10 @@ class SetApiIT {
         @Test
         void should_return_not_found_when_set_code_is_unknown() throws Exception {
             // GIVEN
-            saveIntoMongo(anotherCard);
+            save(vorinclex);
 
             // WHEN
-            ResultActions resultActions = mvc.perform(get("/sets/%s".formatted(SNC.code())));
+            ResultActions resultActions = mvc.perform(get(SETS_PATH + "/UNKNOWN"));
 
             // THEN
             resultActions.andExpect(status().isNotFound());
@@ -191,10 +190,10 @@ class SetApiIT {
         @Test
         void should_return_all_cards_for_a_given_set_from_repository() throws Exception {
             // GIVEN
-            saveIntoMongo(aCard, anotherCard, anExtraCard);
+            save(ledgerShredderOwnedFoiled, vorinclex, depopulate);
 
             // WHEN
-            ResultActions resultActions = mvc.perform(get("/sets/%s".formatted(SNC.code())));
+            ResultActions resultActions = mvc.perform(get("%s/%s".formatted(SETS_PATH, SNC.code())));
 
             // THEN
             resultActions.andExpectAll(
@@ -206,9 +205,9 @@ class SetApiIT {
 
     }
 
-    private void saveIntoMongo(Card... cards) {
-        List<Record> documents = List.of(cards).map(MongoDocumentMapper::toCardDocument);
-        mongoTemplate.insertAll(documents.append(toSetDocument(SNC)).asJava());
+    private void save(Card... cards) {
+        List<Record> documents = List.of(cards).map(MongoDocumentMapper::toDocument);
+        mongoTemplate.insertAll(documents.append(toDocument(SNC)).asJava());
     }
 
 }

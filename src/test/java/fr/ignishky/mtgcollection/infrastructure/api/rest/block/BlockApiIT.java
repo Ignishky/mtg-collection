@@ -1,5 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.block;
 
+import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
+import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.EventDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
 import io.vavr.collection.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +15,8 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static fr.ignishky.mtgcollection.TestUtils.readFile;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.*;
-import static fr.ignishky.mtgcollection.infrastructure.api.rest.block.BlockApi.BLOCK_ENDPOINT;
-import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper.toSetDocument;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.block.BlockApi.BLOCK_PATH;
+import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper.toDocument;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -31,22 +33,25 @@ class BlockApiIT {
 
     @BeforeEach
     void setUp() {
+        mongoTemplate.dropCollection(EventDocument.class);
         mongoTemplate.dropCollection(SetDocument.class);
+        mongoTemplate.dropCollection(CardDocument.class);
+
         mongoTemplate.insertAll(List.of(
-                toSetDocument(KaldheimArtSeries),
-                toSetDocument(KaldheimPromo),
-                toSetDocument(KaldheimToken),
-                toSetDocument(Kaldheim),
-                toSetDocument(JudgeGiftCards2022),
-                toSetDocument(SNC),
-                toSetDocument(DuelDecks1)
+                toDocument(AKHM),
+                toDocument(PKHM),
+                toDocument(TKHM),
+                toDocument(KHM),
+                toDocument(P22),
+                toDocument(SNC),
+                toDocument(DDU)
         ).asJava());
     }
 
     @Test
     void should_return_all_blocks_from_repository() throws Exception {
         // WHEN
-        ResultActions resultActions = mvc.perform(get(BLOCK_ENDPOINT));
+        ResultActions resultActions = mvc.perform(get(BLOCK_PATH));
 
         // THEN
         resultActions.andExpectAll(
@@ -59,7 +64,7 @@ class BlockApiIT {
     @Test
     void should_return_all_sets_from_a_given_block() throws Exception {
         // WHEN
-        ResultActions resultActions = mvc.perform(get(BLOCK_ENDPOINT + "/khm"));
+        ResultActions resultActions = mvc.perform(get("%s/%s".formatted(BLOCK_PATH, KHM.code())));
 
         // THEN
         resultActions.andExpectAll(

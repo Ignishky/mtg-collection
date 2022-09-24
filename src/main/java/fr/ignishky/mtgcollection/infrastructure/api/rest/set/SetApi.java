@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("/sets")
+@RequestMapping(SetApi.SETS_PATH)
 @Tag(name = "Card Sets", description = "All the needed endpoints to manipulate card sets")
 public interface SetApi {
+
+    String SETS_PATH = "/sets";
 
     @PutMapping
     @Operation(

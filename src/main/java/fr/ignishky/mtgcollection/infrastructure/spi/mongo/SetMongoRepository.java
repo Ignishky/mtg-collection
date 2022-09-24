@@ -14,7 +14,7 @@ public interface SetMongoRepository extends SetRepository, MongoRepository<SetDo
 
     @Override
     default void save(List<Set> sets) {
-        saveAll(sets.map(MongoDocumentMapper::toSetDocument));
+        saveAll(sets.map(MongoDocumentMapper::toDocument));
     }
 
     @Override

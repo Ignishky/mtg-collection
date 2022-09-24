@@ -46,19 +46,10 @@ public class ScryfallFixtures {
             .withSetIcon(new SetIcon("icon5"))
             .generate();
 
-    public static final SetScryfall onlySNC = new SetScryfall(List.of(
-            getSetData(SNC)
-    ));
-
-    public static final SetScryfall aScryfallSets = new SetScryfall(List.of(
-            getSetData(SNC),
-            getSetData(Kaldheim)
-    ));
-
-    public static final CardScryfall aScryfallCardWithoutPrices = new CardScryfall(null, List.of(getCardWithoutPrices()));
-    public static final CardScryfall aScryfallCards = new CardScryfall(null, List.of(getCardData(aCard, false), getCardData(anExtraCard, false)));
-    public static final CardScryfall anotherScryfallCards = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(anotherCard, false), getCardData(anotherCard3, true)));
-    public static final CardScryfall anotherScryfallCards2 = new CardScryfall(null, List.of(getCardData(anotherCard2, false)));
+    public static final CardScryfall ledgerShredderWithoutPrice = new CardScryfall(null, List.of(ledgerShredderWithoutPrice()));
+    public static final CardScryfall singleSNCPage = new CardScryfall(null, List.of(getCardData(ledgerShredder), getCardData(depopulate)));
+    public static final CardScryfall firstKHMPage = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(vorinclex), getCardData(aDigitalCard, true)));
+    public static final CardScryfall lastKHMPage = new CardScryfall(null, List.of(getCardData(esika)));
 
     public static SetScryfallData getSetData(Set aSet) {
         return new SetScryfallData(
@@ -75,7 +66,19 @@ public class ScryfallFixtures {
         );
     }
 
-    private static CardScryfallData getCardWithoutPrices() {
+    private static CardScryfallData ledgerShredderWithoutPrice() {
+        return new CardScryfallData(
+                ledgerShredder.id().id(),
+                ledgerShredder.cardName().name(),
+                ledgerShredder.setCode().value(),
+                false,
+                new CardImages(ledgerShredder.cardImage().image()),
+                null,
+                new Prices(null, null)
+        );
+    }
+
+    private static CardScryfallData getCardData(Card aCard) {
         return new CardScryfallData(
                 aCard.id().id(),
                 aCard.cardName().name(),
@@ -83,7 +86,7 @@ public class ScryfallFixtures {
                 false,
                 new CardImages(aCard.cardImage().image()),
                 null,
-                new Prices("", "")
+                new Prices(aCard.prices().head().eur(), aCard.prices().head().eurFoil())
         );
     }
 

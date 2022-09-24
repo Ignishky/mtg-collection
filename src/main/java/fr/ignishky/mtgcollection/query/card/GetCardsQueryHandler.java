@@ -33,7 +33,7 @@ public class GetCardsQueryHandler implements QueryHandler<GetCardsQuery, GetCard
     private Option<String> retrieveSetName(GetCardsQuery query) {
         return query.code()
                 .map(setCode -> new Query().addCriteria(where("code").is(setCode.value())))
-                .map(setQuery -> mongoTemplate.findOne(setQuery, SetDocument.class))
+                .flatMap(setQuery -> Option.of(mongoTemplate.findOne(setQuery, SetDocument.class)))
                 .map(SetDocument::name);
     }
 

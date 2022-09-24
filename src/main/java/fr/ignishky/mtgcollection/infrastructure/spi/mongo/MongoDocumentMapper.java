@@ -18,7 +18,7 @@ public class MongoDocumentMapper {
     private MongoDocumentMapper() {
     }
 
-    public static SetDocument toSetDocument(Set set) {
+    public static SetDocument toDocument(Set set) {
         return new SetDocument(set.id().id(),
                 set.code().value(),
                 set.name().value(),
@@ -43,7 +43,7 @@ public class MongoDocumentMapper {
                 new SetIcon(document.icon()));
     }
 
-    public static CardDocument toCardDocument(Card aCard) {
+    public static CardDocument toDocument(Card aCard) {
         return new CardDocument(
                 aCard.id().id(),
                 aCard.setCode().value(),
