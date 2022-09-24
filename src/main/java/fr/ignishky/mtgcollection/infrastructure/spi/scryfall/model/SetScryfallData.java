@@ -1,6 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.ignishky.mtgcollection.domain.set.referer.SetReferer;
 
 public record SetScryfallData(
         String id,
@@ -15,9 +16,10 @@ public record SetScryfallData(
         String releasedAt,
         @JsonProperty("set_type")
         String setType,
-        int card_count,
+        @JsonProperty("card_count")
+        int cardCount,
         @JsonProperty("icon_svg_uri")
-        String iconSvgUri
-) {
+        String icon
+) implements SetReferer {
 
 }
