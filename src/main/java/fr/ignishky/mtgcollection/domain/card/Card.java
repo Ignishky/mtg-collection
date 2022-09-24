@@ -25,8 +25,8 @@ public record Card(
         return new AppliedEvent<>(card, event);
     }
 
-    public AppliedEvent<Card, CardUpdated> update(CardId cardId, Price price, Boolean isOwned, Boolean isFoiled) {
-        var event = new CardUpdated(cardId, price, isOwned, isFoiled);
+    public AppliedEvent<Card, CardUpdated> update(CardId cardId, Price price) {
+        var event = new CardUpdated(cardId, price);
         var card = event.apply(this);
         return new AppliedEvent<>(card, event);
     }

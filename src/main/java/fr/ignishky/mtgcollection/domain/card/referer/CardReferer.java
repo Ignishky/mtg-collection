@@ -32,7 +32,8 @@ public interface CardReferer {
     }
 
     default boolean hasImage() {
-        return images() != null || !cardFaces().isEmpty();
+        return images() != null
+                || (cardFaces().nonEmpty() && cardFaces().head().imageUris() != null);
     }
 
 }

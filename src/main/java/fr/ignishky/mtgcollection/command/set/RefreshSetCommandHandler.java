@@ -17,6 +17,8 @@ import io.vavr.control.Option;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 import static fr.ignishky.mtgcollection.domain.set.SetId.toSetId;
 import static fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse.toCommandResponse;
 import static java.time.LocalDate.now;
@@ -75,12 +77,14 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
         return toCommandResponse(events.appendAll(cardAppliedEvents.map(AppliedEvent::event)));
     }
 
-    private List<AppliedEvent<Card, ? extends Event<CardId, Card, ?>>> loadCardsFromSet(SetCode setCode) {
-        List<AppliedEvent<Card, ? extends Event<CardId, Card, ?>>> cards = cardRefererPort.load(setCode)
-                .map(this::getCardAppliedEvent);
+    private List<? extends AppliedEvent<Card, ? extends Event<CardId, Card, ?>>> loadCardsFromSet(SetCode setCode) {
+        var cards = cardRefererPort.load(setCode)
+                .map(this::getCardAppliedEvent)
+                .filter(Objects::nonNull);
 
         LOGGER.info("Saving {} cards", cards.size());
-        cardRepository.save(cards.map(AppliedEvent::aggregate));
+        cardRepository.save(cards
+                .map(AppliedEvent::aggregate));
 
         return cards;
     }
@@ -88,7 +92,7 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
     private AppliedEvent<Card, ? extends Event<CardId, Card, ?>> getCardAppliedEvent(CardReferer cardReferer) {
         Option<Card> existingCard = cardRepository.get(new CardId(cardReferer.id()));
 
-        AppliedEvent<Card, ? extends Event<CardId, Card, ?>> event = new AppliedEvent<>(null, null);
+        AppliedEvent<Card, ? extends Event<CardId, Card, ?>> event = null;
         if (existingCard.isEmpty()) {
             event = getAddedAppliedEvent(cardReferer);
         } else if (cardReferer.hasPrice()) {
@@ -104,7 +108,8 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
                 new CardName(cardReferer.name()),
                 new CardImage(cardReferer.images() != null
                         ? cardReferer.images().normal()
-                        : cardReferer.cardFaces().get(0).imageUris().normal()),
+                        : cardReferer.cardFaces().head().imageUris().normal()
+                ),
                 new Price(now(), cardReferer.prices().eur(), cardReferer.prices().eurFoil())
         );
     }
@@ -112,9 +117,7 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
     private static AppliedEvent<Card, CardUpdated> getUpdatedAppliedEvent(CardReferer cardReferer, Card existingCard) {
         return existingCard.update(
                 new CardId(cardReferer.id()),
-                new Price(now(), cardReferer.prices().eur(), cardReferer.prices().eurFoil()),
-                existingCard.isOwned(),
-                existingCard.isFoiled()
+                new Price(now(), cardReferer.prices().eur(), cardReferer.prices().eurFoil())
         );
     }
 

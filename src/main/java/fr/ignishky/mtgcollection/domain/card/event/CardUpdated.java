@@ -15,18 +15,14 @@ import static java.time.ZoneId.systemDefault;
 public class CardUpdated extends Event<CardId, Card, CardUpdated.CardUpdatedPayload> {
 
     private final Price price;
-    private final Boolean isOwned;
-    private final Boolean isFoiled;
 
-    public CardUpdated(CardId aggregateId, Price price, Boolean isOwned, Boolean isFoiled) {
-        this(null, aggregateId, price, isOwned, isFoiled, Instants.now());
+    public CardUpdated(CardId aggregateId, Price price) {
+        this(null, aggregateId, price, Instants.now());
     }
 
-    private CardUpdated(String id, CardId aggregateId, Price price, Boolean isOwned, Boolean isFoiled, Instant instant) {
-        super(id, aggregateId, Card.class, new CardUpdatedPayload(price.eur(), price.eurFoil(), isOwned, isFoiled), instant);
+    private CardUpdated(String id, CardId aggregateId, Price price, Instant instant) {
+        super(id, aggregateId, Card.class, new CardUpdatedPayload(price.eur(), price.eurFoil()), instant);
         this.price = price;
-        this.isOwned = isOwned;
-        this.isFoiled = isFoiled;
     }
 
     @Override
@@ -37,16 +33,14 @@ public class CardUpdated extends Event<CardId, Card, CardUpdated.CardUpdatedPayl
                 aggregate.cardName(),
                 aggregate.cardImage(),
                 aggregate.prices().append(new Price(ofInstant(instant, systemDefault()), price.eur(), price.eurFoil())),
-                isOwned,
-                isFoiled
+                aggregate.isOwned(),
+                aggregate.isFoiled()
         );
     }
 
     record CardUpdatedPayload(
             String eur,
-            String eurFoil,
-            boolean isOwned,
-            boolean isFoiled
+            String eurFoil
     ) implements Payload {
 
     }
