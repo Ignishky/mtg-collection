@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.block;
 
 import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlocksResponse;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetsResponse;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.SetsResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
