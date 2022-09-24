@@ -1,8 +1,8 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.scryfall;
 
 import fr.ignishky.mtgcollection.configuration.ScryfallProperties;
-import fr.ignishky.mtgcollection.domain.card.Card;
-import fr.ignishky.mtgcollection.domain.card.CardReferer;
+import fr.ignishky.mtgcollection.domain.card.referer.CardReferer;
+import fr.ignishky.mtgcollection.domain.card.referer.CardRefererPort;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfallData;
@@ -15,20 +15,20 @@ import org.springframework.web.client.RestTemplate;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Repository
-public class CardScryfallReferer implements CardReferer {
+public class CardScryfallRefererPort implements CardRefererPort {
 
-    private static final Logger LOGGER = getLogger(CardScryfallReferer.class);
+    private static final Logger LOGGER = getLogger(CardScryfallRefererPort.class);
 
     private final RestTemplate restTemplate;
     private final ScryfallProperties scryfallProperties;
 
-    public CardScryfallReferer(RestTemplate restTemplate, ScryfallProperties scryfallProperties) {
+    public CardScryfallRefererPort(RestTemplate restTemplate, ScryfallProperties scryfallProperties) {
         this.restTemplate = restTemplate;
         this.scryfallProperties = scryfallProperties;
     }
 
     @Override
-    public List<Card> load(SetCode setCode) {
+    public List<? extends CardReferer> load(SetCode setCode) {
         LOGGER.info("Loading cards from {} ...", setCode.value());
         String url = "%s/cards/search?order=set&q=e:%s&unique=prints".formatted(scryfallProperties.baseUrl(), setCode.value());
         List<CardScryfall> cards = List.empty();
@@ -50,8 +50,7 @@ public class CardScryfallReferer implements CardReferer {
         return cards
                 .flatMap(CardScryfall::data)
                 .filter(CardScryfallData::isNotDigital)
-                .filter(CardScryfallData::hasImage)
-                .map(ScryfallMapper::toCard);
+                .filter(CardScryfallData::hasImage);
     }
 
 }

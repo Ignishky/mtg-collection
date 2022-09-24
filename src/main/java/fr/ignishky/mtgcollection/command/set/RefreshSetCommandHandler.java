@@ -1,9 +1,10 @@
 package fr.ignishky.mtgcollection.command.set;
 
-import fr.ignishky.mtgcollection.domain.card.Card;
-import fr.ignishky.mtgcollection.domain.card.CardId;
-import fr.ignishky.mtgcollection.domain.card.CardReferer;
-import fr.ignishky.mtgcollection.domain.card.CardRepository;
+import fr.ignishky.mtgcollection.domain.card.*;
+import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
+import fr.ignishky.mtgcollection.domain.card.event.CardUpdated;
+import fr.ignishky.mtgcollection.domain.card.referer.CardReferer;
+import fr.ignishky.mtgcollection.domain.card.referer.CardRefererPort;
 import fr.ignishky.mtgcollection.domain.set.*;
 import fr.ignishky.mtgcollection.domain.set.referer.SetReferer;
 import fr.ignishky.mtgcollection.domain.set.referer.SetRefererPort;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import static fr.ignishky.mtgcollection.domain.set.SetId.toSetId;
 import static fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse.toCommandResponse;
+import static java.time.LocalDate.now;
 import static java.util.Locale.ROOT;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -27,14 +29,14 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
     private static final Logger LOGGER = getLogger(RefreshSetCommandHandler.class);
 
     private final SetRefererPort setRefererPort;
-    private final CardReferer cardReferer;
+    private final CardRefererPort cardRefererPort;
     private final SetRepository setRepository;
     private final CardRepository cardRepository;
 
-    public RefreshSetCommandHandler(SetRefererPort setRefererPort, CardReferer cardReferer, SetRepository setRepository,
+    public RefreshSetCommandHandler(SetRefererPort setRefererPort, CardRefererPort cardRefererPort, SetRepository setRepository,
                                     CardRepository cardRepository) {
         this.setRefererPort = setRefererPort;
-        this.cardReferer = cardReferer;
+        this.cardRefererPort = cardRefererPort;
         this.setRepository = setRepository;
         this.cardRepository = cardRepository;
     }
@@ -74,23 +76,46 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
     }
 
     private List<AppliedEvent<Card, ? extends Event<CardId, Card, ?>>> loadCardsFromSet(SetCode setCode) {
-        List<AppliedEvent<Card, ? extends Event<CardId, Card, ?>>> cards = cardReferer.load(setCode)
-                .map(card -> {
-                            Option<Card> existingCard = cardRepository.get(card.id());
-                            AppliedEvent<Card, ? extends Event<CardId, Card, ?>> event = new AppliedEvent<>(null, null);
-                            if (existingCard.isEmpty()) {
-                                event = Card.add(card.id(), card.setCode(), card.cardName(), card.cardImage(), card.prices().head());
-                            } else if (card.hasPrice()) {
-                                event = card.update(card.id(), card.prices().head(), existingCard.get().isOwned(), existingCard.get().isFoiled());
-                            }
-                            return event;
-                        }
-                );
+        List<AppliedEvent<Card, ? extends Event<CardId, Card, ?>>> cards = cardRefererPort.load(setCode)
+                .map(this::getCardAppliedEvent);
 
         LOGGER.info("Saving {} cards", cards.size());
         cardRepository.save(cards.map(AppliedEvent::aggregate));
 
         return cards;
+    }
+
+    private AppliedEvent<Card, ? extends Event<CardId, Card, ?>> getCardAppliedEvent(CardReferer cardReferer) {
+        Option<Card> existingCard = cardRepository.get(new CardId(cardReferer.id()));
+
+        AppliedEvent<Card, ? extends Event<CardId, Card, ?>> event = new AppliedEvent<>(null, null);
+        if (existingCard.isEmpty()) {
+            event = getAddedAppliedEvent(cardReferer);
+        } else if (cardReferer.hasPrice()) {
+            event = getUpdatedAppliedEvent(cardReferer, existingCard.get());
+        }
+        return event;
+    }
+
+    private static AppliedEvent<Card, CardAdded> getAddedAppliedEvent(CardReferer cardReferer) {
+        return Card.add(
+                new CardId(cardReferer.id()),
+                new SetCode(cardReferer.set()),
+                new CardName(cardReferer.name()),
+                new CardImage(cardReferer.images() != null
+                        ? cardReferer.images().normal()
+                        : cardReferer.cardFaces().get(0).imageUris().normal()),
+                new Price(now(), cardReferer.prices().eur(), cardReferer.prices().eurFoil())
+        );
+    }
+
+    private static AppliedEvent<Card, CardUpdated> getUpdatedAppliedEvent(CardReferer cardReferer, Card existingCard) {
+        return existingCard.update(
+                new CardId(cardReferer.id()),
+                new Price(now(), cardReferer.prices().eur(), cardReferer.prices().eurFoil()),
+                existingCard.isOwned(),
+                existingCard.isFoiled()
+        );
     }
 
 }
