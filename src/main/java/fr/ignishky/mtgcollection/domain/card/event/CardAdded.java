@@ -48,8 +48,8 @@ public class CardAdded extends Event<CardId, Card, CardAdded.CardAddedPayload> {
             String name,
             String setCode,
             String image,
-            String eur,
-            String eurFoil
+            Double eur,
+            Double eurFoil
     ) implements Payload {
 
     }

@@ -118,14 +118,14 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
                         ? cardReferer.images().normal()
                         : cardReferer.cardFaces().head().imageUris().normal()
                 ),
-                new Price(cardReferer.prices().eur(), cardReferer.prices().eurFoil())
+                new Price(cardReferer.prices().euro(), cardReferer.prices().euroFoil())
         );
     }
 
     private static AppliedEvent<Card, CardUpdated> getUpdatedAppliedEvent(CardReferer cardReferer, Card existingCard) {
         return existingCard.update(
                 new CardId(cardReferer.id()),
-                new Price(cardReferer.prices().eur(), cardReferer.prices().eurFoil())
+                new Price(cardReferer.prices().euro(), cardReferer.prices().euroFoil())
         );
     }
 

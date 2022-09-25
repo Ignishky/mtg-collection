@@ -3,9 +3,9 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.set.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record PriceResponse(
-        String eur,
+        Double eur,
         @JsonProperty("eur_foil")
-        String eurFoil
+        Double eurFoil
 ) {
 
 }

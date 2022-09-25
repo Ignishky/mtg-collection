@@ -78,7 +78,7 @@ public class ScryfallFixtures {
                 false,
                 new CardImages(ledgerShredder.cardImage().image()),
                 null,
-                new Prices(null, null)
+                new Prices((String) null, (String) null)
         );
     }
 

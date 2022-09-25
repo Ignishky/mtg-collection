@@ -5,8 +5,6 @@ import io.vavr.collection.List;
 
 import java.util.UUID;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-
 public interface CardReferer {
 
     UUID id();
@@ -24,7 +22,10 @@ public interface CardReferer {
     PricesReferer prices();
 
     default boolean hasPrice() {
-        return isNotBlank(prices().eur()) || isNotBlank(prices().eurFoil());
+        Double euro = prices().euro();
+        Double euroFoil = prices().euroFoil();
+        return (euro != null && euro > 0.0)
+                || (euroFoil != null && euroFoil > 0.0);
     }
 
     default boolean isNotDigital() {

@@ -88,7 +88,7 @@ public class CardFixtures {
             KHM.code(),
             new CardName("another-card-name3"),
             new CardImage("another-card-image3"),
-            new Price(null, null),
+            new Price("0.00", "0.00"),
             false,
             false,
             now()

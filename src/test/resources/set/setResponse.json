@@ -6,7 +6,7 @@
       "name": "Ledger Shredder",
       "image": "LedgerShredder.png",
       "price": {
-        "eur": "1.50"
+        "eur": 1.50
       },
       "isOwned": true,
       "isFoiled": true
@@ -16,8 +16,8 @@
       "name": "Depopulate",
       "image": "Depopulate.png",
       "price": {
-        "eur": "1.00",
-        "eur_foil": "2.00"
+        "eur": 1.00,
+        "eur_foil": 2.00
       },
       "isOwned": false,
       "isFoiled": false

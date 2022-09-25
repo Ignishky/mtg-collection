@@ -40,8 +40,8 @@ public class CardUpdated extends Event<CardId, Card, CardUpdated.CardUpdatedPayl
     }
 
     record CardUpdatedPayload(
-            String eur,
-            String eurFoil
+            Double eur,
+            Double eurFoil
     ) implements Payload {
 
     }
