@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
 @Configuration
@@ -21,10 +22,10 @@ public class ScryfallConfiguration {
 
     @Bean
     public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.registerModule(new VavrModule());
-        return objectMapper;
+        return new ObjectMapper()
+                .registerModule(new VavrModule())
+                .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .setSerializationInclusion(NON_EMPTY);
     }
 
 }

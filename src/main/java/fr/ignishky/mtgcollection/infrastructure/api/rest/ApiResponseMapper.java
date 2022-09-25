@@ -34,10 +34,7 @@ public class ApiResponseMapper {
     }
 
     private static PriceResponse toPriceResponse(Price price) {
-        return new PriceResponse(
-                price.eur() != null ? price.eur() : "-",
-                price.eurFoil() != null ? price.eurFoil() : "-"
-        );
+        return new PriceResponse(price.eur(), price.eurFoil());
     }
 
     public static CardResponse toCardResponse(Card aCard) {
