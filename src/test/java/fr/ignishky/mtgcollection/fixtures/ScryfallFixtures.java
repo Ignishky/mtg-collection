@@ -86,7 +86,7 @@ public class ScryfallFixtures {
                 false,
                 new CardImages(aCard.cardImage().image()),
                 null,
-                new Prices(aCard.prices().head().eur(), aCard.prices().head().eurFoil())
+                new Prices(aCard.prices().eur(), aCard.prices().eurFoil())
         );
     }
 
@@ -98,7 +98,7 @@ public class ScryfallFixtures {
                 isDigital,
                 new CardImages(aCard.cardImage().image()),
                 null,
-                new Prices(aCard.prices().head().eur(), aCard.prices().head().eurFoil())
+                new Prices(aCard.prices().eur(), aCard.prices().eurFoil())
         );
     }
 

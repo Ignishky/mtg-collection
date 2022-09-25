@@ -24,17 +24,14 @@ public class ApiResponseMapper {
     }
 
     public static CardSummary toCardSummary(Card aCard) {
+        Price price = aCard.prices();
         return new CardSummary(
                 aCard.id().id(),
                 aCard.cardName().name(),
                 aCard.cardImage().image(),
-                aCard.prices().headOption().map(ApiResponseMapper::toPriceResponse).get(),
+                new PriceResponse(price.eur(), price.eurFoil()),
                 aCard.isOwned(),
                 aCard.isFoiled());
-    }
-
-    private static PriceResponse toPriceResponse(Price price) {
-        return new PriceResponse(price.eur(), price.eurFoil());
     }
 
     public static CardResponse toCardResponse(Card aCard) {

@@ -5,12 +5,8 @@ import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.framework.common.Instants;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Payload;
-import io.vavr.collection.List;
 
 import java.time.Instant;
-
-import static java.time.LocalDate.ofInstant;
-import static java.time.ZoneId.systemDefault;
 
 public class CardAdded extends Event<CardId, Card, CardAdded.CardAddedPayload> {
 
@@ -33,12 +29,11 @@ public class CardAdded extends Event<CardId, Card, CardAdded.CardAddedPayload> {
 
     @Override
     public Card apply(Card aggregate) {
-        List<Price> priceList = aggregate == null ? List.empty() : aggregate.prices();
         return new Card(aggregateId,
                 setCode,
                 cardName,
                 cardImage,
-                priceList.append(new Price(ofInstant(instant, systemDefault()), price.eur(), price.eurFoil())),
+                new Price(price.eur(), price.eurFoil()),
                 false,
                 false);
     }

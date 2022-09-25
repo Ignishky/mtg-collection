@@ -1,11 +1,9 @@
 package fr.ignishky.mtgcollection.fixtures;
 
 import fr.ignishky.mtgcollection.domain.card.*;
-import io.vavr.collection.List;
 
-import java.time.LocalDate;
-
-import static fr.ignishky.mtgcollection.fixtures.SetFixtures.*;
+import static fr.ignishky.mtgcollection.fixtures.SetFixtures.KHM;
+import static fr.ignishky.mtgcollection.fixtures.SetFixtures.SNC;
 import static java.util.UUID.randomUUID;
 
 public class CardFixtures {
@@ -18,7 +16,7 @@ public class CardFixtures {
             SNC.code(),
             new CardName("Ledger Shredder"),
             new CardImage("LedgerShredder.png"),
-            List.of(new Price(LocalDate.of(2022, 8, 25), "1.50", null)),
+            new Price("1.50", null),
             false,
             false);
     public static final Card ledgerShredderOwnedFoiled = new Card(
@@ -34,7 +32,7 @@ public class CardFixtures {
             ledgerShredder.setCode(),
             ledgerShredder.cardName(),
             ledgerShredder.cardImage(),
-            ledgerShredder.prices().append(ledgerShredder.prices().head()),
+            ledgerShredder.prices(),
             true,
             true);
 
@@ -43,7 +41,7 @@ public class CardFixtures {
             SNC.code(),
             new CardName("Depopulate"),
             new CardImage("Depopulate.png"),
-            List.of(new Price(LocalDate.of(2021, 10, 12), "1.00", "2.00")),
+            new Price("1.00", "2.00"),
             false,
             false);
     public static final Card depopulateOwned = new Card(
@@ -59,7 +57,7 @@ public class CardFixtures {
             KHM.code(),
             new CardName("Vorinclex"),
             new CardImage("Vorinclex.png"),
-            List.of(new Price(LocalDate.of(2022, 9, 1), "0.00", "0.00")),
+            new Price("0.00", "0.00"),
             false,
             false);
     public static final Card esika = new Card(
@@ -67,7 +65,7 @@ public class CardFixtures {
             KHM.code(),
             new CardName("Esika"),
             new CardImage("Esika.png"),
-            List.of(new Price(LocalDate.of(2022, 9, 2), "0.00", "0.00")),
+            new Price("0.00", "0.00"),
             false,
             false);
     static final Card aDigitalCard = new Card(
@@ -75,7 +73,7 @@ public class CardFixtures {
             KHM.code(),
             new CardName("another-card-name3"),
             new CardImage("another-card-image3"),
-            List.of(new Price(LocalDate.of(2022, 9, 3), null, null)),
+            new Price(null, null),
             false,
             false);
 

@@ -7,14 +7,13 @@ import fr.ignishky.mtgcollection.domain.card.event.CardUpdated;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.framework.domain.Aggregate;
 import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
-import io.vavr.collection.List;
 
 public record Card(
         CardId id,
         SetCode setCode,
         CardName cardName,
         CardImage cardImage,
-        List<Price> prices,
+        Price prices,
         boolean isOwned,
         boolean isFoiled
 ) implements Aggregate<CardId> {

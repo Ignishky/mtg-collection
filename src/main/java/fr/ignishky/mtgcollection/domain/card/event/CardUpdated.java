@@ -9,9 +9,6 @@ import fr.ignishky.mtgcollection.framework.cqrs.event.Payload;
 
 import java.time.Instant;
 
-import static java.time.LocalDate.ofInstant;
-import static java.time.ZoneId.systemDefault;
-
 public class CardUpdated extends Event<CardId, Card, CardUpdated.CardUpdatedPayload> {
 
     private final Price price;
@@ -32,7 +29,7 @@ public class CardUpdated extends Event<CardId, Card, CardUpdated.CardUpdatedPayl
                 aggregate.setCode(),
                 aggregate.cardName(),
                 aggregate.cardImage(),
-                aggregate.prices().append(new Price(ofInstant(instant, systemDefault()), price.eur(), price.eurFoil())),
+                new Price(price.eur(), price.eurFoil()),
                 aggregate.isOwned(),
                 aggregate.isFoiled()
         );

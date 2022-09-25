@@ -8,7 +8,6 @@ import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.EventDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.PriceRecord;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
-import io.vavr.collection.List;
 import io.vavr.control.Option;
 
 public class MongoDocumentMapper {
@@ -49,7 +48,7 @@ public class MongoDocumentMapper {
                 aCard.setCode().value(),
                 aCard.cardName().name(),
                 aCard.cardImage().image(),
-                aCard.prices().map(price -> new PriceRecord(price.eur(), price.eurFoil())).asJava(),
+                new PriceRecord(aCard.prices().eur(), aCard.prices().eurFoil()),
                 aCard.isOwned(),
                 aCard.isFoiled()
         );
@@ -60,7 +59,7 @@ public class MongoDocumentMapper {
                 new SetCode(document.setCode()),
                 new CardName(document.name()),
                 new CardImage(document.image()),
-                List.ofAll(document.prices()).map(priceRecord -> new Price(null, priceRecord.eur(), priceRecord.eurFoil())),
+                new Price(document.prices().eur(), document.prices().eurFoil()),
                 document.inCollection(),
                 document.isFoiled()
         );
