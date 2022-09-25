@@ -6,6 +6,7 @@ import fr.ignishky.mtgcollection.domain.card.event.CardUpdated;
 import fr.ignishky.mtgcollection.domain.card.referer.CardReferer;
 import fr.ignishky.mtgcollection.domain.card.referer.CardRefererPort;
 import fr.ignishky.mtgcollection.domain.set.*;
+import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
 import fr.ignishky.mtgcollection.domain.set.referer.SetReferer;
 import fr.ignishky.mtgcollection.domain.set.referer.SetRefererPort;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandHandler;
@@ -46,45 +47,52 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
     @Override
     public CommandResponse<Void> handle(RefreshSetCommand command) {
 
-        var setAppliedEvents = setRefererPort.loadAll()
+        var refererSets = setRefererPort.loadAll()
                 .filter(SetReferer::hasBeenReleased)
                 .filter(SetReferer::hasCard)
-                .filter(SetReferer::isNotDigital)
-                .map(setReferer -> Set.add(
-                        toSetId(setReferer.id()),
-                        new SetCode(setReferer.code()),
-                        new SetName(setReferer.name()),
-                        Option.of(setReferer.parentSetCode()).map(SetCode::new),
-                        Option.of(setReferer.blockCode()).map(SetCode::new),
-                        setReferer.releasedAt(),
-                        SetType.valueOf(setReferer.setType().toUpperCase(ROOT)),
-                        setReferer.cardCount(),
-                        new SetIcon(setReferer.icon())
-                ));
-        var existingSets = setRepository.getAll();
-        var newSets = setAppliedEvents.filter(appliedEvents -> !existingSets.contains(appliedEvents.aggregate()));
+                .filter(SetReferer::isNotDigital);
+        var newSets = saveOnlyNewSets(refererSets);
 
-        var sets = newSets.map(AppliedEvent::aggregate);
-        LOGGER.info("Saving {} new sets ...", sets.size());
-        setRepository.save(sets);
-
-        var cardAppliedEvents = setAppliedEvents
-                .map(AppliedEvent::aggregate)
-                .map(Set::code)
+        var cardAppliedEvents = refererSets
+                .map(SetReferer::code)
                 .flatMap(this::loadCardsFromSet);
 
         List<Event<?, ?, ?>> events = newSets.map(AppliedEvent::event);
         return toCommandResponse(events.appendAll(cardAppliedEvents.map(AppliedEvent::event)));
     }
 
-    private List<? extends AppliedEvent<Card, ? extends Event<CardId, Card, ?>>> loadCardsFromSet(SetCode setCode) {
-        var cards = cardRefererPort.load(setCode)
+    private List<AppliedEvent<Set, SetAdded>> saveOnlyNewSets(List<? extends SetReferer> setAppliedEvents) {
+        var existingSets = setRepository.getAll();
+        var newSets = setAppliedEvents
+                .map(RefreshSetCommandHandler::toSetAdded)
+                .filter(appliedEvents -> !existingSets.contains(appliedEvents.aggregate()));
+
+        LOGGER.info("Saving {} new sets ...", newSets.size());
+        setRepository.save(newSets.map(AppliedEvent::aggregate));
+        return newSets;
+    }
+
+    private static AppliedEvent<Set, SetAdded> toSetAdded(SetReferer setReferer) {
+        return Set.add(
+                toSetId(setReferer.id()),
+                new SetCode(setReferer.code()),
+                new SetName(setReferer.name()),
+                Option.of(setReferer.parentSetCode()).map(SetCode::new),
+                Option.of(setReferer.blockCode()).map(SetCode::new),
+                setReferer.releasedAt(),
+                SetType.valueOf(setReferer.setType().toUpperCase(ROOT)),
+                setReferer.cardCount(),
+                new SetIcon(setReferer.icon())
+        );
+    }
+
+    private List<? extends AppliedEvent<Card, ? extends Event<CardId, Card, ?>>> loadCardsFromSet(String setCode) {
+        var cards = cardRefererPort.load(new SetCode(setCode))
                 .map(this::getCardAppliedEvent)
                 .filter(Objects::nonNull);
 
         LOGGER.info("Saving {} cards", cards.size());
-        cardRepository.save(cards
-                .map(AppliedEvent::aggregate));
+        cardRepository.save(cards.map(AppliedEvent::aggregate));
 
         return cards;
     }

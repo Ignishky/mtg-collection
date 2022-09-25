@@ -20,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -152,7 +151,7 @@ class SetApiIT {
             when(restTemplate.getForObject("https://scryfall.mtg.test/page:2", CardScryfall.class)).thenReturn(lastKHMPage);
 
             // WHEN
-            ResultActions resultActions = mvc.perform(put(SETS_PATH));
+            var resultActions = mvc.perform(put(SETS_PATH));
 
             // THEN
             resultActions.andExpect(status().isNoContent());
@@ -181,7 +180,7 @@ class SetApiIT {
             save(vorinclex);
 
             // WHEN
-            ResultActions resultActions = mvc.perform(get(SETS_PATH + "/UNKNOWN"));
+            var resultActions = mvc.perform(get(SETS_PATH + "/UNKNOWN"));
 
             // THEN
             resultActions.andExpect(status().isNotFound());
@@ -193,7 +192,7 @@ class SetApiIT {
             save(ledgerShredderOwnedFoiled, vorinclex, depopulate);
 
             // WHEN
-            ResultActions resultActions = mvc.perform(get("%s/%s".formatted(SETS_PATH, SNC.code())));
+            var resultActions = mvc.perform(get("%s/%s".formatted(SETS_PATH, SNC.code())));
 
             // THEN
             resultActions.andExpectAll(
