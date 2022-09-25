@@ -2,11 +2,14 @@ package fr.ignishky.mtgcollection.domain.card.event;
 
 import fr.ignishky.mtgcollection.domain.card.*;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
-import fr.ignishky.mtgcollection.framework.common.Instants;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Payload;
 
 import java.time.Instant;
+
+import static fr.ignishky.mtgcollection.framework.common.Instants.now;
+import static java.time.LocalDate.ofInstant;
+import static java.time.ZoneId.systemDefault;
 
 public class CardAdded extends Event<CardId, Card, CardAdded.CardAddedPayload> {
 
@@ -16,7 +19,7 @@ public class CardAdded extends Event<CardId, Card, CardAdded.CardAddedPayload> {
     private final Price price;
 
     public CardAdded(CardId aggregateId, SetCode setCode, CardName cardName, CardImage cardImage, Price price) {
-        this(null, aggregateId, setCode, cardName, cardImage, price, Instants.now());
+        this(null, aggregateId, setCode, cardName, cardImage, price, now());
     }
 
     private CardAdded(String id, CardId aggregateId, SetCode setCode, CardName cardName, CardImage cardImage, Price price, Instant instant) {
@@ -29,13 +32,16 @@ public class CardAdded extends Event<CardId, Card, CardAdded.CardAddedPayload> {
 
     @Override
     public Card apply(Card aggregate) {
-        return new Card(aggregateId,
+        return new Card(
+                aggregateId,
                 setCode,
                 cardName,
                 cardImage,
                 new Price(price.eur(), price.eurFoil()),
                 false,
-                false);
+                false,
+                ofInstant(instant, systemDefault())
+        );
     }
 
     record CardAddedPayload(

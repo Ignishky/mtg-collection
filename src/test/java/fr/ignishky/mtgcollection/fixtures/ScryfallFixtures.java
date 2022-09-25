@@ -1,6 +1,7 @@
 package fr.ignishky.mtgcollection.fixtures;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
+import fr.ignishky.mtgcollection.domain.card.Price;
 import fr.ignishky.mtgcollection.domain.set.Set;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.domain.set.SetIcon;
@@ -11,7 +12,7 @@ import io.vavr.collection.List;
 import static fr.ignishky.mtgcollection.domain.set.SetType.ALCHEMY;
 import static fr.ignishky.mtgcollection.domain.set.SetType.EXPANSION;
 import static fr.ignishky.mtgcollection.fixtures.CardFixtures.*;
-import static fr.ignishky.mtgcollection.fixtures.SetFixtures.*;
+import static fr.ignishky.mtgcollection.fixtures.SetFixtures.SetGenerator;
 
 public class ScryfallFixtures {
 
@@ -47,7 +48,10 @@ public class ScryfallFixtures {
             .generate();
 
     public static final CardScryfall ledgerShredderWithoutPrice = new CardScryfall(null, List.of(ledgerShredderWithoutPrice()));
-    public static final CardScryfall singleSNCPage = new CardScryfall(null, List.of(getCardData(ledgerShredder), getCardData(depopulate)));
+    public static final CardScryfall singleSNCPage = new CardScryfall(null, List.of(
+            getCardData(ledgerShredder.withPrices(new Price("3.50", "4.50"))),
+            getCardData(depopulate))
+    );
     public static final CardScryfall firstKHMPage = new CardScryfall("https://scryfall.mtg.test/page%3A2", List.of(getCardData(vorinclex), getCardData(aDigitalCard, true)));
     public static final CardScryfall lastKHMPage = new CardScryfall(null, List.of(getCardData(esika)));
 

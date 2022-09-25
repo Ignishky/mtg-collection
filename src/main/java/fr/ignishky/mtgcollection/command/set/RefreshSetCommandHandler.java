@@ -103,7 +103,7 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
         AppliedEvent<Card, ? extends Event<CardId, Card, ?>> event = null;
         if (existingCard.isEmpty()) {
             event = getAddedAppliedEvent(cardReferer);
-        } else if (cardReferer.hasPrice()) {
+        } else if (cardReferer.hasPrice() && existingCard.get().lastUpdate().isBefore(now())) {
             event = getUpdatedAppliedEvent(cardReferer, existingCard.get());
         }
         return event;

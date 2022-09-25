@@ -16,15 +16,17 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
     implementation 'com.google.code.gson:gson'
     implementation 'io.vavr:vavr:0.10.4'
     implementation 'io.vavr:vavr-jackson:0.10.3'
+    implementation 'org.projectlombok:lombok:1.18.24'
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'

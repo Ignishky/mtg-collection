@@ -31,6 +31,7 @@ import static fr.ignishky.mtgcollection.fixtures.SetFixtures.KHM;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.SNC;
 import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.SetApi.SETS_PATH;
 import static fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper.toDocument;
+import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -141,9 +142,34 @@ class SetApiIT {
         }
 
         @Test
+        void should_ignore_update_when_already_done_same_day() throws Exception {
+            // GIVEN
+            save(ledgerShredderOwnedFoiled.withLastUpdate(now().minusDays(1L)));
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(new SetScryfall(List.of(getSetData(SNC))));
+            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class)).thenReturn(singleSNCPage);
+
+            // WHEN
+            var firstCall = mvc.perform(put(SETS_PATH));
+            var secondCall = mvc.perform(put(SETS_PATH));
+
+            // THEN
+            firstCall.andExpect(status().isNoContent());
+            secondCall.andExpect(status().isNoContent());
+
+            var eventDocuments = mongoTemplate.findAll(EventDocument.class);
+            assertThat(eventDocuments).hasSize(2);
+            assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardUpdated.class, readFile("/set/cardUpdateEvent.json"));
+            assertEvent(eventDocuments.get(1), depopulate.id(), CardAdded.class, readFile("/set/cardDepopulateAdded.json"));
+
+            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC));
+            assertThat(mongoTemplate.findAll(CardDocument.class))
+                    .containsOnly(toDocument(anUpdatedOwnedCard), toDocument(depopulate));
+        }
+
+        @Test
         void should_load_sets_from_scryfall_and_save_them_into_mongo() throws Exception {
             // GIVEN
-            save(ledgerShredderOwnedFoiled);
+            save(ledgerShredderOwnedFoiled.withLastUpdate(now().minusDays(1L)));
             when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class))
                     .thenReturn(new SetScryfall(List.of(getSetData(SNC), getSetData(KHM))));
             when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class)).thenReturn(singleSNCPage);

@@ -7,7 +7,11 @@ import fr.ignishky.mtgcollection.domain.card.event.CardUpdated;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.framework.domain.Aggregate;
 import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
+import lombok.With;
 
+import java.time.LocalDate;
+
+@With
 public record Card(
         CardId id,
         SetCode setCode,
@@ -15,7 +19,8 @@ public record Card(
         CardImage cardImage,
         Price prices,
         boolean isOwned,
-        boolean isFoiled
+        boolean isFoiled,
+        LocalDate lastUpdate
 ) implements Aggregate<CardId> {
 
     public static AppliedEvent<Card, CardAdded> add(CardId cardId, SetCode setCode, CardName cardName, CardImage cardImage, Price price) {

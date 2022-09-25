@@ -50,7 +50,8 @@ public class MongoDocumentMapper {
                 aCard.cardImage().image(),
                 new PriceRecord(aCard.prices().eur(), aCard.prices().eurFoil()),
                 aCard.isOwned(),
-                aCard.isFoiled()
+                aCard.isFoiled(),
+                aCard.lastUpdate()
         );
     }
 
@@ -61,7 +62,8 @@ public class MongoDocumentMapper {
                 new CardImage(document.image()),
                 new Price(document.prices().eur(), document.prices().eurFoil()),
                 document.inCollection(),
-                document.isFoiled()
+                document.isFoiled(),
+                document.lastUpdate()
         );
     }
 

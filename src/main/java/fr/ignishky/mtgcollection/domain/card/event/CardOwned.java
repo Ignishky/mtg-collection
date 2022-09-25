@@ -2,11 +2,12 @@ package fr.ignishky.mtgcollection.domain.card.event;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardId;
-import fr.ignishky.mtgcollection.framework.common.Instants;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Payload;
 
 import java.time.Instant;
+
+import static fr.ignishky.mtgcollection.framework.common.Instants.now;
 
 public class CardOwned extends Event<CardId, Card, CardOwned.CardOwnedPayload> {
 
@@ -14,7 +15,7 @@ public class CardOwned extends Event<CardId, Card, CardOwned.CardOwnedPayload> {
     private final boolean isFoiled;
 
     public CardOwned(CardId aggregateId, boolean isOwned, boolean isFoiled) {
-        this(null, aggregateId, isOwned, isFoiled, Instants.now());
+        this(null, aggregateId, isOwned, isFoiled, now());
     }
 
     private CardOwned(String id, CardId aggregateId, boolean isOwned, boolean isFoiled, Instant instant) {
@@ -25,7 +26,15 @@ public class CardOwned extends Event<CardId, Card, CardOwned.CardOwnedPayload> {
 
     @Override
     public Card apply(Card aggregate) {
-        return new Card(aggregate.id(), aggregate.setCode(), aggregate.cardName(), aggregate.cardImage(), aggregate.prices(), isOwned, isFoiled);
+        return new Card(
+                aggregate.id(),
+                aggregate.setCode(),
+                aggregate.cardName(),
+                aggregate.cardImage(),
+                aggregate.prices(),
+                isOwned,
+                isFoiled,
+                aggregate.lastUpdate());
     }
 
     record CardOwnedPayload(
