@@ -1,5 +1,10 @@
 {
   "name": "Streets of New Capenna",
+  "nbCards": 2,
+  "nbOwned": 1,
+  "nbOwnedFoil": 0,
+  "maxValue": 3.50,
+  "ownedValue": 1.00,
   "cards": [
     {
       "id": "66b5dddd-af38-494e-9047-f7311ff539da",
@@ -8,8 +13,8 @@
       "price": {
         "eur": 1.50
       },
-      "isOwned": true,
-      "isFoiled": true
+      "isOwned": false,
+      "isFoiled": false
     },
     {
       "id": "e8bf4f70-9f31-4936-86a8-4d126a86e102",
@@ -19,7 +24,7 @@
         "eur": 1.00,
         "eur_foil": 2.00
       },
-      "isOwned": false,
+      "isOwned": true,
       "isFoiled": false
     }
   ]

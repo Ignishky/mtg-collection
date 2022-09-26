@@ -45,7 +45,14 @@ class SetController implements SetApi {
 
         return cards.isEmpty()
                 ? notFound().build()
-                : ok(new SetResponse(getCardsResponse.setName().getOrNull(), cards));
+                : ok(new SetResponse(
+                getCardsResponse.setName().getOrNull(),
+                cards.size(),
+                getCardsResponse.nbOwned(),
+                getCardsResponse.nbOwnedFoil(),
+                getCardsResponse.maxValue(),
+                getCardsResponse.ownedValue(),
+                cards));
     }
 
 }

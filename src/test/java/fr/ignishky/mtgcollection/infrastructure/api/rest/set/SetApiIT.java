@@ -215,7 +215,7 @@ class SetApiIT {
         @Test
         void should_return_all_cards_for_a_given_set_from_repository() throws Exception {
             // GIVEN
-            save(ledgerShredderOwnedFoiled, vorinclex, depopulate);
+            save(ledgerShredder, vorinclex, depopulateOwned);
 
             // WHEN
             var resultActions = mvc.perform(get("%s/%s".formatted(SETS_PATH, SNC.code())));

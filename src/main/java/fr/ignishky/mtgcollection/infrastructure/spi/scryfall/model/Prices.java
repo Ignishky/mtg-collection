@@ -16,11 +16,11 @@ public record Prices(
     }
 
     public Double euro() {
-        return parseDouble(eur);
+        return eur != null ? parseDouble(eur) : null;
     }
 
     public Double euroFoil() {
-        return parseDouble(eurFoil);
+        return eurFoil != null ? parseDouble(eurFoil) : null;
     }
 
 }

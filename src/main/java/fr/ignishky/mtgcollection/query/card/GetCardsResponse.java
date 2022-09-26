@@ -6,6 +6,10 @@ import io.vavr.control.Option;
 
 public record GetCardsResponse(
         Option<String> setName,
+        int nbOwned,
+        int nbOwnedFoil,
+        double maxValue,
+        double ownedValue,
         List<Card> cards
 ) {
 

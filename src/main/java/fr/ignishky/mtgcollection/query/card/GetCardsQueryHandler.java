@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Service
@@ -24,9 +26,14 @@ public class GetCardsQueryHandler implements QueryHandler<GetCardsQuery, GetCard
 
     @Override
     public GetCardsResponse handle(GetCardsQuery query) {
+        List<Card> cards = retrieveCardsList(query);
         return new GetCardsResponse(
                 retrieveSetName(query),
-                retrieveCardsList(query)
+                cards.count(Card::isOwned),
+                cards.count(Card::isFoiled),
+                cards.map(Card::prices).map(price -> price.eurFoil() != null ? price.eurFoil() : price.eur()).filter(Objects::nonNull).sum().doubleValue(),
+                cards.filter(Card::isOwned).map(card -> card.isFoiled() ? card.prices().eurFoil() : card.prices().eur()).filter(Objects::nonNull).sum().doubleValue(),
+                cards
         );
     }
 
