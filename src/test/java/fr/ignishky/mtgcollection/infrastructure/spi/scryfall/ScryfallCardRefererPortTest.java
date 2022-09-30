@@ -14,12 +14,12 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class CardScryfallRefererTest {
+class ScryfallCardRefererPortTest {
 
     private final RestTemplate restTemplate = mock(RestTemplate.class);
     private final ScryfallProperties properties = new ScryfallProperties("base-url");
 
-    private final CardRefererPort referer = new CardScryfallRefererPort(restTemplate, properties);
+    private final CardRefererPort referer = new ScryfallCardRefererPort(restTemplate, properties);
 
     @Test
     void should_handle_null_response_from_scryfall() {

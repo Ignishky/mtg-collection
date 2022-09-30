@@ -15,14 +15,14 @@ import org.springframework.web.client.RestTemplate;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Repository
-public class CardScryfallRefererPort implements CardRefererPort {
+public class ScryfallCardRefererPort implements CardRefererPort {
 
-    private static final Logger LOGGER = getLogger(CardScryfallRefererPort.class);
+    private static final Logger LOGGER = getLogger(ScryfallCardRefererPort.class);
 
     private final RestTemplate restTemplate;
     private final ScryfallProperties scryfallProperties;
 
-    public CardScryfallRefererPort(RestTemplate restTemplate, ScryfallProperties scryfallProperties) {
+    public ScryfallCardRefererPort(RestTemplate restTemplate, ScryfallProperties scryfallProperties) {
         this.restTemplate = restTemplate;
         this.scryfallProperties = scryfallProperties;
     }
