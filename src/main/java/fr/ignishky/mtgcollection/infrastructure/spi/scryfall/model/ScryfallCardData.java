@@ -6,7 +6,7 @@ import io.vavr.collection.List;
 
 import java.util.UUID;
 
-public record CardScryfallData(
+public record ScryfallCardData(
         UUID id,
         String name,
         String set,

@@ -11,8 +11,8 @@ import fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.EventDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
-import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardScryfall;
-import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.SetScryfall;
+import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.ScryfallCard;
+import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.ScryfallSet;
 import io.vavr.collection.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -72,7 +72,7 @@ class SetApiIT {
         @Test
         void should_ignore_update_when_referer_sent_future_set() throws Exception {
             // GIVEN
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(readSetScryfall("futureSet.json"));
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, ScryfallSet.class)).thenReturn(readSetScryfall("futureSet.json"));
 
             // WHEN
             var resultActions = mvc.perform(put(SETS_PATH));
@@ -88,7 +88,7 @@ class SetApiIT {
         @Test
         void should_ignore_update_when_referer_sent_digital_set() throws Exception {
             // GIVEN
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(readSetScryfall("digitalSet.json"));
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, ScryfallSet.class)).thenReturn(readSetScryfall("digitalSet.json"));
 
             // WHEN
             var resultActions = mvc.perform(put(SETS_PATH));
@@ -104,8 +104,8 @@ class SetApiIT {
         @Test
         void should_save_set_details_when_referer_failed_to_send_cards_list() throws Exception {
             // GIVEN
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(readSetScryfall("snc.json"));
-            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class))
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, ScryfallSet.class)).thenReturn(readSetScryfall("snc.json"));
+            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), ScryfallCard.class))
                     .thenThrow(RestClientException.class);
 
             // WHEN
@@ -126,8 +126,8 @@ class SetApiIT {
         void should_ignore_update_when_referer_sent_card_with_no_price() throws Exception {
             // GIVEN
             save(ledgerShredder);
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(readSetScryfall("snc.json"));
-            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class))
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, ScryfallSet.class)).thenReturn(readSetScryfall("snc.json"));
+            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), ScryfallCard.class))
                     .thenReturn(readCardScryfall("withoutPrices.json"));
 
             // WHEN
@@ -145,12 +145,12 @@ class SetApiIT {
         void should_load_sets_from_scryfall_and_save_them_into_mongo() throws Exception {
             // GIVEN
             save(ledgerShredder.withLastUpdate(now().minusDays(1L)));
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(readSetScryfall("sets.json"));
-            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class))
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, ScryfallSet.class)).thenReturn(readSetScryfall("sets.json"));
+            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), ScryfallCard.class))
                     .thenReturn(readCardScryfall("singleSncPage.json"));
-            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(KHM.code()), CardScryfall.class))
+            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(KHM.code()), ScryfallCard.class))
                     .thenReturn(readCardScryfall("firstKhmPage.json"));
-            when(restTemplate.getForObject("https://scryfall.mtg.test/page:2", CardScryfall.class))
+            when(restTemplate.getForObject("https://scryfall.mtg.test/page:2", ScryfallCard.class))
                     .thenReturn(readCardScryfall("lastKhmPage.json"));
 
             // WHEN
@@ -180,8 +180,8 @@ class SetApiIT {
         void should_ignore_update_when_already_done_same_day() throws Exception {
             // GIVEN
             save(ledgerShredder.withLastUpdate(now().minusDays(1L)));
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(readSetScryfall("snc.json"));
-            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class))
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, ScryfallSet.class)).thenReturn(readSetScryfall("snc.json"));
+            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), ScryfallCard.class))
                     .thenReturn(readCardScryfall("singleSncPage.json"));
 
             // WHEN
@@ -204,12 +204,12 @@ class SetApiIT {
             );
         }
 
-        private SetScryfall readSetScryfall(String fileName) throws JsonProcessingException {
-            return objectMapper.readValue(readFile("/set/scryfall/%s".formatted(fileName)), SetScryfall.class);
+        private ScryfallSet readSetScryfall(String fileName) throws JsonProcessingException {
+            return objectMapper.readValue(readFile("/set/scryfall/%s".formatted(fileName)), ScryfallSet.class);
         }
 
-        private CardScryfall readCardScryfall(String fileName) throws JsonProcessingException {
-            return objectMapper.readValue(readFile("/card/scryfall/%s".formatted(fileName)), CardScryfall.class);
+        private ScryfallCard readCardScryfall(String fileName) throws JsonProcessingException {
+            return objectMapper.readValue(readFile("/card/scryfall/%s".formatted(fileName)), ScryfallCard.class);
         }
 
         private static String readEventSet(String fileName) {
