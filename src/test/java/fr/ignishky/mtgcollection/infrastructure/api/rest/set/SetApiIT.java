@@ -1,6 +1,9 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.ignishky.mtgcollection.domain.card.Card;
+import fr.ignishky.mtgcollection.domain.card.Price;
 import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
 import fr.ignishky.mtgcollection.domain.card.event.CardUpdated;
 import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
@@ -26,7 +29,6 @@ import org.springframework.web.client.RestTemplate;
 import static fr.ignishky.mtgcollection.TestUtils.assertEvent;
 import static fr.ignishky.mtgcollection.TestUtils.readFile;
 import static fr.ignishky.mtgcollection.fixtures.CardFixtures.*;
-import static fr.ignishky.mtgcollection.fixtures.ScryfallFixtures.*;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.KHM;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.SNC;
 import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.SetApi.SETS_PATH;
@@ -51,6 +53,8 @@ class SetApiIT {
     private MockMvc mvc;
     @Autowired
     private MongoTemplate mongoTemplate;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     private RestTemplate restTemplate;
@@ -68,8 +72,7 @@ class SetApiIT {
         @Test
         void should_ignore_update_when_referer_sent_future_set() throws Exception {
             // GIVEN
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class))
-                    .thenReturn(new SetScryfall(List.of(getSetData(aFutureSet))));
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(readSetScryfall("futureSet.json"));
 
             // WHEN
             var resultActions = mvc.perform(put(SETS_PATH));
@@ -85,8 +88,7 @@ class SetApiIT {
         @Test
         void should_ignore_update_when_referer_sent_digital_set() throws Exception {
             // GIVEN
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class))
-                    .thenReturn(new SetScryfall(List.of(getSetData(aDigitalSet))));
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(readSetScryfall("digitalSet.json"));
 
             // WHEN
             var resultActions = mvc.perform(put(SETS_PATH));
@@ -102,9 +104,8 @@ class SetApiIT {
         @Test
         void should_save_set_details_when_referer_failed_to_send_cards_list() throws Exception {
             // GIVEN
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class))
-                    .thenReturn(new SetScryfall(List.of(getSetData(aFailedSet))));
-            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(aFailedSet.code()), CardScryfall.class))
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(readSetScryfall("snc.json"));
+            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class))
                     .thenThrow(RestClientException.class);
 
             // WHEN
@@ -115,9 +116,9 @@ class SetApiIT {
 
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(1);
-            assertEvent(eventDocuments.get(0), aFailedSet.id(), SetAdded.class, readFile("/set/setFailedAdded.json"));
+            assertEvent(eventDocuments.get(0), SNC.id(), SetAdded.class, readEventSet("sncAdded.json"));
 
-            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(aFailedSet));
+            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC));
             assertThat(mongoTemplate.findAll(CardDocument.class)).isEmpty();
         }
 
@@ -125,10 +126,9 @@ class SetApiIT {
         void should_ignore_update_when_referer_sent_card_with_no_price() throws Exception {
             // GIVEN
             save(ledgerShredder);
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class))
-                    .thenReturn(new SetScryfall(List.of(getSetData(SNC))));
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(readSetScryfall("snc.json"));
             when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class))
-                    .thenReturn(ledgerShredderWithoutPrice);
+                    .thenReturn(readCardScryfall("withoutPrices.json"));
 
             // WHEN
             var resultActions = mvc.perform(put(SETS_PATH));
@@ -142,11 +142,47 @@ class SetApiIT {
         }
 
         @Test
+        void should_load_sets_from_scryfall_and_save_them_into_mongo() throws Exception {
+            // GIVEN
+            save(ledgerShredder.withLastUpdate(now().minusDays(1L)));
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(readSetScryfall("sets.json"));
+            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class))
+                    .thenReturn(readCardScryfall("singleSncPage.json"));
+            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(KHM.code()), CardScryfall.class))
+                    .thenReturn(readCardScryfall("firstKhmPage.json"));
+            when(restTemplate.getForObject("https://scryfall.mtg.test/page:2", CardScryfall.class))
+                    .thenReturn(readCardScryfall("lastKhmPage.json"));
+
+            // WHEN
+            var resultActions = mvc.perform(put(SETS_PATH));
+
+            // THEN
+            resultActions.andExpect(status().isNoContent());
+
+            var eventDocuments = mongoTemplate.findAll(EventDocument.class);
+            assertThat(eventDocuments).hasSize(5);
+            assertEvent(eventDocuments.get(0), KHM.id(), SetAdded.class, readEventSet("khmAdded.json"));
+            assertEvent(eventDocuments.get(1), ledgerShredder.id(), CardUpdated.class, readEventCard("ledgerShredderUpdated.json"));
+            assertEvent(eventDocuments.get(2), depopulate.id(), CardAdded.class, readEventCard("depopulateAdded.json"));
+            assertEvent(eventDocuments.get(3), vorinclex.id(), CardAdded.class, readEventCard("vorinclexAdded.json"));
+            assertEvent(eventDocuments.get(4), esika.id(), CardAdded.class, readEventCard("esikaAdded.json"));
+
+            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC), toDocument(KHM));
+            assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(
+                    toDocument(ledgerShredder.withPrices(new Price(27.24, 30.16))),
+                    toDocument(depopulate),
+                    toDocument(vorinclex),
+                    toDocument(esika)
+            );
+        }
+
+        @Test
         void should_ignore_update_when_already_done_same_day() throws Exception {
             // GIVEN
-            save(ledgerShredderOwnedFoiled.withLastUpdate(now().minusDays(1L)));
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(new SetScryfall(List.of(getSetData(SNC))));
-            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class)).thenReturn(singleSNCPage);
+            save(ledgerShredder.withLastUpdate(now().minusDays(1L)));
+            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class)).thenReturn(readSetScryfall("snc.json"));
+            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class))
+                    .thenReturn(readCardScryfall("singleSncPage.json"));
 
             // WHEN
             var firstCall = mvc.perform(put(SETS_PATH));
@@ -158,41 +194,30 @@ class SetApiIT {
 
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(2);
-            assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardUpdated.class, readFile("/set/cardUpdateEvent.json"));
-            assertEvent(eventDocuments.get(1), depopulate.id(), CardAdded.class, readFile("/set/cardDepopulateAdded.json"));
+            assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardUpdated.class, readEventCard("ledgerShredderUpdated.json"));
+            assertEvent(eventDocuments.get(1), depopulate.id(), CardAdded.class, readEventCard("depopulateAdded.json"));
 
             assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC));
-            assertThat(mongoTemplate.findAll(CardDocument.class))
-                    .containsOnly(toDocument(anUpdatedOwnedCard), toDocument(depopulate));
+            assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(
+                    toDocument(ledgerShredder.withPrices(new Price(27.24, 30.16))),
+                    toDocument(depopulate)
+            );
         }
 
-        @Test
-        void should_load_sets_from_scryfall_and_save_them_into_mongo() throws Exception {
-            // GIVEN
-            save(ledgerShredderOwnedFoiled.withLastUpdate(now().minusDays(1L)));
-            when(restTemplate.getForObject(SCRYFALL_SETS_URL, SetScryfall.class))
-                    .thenReturn(new SetScryfall(List.of(getSetData(SNC), getSetData(KHM))));
-            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(SNC.code()), CardScryfall.class)).thenReturn(singleSNCPage);
-            when(restTemplate.getForObject(SCRYFALL_SET_DETAIL_URL_PATTERN.formatted(KHM.code()), CardScryfall.class)).thenReturn(firstKHMPage);
-            when(restTemplate.getForObject("https://scryfall.mtg.test/page:2", CardScryfall.class)).thenReturn(lastKHMPage);
+        private SetScryfall readSetScryfall(String fileName) throws JsonProcessingException {
+            return objectMapper.readValue(readFile("/set/scryfall/%s".formatted(fileName)), SetScryfall.class);
+        }
 
-            // WHEN
-            var resultActions = mvc.perform(put(SETS_PATH));
+        private CardScryfall readCardScryfall(String fileName) throws JsonProcessingException {
+            return objectMapper.readValue(readFile("/card/scryfall/%s".formatted(fileName)), CardScryfall.class);
+        }
 
-            // THEN
-            resultActions.andExpect(status().isNoContent());
+        private static String readEventSet(String fileName) {
+            return readFile("/set/event/%s".formatted(fileName));
+        }
 
-            var eventDocuments = mongoTemplate.findAll(EventDocument.class);
-            assertThat(eventDocuments).hasSize(5);
-            assertEvent(eventDocuments.get(0), KHM.id(), SetAdded.class, readFile("/set/setKhmAdded.json"));
-            assertEvent(eventDocuments.get(1), ledgerShredder.id(), CardUpdated.class, readFile("/set/cardUpdateEvent.json"));
-            assertEvent(eventDocuments.get(2), depopulate.id(), CardAdded.class, readFile("/set/cardDepopulateAdded.json"));
-            assertEvent(eventDocuments.get(3), vorinclex.id(), CardAdded.class, readFile("/set/cardVorinclexAdded.json"));
-            assertEvent(eventDocuments.get(4), esika.id(), CardAdded.class, readFile("/set/cardEsikaAdded.json"));
-
-            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC), toDocument(KHM));
-            assertThat(mongoTemplate.findAll(CardDocument.class))
-                    .containsOnly(toDocument(anUpdatedOwnedCard), toDocument(vorinclex), toDocument(depopulate), toDocument(esika));
+        private static String readEventCard(String fileName) {
+            return readFile("/card/event/%s".formatted(fileName));
         }
 
     }
@@ -215,7 +240,7 @@ class SetApiIT {
         @Test
         void should_return_all_cards_for_a_given_set_from_repository() throws Exception {
             // GIVEN
-            save(ledgerShredder, vorinclex, depopulateOwned);
+            save(ledgerShredder, vorinclex, depopulate.withOwned(true));
 
             // WHEN
             var resultActions = mvc.perform(get("%s/%s".formatted(SETS_PATH, SNC.code())));

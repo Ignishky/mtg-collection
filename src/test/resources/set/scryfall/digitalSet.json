@@ -1,0 +1,23 @@
+{
+  "object": "list",
+  "has_more": false,
+  "data": [
+    {
+      "object": "set",
+      "id": "78a7f4da-4838-4011-9f58-de8020d1fd2d",
+      "code": "cc2",
+      "tcgplayer_id": 2905,
+      "name": "Commander Collection: Black",
+      "uri": "https://api.scryfall.com/sets/78a7f4da-4838-4011-9f58-de8020d1fd2d",
+      "scryfall_uri": "https://scryfall.com/sets/cc2",
+      "search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Acc2&unique=prints",
+      "released_at": "2021-12-31",
+      "set_type": "from_the_vault",
+      "card_count": 9,
+      "digital": true,
+      "nonfoil_only": false,
+      "foil_only": false,
+      "icon_svg_uri": "https://c2.scryfall.com/file/scryfall-symbols/sets/cc2.svg?1633320000"
+    }
+  ]
+}

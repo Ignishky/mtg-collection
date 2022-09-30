@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.With;
 
+import static fr.ignishky.mtgcollection.domain.set.SetId.toSetId;
 import static fr.ignishky.mtgcollection.domain.set.SetType.*;
 import static java.util.UUID.randomUUID;
 
@@ -15,6 +16,7 @@ public class SetFixtures {
     }
 
     public static final Set SNC = new SetGenerator()
+            .withSetId(toSetId("df837242-8c15-42e4-b049-c933a02dc501"))
             .withSetCode(new SetCode("snc"))
             .withSetName(new SetName("Streets of New Capenna"))
             .withReleaseDate("2022-04-29")
@@ -24,6 +26,7 @@ public class SetFixtures {
             .generate();
 
     public static final Set P22 = new SetGenerator()
+            .withSetId(new SetId(randomUUID()))
             .withSetCode(new SetCode("p22"))
             .withSetName(new SetName("Judge Gift Cards 2022\""))
             .withBlockCode(new SetCode("jgp"))
@@ -34,15 +37,17 @@ public class SetFixtures {
             .generate();
 
     public static final Set KHM = new SetGenerator()
+            .withSetId(toSetId("43057fad-b1c1-437f-bc48-0045bce6d8c9"))
             .withSetCode(new SetCode("khm"))
             .withSetName(new SetName("Kaldheim"))
-            .withReleaseDate("2020-04-24")
+            .withReleaseDate("2021-02-05")
             .withSetType(EXPANSION)
-            .withCardCount(390)
+            .withCardCount(427)
             .withSetIcon(new SetIcon("https://scryfall.mtgc.test/sets/khm.svg"))
             .generate();
 
     public static final Set AKHM = new SetGenerator()
+            .withSetId(new SetId(randomUUID()))
             .withSetCode(new SetCode("akhm"))
             .withSetName(new SetName("Kaldheim Art Series"))
             .withParentSetCode(KHM.code())
@@ -53,6 +58,7 @@ public class SetFixtures {
             .generate();
 
     public static final Set TKHM = new SetGenerator()
+            .withSetId(new SetId(randomUUID()))
             .withSetCode(new SetCode("tkhm"))
             .withSetName(new SetName("Kaldheim Tokens"))
             .withParentSetCode(KHM.code())
@@ -63,6 +69,7 @@ public class SetFixtures {
             .generate();
 
     public static final Set PKHM = new SetGenerator()
+            .withSetId(new SetId(randomUUID()))
             .withSetCode(new SetCode("pkhm"))
             .withSetName(new SetName("Kaldheim Promos"))
             .withParentSetCode(KHM.code())
@@ -73,6 +80,7 @@ public class SetFixtures {
             .generate();
 
     public static final Set DDU = new SetGenerator()
+            .withSetId(new SetId(randomUUID()))
             .withSetCode(new SetCode("ddu"))
             .withSetName(new SetName("Duel Decks: Elves vs. Inventors"))
             .withReleaseDate("2018-04-06")
@@ -86,7 +94,7 @@ public class SetFixtures {
     @AllArgsConstructor
     static class SetGenerator {
 
-        private SetId setId = new SetId(randomUUID());
+        private SetId setId;
         private SetCode setCode;
         private SetName setName;
         private boolean isDigital;

@@ -10,12 +10,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 @Repository
-class ScryfallSetRefererPort implements SetRefererPort {
+class SetScryfallRefererPort implements SetRefererPort {
 
     private final RestTemplate restTemplate;
     private final ScryfallProperties scryfallProperties;
 
-    ScryfallSetRefererPort(RestTemplate restTemplate, ScryfallProperties scryfallProperties) {
+    SetScryfallRefererPort(RestTemplate restTemplate, ScryfallProperties scryfallProperties) {
         this.restTemplate = restTemplate;
         this.scryfallProperties = scryfallProperties;
     }

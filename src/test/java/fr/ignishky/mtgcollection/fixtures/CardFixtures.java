@@ -5,7 +5,6 @@ import fr.ignishky.mtgcollection.domain.card.*;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.KHM;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.SNC;
 import static java.time.LocalDate.now;
-import static java.util.UUID.randomUUID;
 
 public class CardFixtures {
 
@@ -13,82 +12,41 @@ public class CardFixtures {
     }
 
     public static final Card ledgerShredder = new Card(
-            CardId.fromString("66b5dddd-af38-494e-9047-f7311ff539da"),
+            CardId.fromString("7ea4b5bc-18a4-45db-a56a-ab3f8bd2fb0d"),
             SNC.code(),
             new CardName("Ledger Shredder"),
-            new CardImage("LedgerShredder.png"),
+            new CardImage("https://scryfall.mtgc.test/cards/ledgerShredder.png"),
             new Price("1.50", null),
             false,
             false,
             now()
     );
-    public static final Card ledgerShredderOwnedFoiled = new Card(
-            ledgerShredder.id(),
-            ledgerShredder.setCode(),
-            ledgerShredder.cardName(),
-            ledgerShredder.cardImage(),
-            ledgerShredder.prices(),
-            true,
-            true,
-            ledgerShredder.lastUpdate()
-    );
-    public static final Card anUpdatedOwnedCard = new Card(
-            ledgerShredder.id(),
-            ledgerShredder.setCode(),
-            ledgerShredder.cardName(),
-            ledgerShredder.cardImage(),
-            new Price("3.50", "4.50"),
-            true,
-            true,
-            ledgerShredder.lastUpdate()
-    );
-
     public static final Card depopulate = new Card(
-            CardId.fromString("e8bf4f70-9f31-4936-86a8-4d126a86e102"),
+            CardId.fromString("c53c1898-9107-4bf8-b249-d0502fb9596d"),
             SNC.code(),
             new CardName("Depopulate"),
-            new CardImage("Depopulate.png"),
-            new Price("1.00", "2.00"),
+            new CardImage("https://scryfall.mtgc.test/cards/depopulate.png"),
+            new Price("0.14", "0.63"),
             false,
             false,
             now()
     );
-    public static final Card depopulateOwned = new Card(
-            depopulate.id(),
-            depopulate.setCode(),
-            depopulate.cardName(),
-            depopulate.cardImage(),
-            depopulate.prices(),
-            true,
-            false,
-            depopulate.lastUpdate()
-    );
     public static final Card vorinclex = new Card(
-            new CardId(randomUUID()),
+            CardId.fromString("92613468-205e-488b-930d-11908477e9f8"),
             KHM.code(),
-            new CardName("Vorinclex"),
-            new CardImage("Vorinclex.png"),
-            new Price("0.00", "0.00"),
+            new CardName("Vorinclex, Monstrous Raider"),
+            new CardImage("https://scryfall.mtgc.test/cards/vorinclex.png"),
+            new Price("29.29", "31.00"),
             false,
             false,
             now()
     );
     public static final Card esika = new Card(
-            new CardId(randomUUID()),
+            CardId.fromString("f6cd7465-9dd0-473c-ac5e-dd9e2f22f5f6"),
             KHM.code(),
-            new CardName("Esika"),
-            new CardImage("Esika.png"),
-            new Price("0.00", "0.00"),
-            false,
-            false,
-            now()
-    );
-    static final Card aDigitalCard = new Card(
-            new CardId(randomUUID()),
-            KHM.code(),
-            new CardName("another-card-name3"),
-            new CardImage("another-card-image3"),
-            new Price("0.00", "0.00"),
+            new CardName("Esika, God of the Tree // The Prismatic Bridge"),
+            new CardImage("https://scryfall.mtgc.test/cards/esika.png"),
+            new Price("8.96", "10.50"),
             false,
             false,
             now()

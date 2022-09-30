@@ -1,5 +1,6 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 
+import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.event.CardOwned;
 import fr.ignishky.mtgcollection.domain.card.event.CardRetired;
 import fr.ignishky.mtgcollection.fixtures.InstantFreezeExtension;
@@ -34,6 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(InstantFreezeExtension.class)
 class CollectionApiIT {
 
+    private static final Card ledgerShredderOwnedFoiled = ledgerShredder.withOwned(true).withFoiled(true);
+
     @Autowired
     private MockMvc mvc;
     @Autowired
@@ -49,7 +52,11 @@ class CollectionApiIT {
     @Test
     void should_retrieve_all_card_from_collection() throws Exception {
         // GIVEN
-        mongoTemplate.insertAll(List.of(toDocument(ledgerShredderOwnedFoiled), toDocument(depopulateOwned), toDocument(vorinclex)).asJava());
+        mongoTemplate.insertAll(List.of(
+                toDocument(ledgerShredder.withOwned(true).withFoiled(true)),
+                toDocument(depopulate.withOwned(true)),
+                toDocument(vorinclex)
+        ).asJava());
 
         // WHEN
         var response = mvc.perform(get(COLLECTION_PATH));
