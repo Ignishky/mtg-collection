@@ -62,6 +62,17 @@ class BlockApiIT {
     }
 
     @Test
+    void should_return_404_when_block_code_is_unknown() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc.perform(get("%s/%s".formatted(BLOCK_PATH, "FAKE")));
+
+        // THEN
+        resultActions.andExpectAll(
+                status().isNotFound()
+        );
+    }
+
+    @Test
     void should_return_all_sets_from_a_given_block() throws Exception {
         // WHEN
         ResultActions resultActions = mvc.perform(get("%s/%s".formatted(BLOCK_PATH, KHM.code())));

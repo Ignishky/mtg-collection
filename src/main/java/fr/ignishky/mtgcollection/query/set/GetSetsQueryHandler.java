@@ -1,5 +1,6 @@
 package fr.ignishky.mtgcollection.query.set;
 
+import fr.ignishky.mtgcollection.domain.block.exception.BlockNotFoundException;
 import fr.ignishky.mtgcollection.domain.set.Set;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryHandler;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper;
@@ -20,6 +21,11 @@ public class GetSetsQueryHandler implements QueryHandler<GetSetsQuery, GetSetsRe
     @Override
     public GetSetsResponse handle(GetSetsQuery query) {
         var sets = retrieveSetsList(query);
+
+        if (sets.isEmpty()) {
+            throw new BlockNotFoundException();
+        }
+
         var blockName = sets.find(set -> set.code().equals(query.setCode())).map(Set::name).get();
         return new GetSetsResponse(
                 blockName,
