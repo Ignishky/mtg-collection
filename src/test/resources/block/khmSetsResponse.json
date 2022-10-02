@@ -4,22 +4,26 @@
     {
       "code": "khm",
       "name": "Kaldheim",
-      "icon": "https://scryfall.mtgc.test/sets/khm.svg"
+      "icon": "https://scryfall.mtgc.test/sets/khm.svg",
+      "nbCards": 427
     },
     {
       "code": "akhm",
       "name": "Kaldheim Art Series",
-      "icon": "https://scryfall.mtgc.test/sets/khm.svg"
+      "icon": "https://scryfall.mtgc.test/sets/khm.svg",
+      "nbCards": 30
     },
     {
       "code": "tkhm",
       "name": "Kaldheim Tokens",
-      "icon": "https://scryfall.mtgc.test/sets/khm.svg"
+      "icon": "https://scryfall.mtgc.test/sets/khm.svg",
+      "nbCards": 15
     },
     {
       "code": "pkhm",
       "name": "Kaldheim Promos",
-      "icon": "https://scryfall.mtgc.test/sets/khm.svg"
+      "icon": "https://scryfall.mtgc.test/sets/khm.svg",
+      "nbCards": 136
     }
   ]
 }

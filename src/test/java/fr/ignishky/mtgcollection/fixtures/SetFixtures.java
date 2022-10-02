@@ -53,7 +53,7 @@ public class SetFixtures {
             .withParentSetCode(KHM.code())
             .withReleaseDate("2020-04-24")
             .withSetType(MEMORABILIA)
-            .withCardCount(15)
+            .withCardCount(30)
             .withSetIcon(KHM.icon())
             .generate();
 
