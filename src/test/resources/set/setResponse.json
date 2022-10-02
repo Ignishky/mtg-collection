@@ -14,7 +14,7 @@
         "eur": 1.50
       },
       "isOwned": false,
-      "isFoiled": false
+      "isOwnedFoil": false
     },
     {
       "id": "c53c1898-9107-4bf8-b249-d0502fb9596d",
@@ -25,7 +25,7 @@
         "eur_foil": 0.63
       },
       "isOwned": true,
-      "isFoiled": false
+      "isOwnedFoil": false
     }
   ]
 }

@@ -34,7 +34,7 @@ public class CardUpdated extends Event<CardId, Card, CardUpdated.CardUpdatedPayl
                 aggregate.cardImage(),
                 new Price(price.eur(), price.eurFoil()),
                 aggregate.isOwned(),
-                aggregate.isFoiled(),
+                aggregate.isOwnedFoil(),
                 ofInstant(instant, systemDefault())
         );
     }

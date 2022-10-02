@@ -12,16 +12,16 @@ import static fr.ignishky.mtgcollection.framework.common.Instants.now;
 public class CardOwned extends Event<CardId, Card, CardOwned.CardOwnedPayload> {
 
     private final boolean isOwned;
-    private final boolean isFoiled;
+    private final boolean isOwnedFoil;
 
-    public CardOwned(CardId aggregateId, boolean isOwned, boolean isFoiled) {
-        this(null, aggregateId, isOwned, isFoiled, now());
+    public CardOwned(CardId aggregateId, boolean isOwned, boolean isOwnedFoil) {
+        this(null, aggregateId, isOwned, isOwnedFoil, now());
     }
 
-    private CardOwned(String id, CardId aggregateId, boolean isOwned, boolean isFoiled, Instant instant) {
-        super(id, aggregateId, Card.class, new CardOwnedPayload(isOwned, isFoiled), instant);
+    private CardOwned(String id, CardId aggregateId, boolean isOwned, boolean isOwnedFoil, Instant instant) {
+        super(id, aggregateId, Card.class, new CardOwnedPayload(isOwned, isOwnedFoil), instant);
         this.isOwned = isOwned;
-        this.isFoiled = isFoiled;
+        this.isOwnedFoil = isOwnedFoil;
     }
 
     @Override
@@ -33,13 +33,13 @@ public class CardOwned extends Event<CardId, Card, CardOwned.CardOwnedPayload> {
                 aggregate.cardImage(),
                 aggregate.prices(),
                 isOwned,
-                isFoiled,
+                isOwnedFoil,
                 aggregate.lastUpdate());
     }
 
     record CardOwnedPayload(
             boolean isOwned,
-            boolean isFoiled
+            boolean isOwnedFoil
     ) implements Payload {
 
     }

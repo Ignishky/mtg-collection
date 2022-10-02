@@ -19,7 +19,7 @@ public record Card(
         CardImage cardImage,
         Price prices,
         boolean isOwned,
-        boolean isFoiled,
+        boolean isOwnedFoil,
         LocalDate lastUpdate
 ) implements Aggregate<CardId> {
 
@@ -35,8 +35,8 @@ public record Card(
         return new AppliedEvent<>(card, event);
     }
 
-    public AppliedEvent<Card, CardOwned> owned(boolean isFoiled) {
-        var event = new CardOwned(id, true, isFoiled);
+    public AppliedEvent<Card, CardOwned> owned(boolean isFoil) {
+        var event = new CardOwned(id, true, isFoil);
         var card = event.apply(this);
         return new AppliedEvent<>(card, event);
     }

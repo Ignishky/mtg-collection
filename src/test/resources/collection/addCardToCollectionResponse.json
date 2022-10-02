@@ -3,5 +3,5 @@
   "name": "Ledger Shredder",
   "image": "https://scryfall.mtgc.test/cards/ledgerShredder.png",
   "isOwned": true,
-  "isFoiled": true
+  "isOwnedFoil": true
 }

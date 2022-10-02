@@ -49,7 +49,7 @@ public class CollectionController implements CollectionApi {
     @Override
     public ResponseEntity<CardResponse> addCard(UUID cardId, CollectionRequest request) {
         LOGGER.info("Received call to `PUT /collection/{}` with body {}", cardId, request);
-        return commandBus.dispatch(new AddOwnCardCommand(new CardId(cardId), request.isFoiled()))
+        return commandBus.dispatch(new AddOwnCardCommand(new CardId(cardId), request.isOwnedFoil()))
                 .fold(
                         cause -> failure("PUT", cardId, cause),
                         card -> success("PUT", card)

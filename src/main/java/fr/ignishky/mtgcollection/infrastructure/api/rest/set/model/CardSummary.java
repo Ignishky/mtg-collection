@@ -16,8 +16,8 @@ public record CardSummary(
         PriceResponse price,
         @Schema(description = "Is the card in your collection ?")
         boolean isOwned,
-        @Schema(description = "If the card is in your collection is it foiled ?")
-        boolean isFoiled
+        @Schema(description = "If the card is in your collection is it foil ?")
+        boolean isOwnedFoil
 ) {
 
 }

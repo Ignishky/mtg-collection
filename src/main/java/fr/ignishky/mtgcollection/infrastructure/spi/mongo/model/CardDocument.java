@@ -15,7 +15,7 @@ public record CardDocument(
         String image,
         PriceRecord prices,
         boolean inCollection,
-        boolean isFoiled,
+        boolean isOwnedFoil,
         LocalDate lastUpdate
 ) {
 

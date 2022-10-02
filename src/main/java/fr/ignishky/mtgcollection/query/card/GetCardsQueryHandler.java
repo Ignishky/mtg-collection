@@ -30,9 +30,9 @@ public class GetCardsQueryHandler implements QueryHandler<GetCardsQuery, GetCard
         return new GetCardsResponse(
                 retrieveSetName(query),
                 cards.count(Card::isOwned),
-                cards.count(Card::isFoiled),
+                cards.count(Card::isOwnedFoil),
                 cards.map(Card::prices).map(price -> price.eurFoil() != null ? price.eurFoil() : price.eur()).filter(Objects::nonNull).sum().doubleValue(),
-                cards.filter(Card::isOwned).map(card -> card.isFoiled() ? card.prices().eurFoil() : card.prices().eur()).filter(Objects::nonNull).sum().doubleValue(),
+                cards.filter(Card::isOwned).map(card -> card.isOwnedFoil() ? card.prices().eurFoil() : card.prices().eur()).filter(Objects::nonNull).sum().doubleValue(),
                 cards
         );
     }

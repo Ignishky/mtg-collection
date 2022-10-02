@@ -31,11 +31,11 @@ public class ApiResponseMapper {
                 aCard.cardImage().image(),
                 new PriceResponse(price.eur(), price.eurFoil()),
                 aCard.isOwned(),
-                aCard.isFoiled());
+                aCard.isOwnedFoil());
     }
 
     public static CardResponse toCardResponse(Card aCard) {
-        return new CardResponse(aCard.id().id(), aCard.cardName().name(), aCard.cardImage().image(), aCard.isOwned(), aCard.isFoiled());
+        return new CardResponse(aCard.id().id(), aCard.cardName().name(), aCard.cardImage().image(), aCard.isOwned(), aCard.isOwnedFoil());
     }
 
 }

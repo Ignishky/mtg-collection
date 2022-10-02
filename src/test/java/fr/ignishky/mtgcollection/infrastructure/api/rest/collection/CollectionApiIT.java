@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(InstantFreezeExtension.class)
 class CollectionApiIT {
 
-    private static final Card ledgerShredderOwnedFoiled = ledgerShredder.withOwned(true).withFoiled(true);
+    private static final Card ledgerShredderOwnedFoil = ledgerShredder.withOwned(true).withOwnedFoil(true);
 
     @Autowired
     private MockMvc mvc;
@@ -53,7 +53,7 @@ class CollectionApiIT {
     void should_retrieve_all_card_from_collection() throws Exception {
         // GIVEN
         mongoTemplate.insertAll(List.of(
-                toDocument(ledgerShredder.withOwned(true).withFoiled(true)),
+                toDocument(ledgerShredder.withOwned(true).withOwnedFoil(true)),
                 toDocument(depopulate.withOwned(true)),
                 toDocument(vorinclex)
         ).asJava());
@@ -77,7 +77,7 @@ class CollectionApiIT {
             // WHEN
             var response = mvc.perform(put("%s/%s".formatted(COLLECTION_PATH, randomUUID()))
                     .contentType(APPLICATION_JSON)
-                    .content("{\"isFoiled\": false}"));
+                    .content("{\"isOwnedFoil\": false}"));
 
             // THEN
             response.andExpect(status().isNotFound());
@@ -89,12 +89,12 @@ class CollectionApiIT {
         @Test
         void should_accept_to_add_owned_card() throws Exception {
             // GIVEN
-            mongoTemplate.save(toDocument(ledgerShredderOwnedFoiled));
+            mongoTemplate.save(toDocument(ledgerShredderOwnedFoil));
 
             // WHEN
             var response = mvc.perform(put("%s/%s".formatted(COLLECTION_PATH, ledgerShredder.id()))
                     .contentType(APPLICATION_JSON)
-                    .content("{\"isFoiled\": true}"));
+                    .content("{\"isOwnedFoil\": true}"));
 
             // THEN
             response.andExpectAll(
@@ -102,11 +102,11 @@ class CollectionApiIT {
                     content().contentType(APPLICATION_JSON),
                     content().json(readFile("/collection/addCardToCollectionResponse.json"), true)
             );
-            assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toDocument(ledgerShredderOwnedFoiled));
+            assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toDocument(ledgerShredderOwnedFoil));
 
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(1);
-            assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardOwned.class, "{\"isOwned\":true,\"isFoiled\":true}");
+            assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardOwned.class, "{\"isOwned\":true,\"isOwnedFoil\":true}");
         }
 
         @Test
@@ -117,7 +117,7 @@ class CollectionApiIT {
             // WHEN
             var response = mvc.perform(put("%s/%s".formatted(COLLECTION_PATH, ledgerShredder.id()))
                     .contentType(APPLICATION_JSON)
-                    .content("{\"isFoiled\": true}"));
+                    .content("{\"isOwnedFoil\": true}"));
 
             // THEN
             response.andExpectAll(
@@ -125,11 +125,11 @@ class CollectionApiIT {
                     content().contentType(APPLICATION_JSON),
                     content().json(readFile("/collection/addCardToCollectionResponse.json"), true)
             );
-            assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toDocument(ledgerShredderOwnedFoiled));
+            assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toDocument(ledgerShredderOwnedFoil));
 
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(1);
-            assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardOwned.class, "{\"isOwned\":true,\"isFoiled\":true}");
+            assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardOwned.class, "{\"isOwned\":true,\"isOwnedFoil\":true}");
         }
 
     }
@@ -170,7 +170,7 @@ class CollectionApiIT {
         @Test
         void should_delete_owned_card() throws Exception {
             // GIVEN
-            mongoTemplate.save(toDocument(ledgerShredderOwnedFoiled));
+            mongoTemplate.save(toDocument(ledgerShredderOwnedFoil));
 
             // WHEN
             var response = mvc.perform(delete("%s/%s".formatted(COLLECTION_PATH, ledgerShredder.id())));

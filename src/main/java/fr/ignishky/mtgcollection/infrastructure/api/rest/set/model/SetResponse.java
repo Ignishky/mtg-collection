@@ -10,7 +10,7 @@ public record SetResponse(
         int nbCards,
         @Schema(description = "The number of cards owned in the set.")
         int nbOwned,
-        @Schema(description = "The number of foiled cards owned in the set.")
+        @Schema(description = "The number of foil cards owned in the set.")
         int nbOwnedFoil,
         @Schema(description = "The sum of all the cards in the set. In foil version if exists, normal otherwise.")
         double maxValue,
