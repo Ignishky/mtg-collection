@@ -6,6 +6,7 @@ spring:
 
 springdoc:
   swagger-ui:
+    defaultModelsExpandDepth: -1
     path: /doc
 
 scryfall:
