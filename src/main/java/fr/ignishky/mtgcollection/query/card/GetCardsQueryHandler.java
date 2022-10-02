@@ -1,6 +1,7 @@
 package fr.ignishky.mtgcollection.query.card;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
+import fr.ignishky.mtgcollection.domain.set.exception.SetNotFoundException;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryHandler;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
@@ -27,6 +28,9 @@ public class GetCardsQueryHandler implements QueryHandler<GetCardsQuery, GetCard
     @Override
     public GetCardsResponse handle(GetCardsQuery query) {
         List<Card> cards = retrieveCardsList(query);
+        if (cards.isEmpty()) {
+            throw new SetNotFoundException();
+        }
         return new GetCardsResponse(
                 retrieveSetName(query),
                 cards.count(Card::isOwned),
@@ -37,19 +41,19 @@ public class GetCardsQueryHandler implements QueryHandler<GetCardsQuery, GetCard
         );
     }
 
-    private Option<String> retrieveSetName(GetCardsQuery query) {
-        return query.code()
-                .map(setCode -> new Query().addCriteria(where("code").is(setCode.value())))
-                .flatMap(setQuery -> Option.of(mongoTemplate.findOne(setQuery, SetDocument.class)))
-                .map(SetDocument::name);
-    }
-
     private List<Card> retrieveCardsList(GetCardsQuery query) {
         return query.code()
                 .map(setCode -> new Query().addCriteria(where("setCode").is(setCode.value())))
                 .orElse(Option.of(new Query().addCriteria(where("inCollection").is(query.owned()))))
                 .transform(cardQuery -> List.ofAll(mongoTemplate.find(cardQuery.get(), CardDocument.class)))
                 .map(MongoDocumentMapper::toCard);
+    }
+
+    private Option<String> retrieveSetName(GetCardsQuery query) {
+        return query.code()
+                .map(setCode -> new Query().addCriteria(where("code").is(setCode.value())))
+                .flatMap(setQuery -> Option.of(mongoTemplate.findOne(setQuery, SetDocument.class)))
+                .map(SetDocument::name);
     }
 
 }

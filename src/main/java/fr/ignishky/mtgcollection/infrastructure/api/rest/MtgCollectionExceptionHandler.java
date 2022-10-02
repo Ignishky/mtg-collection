@@ -1,6 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest;
 
 import fr.ignishky.mtgcollection.domain.block.exception.BlockNotFoundException;
+import fr.ignishky.mtgcollection.domain.set.exception.SetNotFoundException;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class MtgCollectionExceptionHandler extends ResponseEntityExceptionHandle
 
     private static final Logger LOGGER = getLogger(MtgCollectionExceptionHandler.class);
 
-    @ExceptionHandler(BlockNotFoundException.class)
+    @ExceptionHandler({BlockNotFoundException.class, SetNotFoundException.class})
     protected static ResponseEntity<Object> handleNotFound(Exception ex, @NonNull WebRequest request) {
 
         logWarning(request, NOT_FOUND, ex.getMessage());

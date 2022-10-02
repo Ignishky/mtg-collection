@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
-import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
 
 @Controller
@@ -43,16 +42,15 @@ class SetController implements SetApi {
                 .map(ApiResponseMapper::toCardSummary);
         LOGGER.info("Respond to `GET /sets/{}` with {} cards", setCode, cards.size());
 
-        return cards.isEmpty()
-                ? notFound().build()
-                : ok(new SetResponse(
+        return ok(new SetResponse(
                 getCardsResponse.setName().getOrNull(),
                 cards.size(),
                 getCardsResponse.nbOwned(),
                 getCardsResponse.nbOwnedFoil(),
                 getCardsResponse.maxValue(),
                 getCardsResponse.ownedValue(),
-                cards));
+                cards
+        ));
     }
 
 }
