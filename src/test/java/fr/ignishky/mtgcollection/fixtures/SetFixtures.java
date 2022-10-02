@@ -12,9 +12,6 @@ import static java.util.UUID.randomUUID;
 
 public class SetFixtures {
 
-    private SetFixtures() {
-    }
-
     public static final Set SNC = new SetGenerator()
             .withSetId(toSetId("df837242-8c15-42e4-b049-c933a02dc501"))
             .withSetCode(new SetCode("snc"))

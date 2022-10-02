@@ -8,9 +8,6 @@ public class Instants {
 
     private static Clock clock = Clock.systemUTC();
 
-    private Instants() {
-    }
-
     public static void freeze() {
         clock = Clock.fixed(now(), ZoneId.of("UTC"));
     }

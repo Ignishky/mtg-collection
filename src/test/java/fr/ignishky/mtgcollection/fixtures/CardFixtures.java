@@ -8,9 +8,6 @@ import static java.time.LocalDate.now;
 
 public class CardFixtures {
 
-    private CardFixtures() {
-    }
-
     public static final Card ledgerShredder = new Card(
             CardId.fromString("7ea4b5bc-18a4-45db-a56a-ab3f8bd2fb0d"),
             SNC.code(),

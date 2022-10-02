@@ -14,9 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestUtils {
 
-    private TestUtils() {
-    }
-
     public static String readFile(String fileName) {
         try {
             return join("", readAllLines(Path.of(TestUtils.class.getResource(fileName).toURI())));
