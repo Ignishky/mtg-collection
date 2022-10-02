@@ -61,11 +61,11 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
         return toCommandResponse(events.appendAll(cardAppliedEvents.map(AppliedEvent::event)));
     }
 
-    private List<AppliedEvent<Set, SetAdded>> saveOnlyNewSets(List<? extends SetReferer> setAppliedEvents) {
-        var existingSets = setRepository.getAll();
-        var newSets = setAppliedEvents
-                .map(RefreshSetCommandHandler::toSetAdded)
-                .filter(appliedEvents -> !existingSets.contains(appliedEvents.aggregate()));
+    private List<AppliedEvent<Set, SetAdded>> saveOnlyNewSets(List<? extends SetReferer> refererSets) {
+        var existingSetCodes = setRepository.getAll().map(Set::code);
+        var newSets = refererSets
+                .filter(refererSet -> !existingSetCodes.contains(new SetCode(refererSet.code())))
+                .map(RefreshSetCommandHandler::toSetAdded);
 
         LOGGER.info("Saving {} new sets ...", newSets.size());
         setRepository.save(newSets.map(AppliedEvent::aggregate));
