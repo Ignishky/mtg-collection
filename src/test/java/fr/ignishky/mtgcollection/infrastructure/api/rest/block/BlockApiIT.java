@@ -5,6 +5,7 @@ import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.EventDocument;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
 import io.vavr.collection.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -41,48 +42,58 @@ class BlockApiIT {
                 toDocument(AKHM),
                 toDocument(PKHM),
                 toDocument(TKHM),
-                toDocument(KHM),
+                toDocument(KHM.withCardOwnedCount(1)),
                 toDocument(P22),
                 toDocument(SNC),
                 toDocument(DDU)
         ).asJava());
     }
 
-    @Test
-    void should_return_all_blocks_from_repository() throws Exception {
-        // WHEN
-        ResultActions resultActions = mvc.perform(get(BLOCK_PATH));
+    @Nested
+    class getAll {
 
-        // THEN
-        resultActions.andExpectAll(
-                status().isOk(),
-                content().contentType(APPLICATION_JSON),
-                content().json(readFile("/block/allBlocksResponse.json"), true)
-        );
+        @Test
+        void should_return_all_blocks_from_repository() throws Exception {
+            // WHEN
+            ResultActions resultActions = mvc.perform(get(BLOCK_PATH));
+
+            // THEN
+            resultActions.andExpectAll(
+                    status().isOk(),
+                    content().contentType(APPLICATION_JSON),
+                    content().json(readFile("/block/allBlocksResponse.json"), true)
+            );
+        }
+
     }
 
-    @Test
-    void should_return_404_when_block_code_is_unknown() throws Exception {
-        // WHEN
-        ResultActions resultActions = mvc.perform(get("%s/%s".formatted(BLOCK_PATH, "FAKE")));
+    @Nested
+    class GetBlock {
 
-        // THEN
-        resultActions.andExpectAll(
-                status().isNotFound()
-        );
-    }
+        @Test
+        void should_return_404_when_block_code_is_unknown() throws Exception {
+            // WHEN
+            ResultActions resultActions = mvc.perform(get("%s/%s".formatted(BLOCK_PATH, "FAKE")));
 
-    @Test
-    void should_return_all_sets_from_a_given_block() throws Exception {
-        // WHEN
-        ResultActions resultActions = mvc.perform(get("%s/%s".formatted(BLOCK_PATH, KHM.code())));
+            // THEN
+            resultActions.andExpectAll(
+                    status().isNotFound()
+            );
+        }
 
-        // THEN
-        resultActions.andExpectAll(
-                status().isOk(),
-                content().contentType(APPLICATION_JSON),
-                content().json(readFile("/block/khmSetsResponse.json"), true)
-        );
+        @Test
+        void should_return_all_sets_from_a_given_block() throws Exception {
+            // WHEN
+            ResultActions resultActions = mvc.perform(get("%s/%s".formatted(BLOCK_PATH, KHM.code())));
+
+            // THEN
+            resultActions.andExpectAll(
+                    status().isOk(),
+                    content().contentType(APPLICATION_JSON),
+                    content().json(readFile("/block/khmSetsResponse.json"), true)
+            );
+        }
+
     }
 
 }

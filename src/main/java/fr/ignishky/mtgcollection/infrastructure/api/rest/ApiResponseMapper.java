@@ -17,7 +17,7 @@ public class ApiResponseMapper {
     }
 
     public static SetSummary toSetSummary(Set aSet) {
-        return new SetSummary(aSet.code().value(), aSet.name().value(), aSet.icon().url(), aSet.cardCount());
+        return new SetSummary(aSet.code().value(), aSet.name().value(), aSet.icon().url(), aSet.cardCount(), aSet.cardOwnedCount());
     }
 
     public static CardSummary toCardSummary(Card aCard) {

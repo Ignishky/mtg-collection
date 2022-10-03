@@ -11,7 +11,9 @@ public record SetSummary(
                 example = "https://c2.scryfall.com/file/scryfall-symbols/sets/ice.svg?1644814800")
         String icon,
         @Schema(description = "The number of cards int the set.")
-        int nbCards
+        int nbCards,
+        @Schema(description = "The number of cards owned.")
+        int nbOwned
 ) {
 
 }

@@ -23,6 +23,7 @@ public class MongoDocumentMapper {
                 set.releasedDate(),
                 set.setType(),
                 set.cardCount(),
+                set.cardOwnedCount(),
                 set.icon().url());
     }
 
@@ -36,6 +37,7 @@ public class MongoDocumentMapper {
                 document.releaseDate(),
                 document.setType(),
                 document.cardCount(),
+                document.cardOwnedCount(),
                 new SetIcon(document.icon()));
     }
 

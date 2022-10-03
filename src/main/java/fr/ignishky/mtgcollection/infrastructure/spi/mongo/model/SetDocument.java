@@ -1,5 +1,6 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.mongo.model;
 
+import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.domain.set.SetType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,8 +17,13 @@ public record SetDocument(
         String blockCode,
         String releaseDate,
         SetType setType,
-        int cardCount,
+        Integer cardCount,
+        Integer cardOwnedCount,
         String icon
 ) {
+
+    public static SetDocument from(SetCode code) {
+        return new SetDocument(null, code.value(), null, null, null, null, null, null, null, null);
+    }
 
 }
