@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import static java.lang.Double.parseDouble;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.ResponseEntity.ok;
@@ -47,8 +48,8 @@ class SetController implements SetApi {
                 cards.size(),
                 getCardsResponse.nbOwned(),
                 getCardsResponse.nbOwnedFoil(),
-                getCardsResponse.maxValue(),
-                getCardsResponse.ownedValue(),
+                parseDouble(String.format("%.2f", getCardsResponse.maxValue())),
+                parseDouble(String.format("%.2f", getCardsResponse.ownedValue())),
                 cards
         ));
     }
