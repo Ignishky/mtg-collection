@@ -13,7 +13,9 @@ public record SetSummary(
         @Schema(description = "The number of cards int the set.")
         int nbCards,
         @Schema(description = "The number of cards owned.")
-        int nbOwned
+        int nbOwned,
+        @Schema(description = "The number of foil cards owned.")
+        int nbOwnedFoil
 ) {
 
 }

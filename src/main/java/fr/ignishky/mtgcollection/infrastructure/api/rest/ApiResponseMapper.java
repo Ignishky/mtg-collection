@@ -17,7 +17,14 @@ public class ApiResponseMapper {
     }
 
     public static SetSummary toSetSummary(Set aSet) {
-        return new SetSummary(aSet.code().value(), aSet.name().value(), aSet.icon().url(), aSet.cardCount(), aSet.cardOwnedCount());
+        return new SetSummary(
+                aSet.code().value(),
+                aSet.name().value(),
+                aSet.icon().url(),
+                aSet.cardCount(),
+                aSet.cardOwnedCount(),
+                aSet.cardFoilOwnedCount()
+        );
     }
 
     public static CardSummary toCardSummary(Card aCard) {
@@ -28,11 +35,18 @@ public class ApiResponseMapper {
                 aCard.cardImage().image(),
                 new PriceResponse(price.eur(), price.eurFoil()),
                 aCard.isOwned(),
-                aCard.isOwnedFoil());
+                aCard.isOwnedFoil()
+        );
     }
 
     public static CardResponse toCardResponse(Card aCard) {
-        return new CardResponse(aCard.id().id(), aCard.cardName().name(), aCard.cardImage().image(), aCard.isOwned(), aCard.isOwnedFoil());
+        return new CardResponse(
+                aCard.id().id(),
+                aCard.cardName().name(),
+                aCard.cardImage().image(),
+                aCard.isOwned(),
+                aCard.isOwnedFoil()
+        );
     }
 
 }

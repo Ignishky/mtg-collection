@@ -29,6 +29,9 @@ public class GetSetsQueryHandler implements QueryHandler<GetSetsQuery, GetSetsRe
         var blockName = sets.find(set -> set.code().equals(query.setCode())).map(Set::name).get();
         return new GetSetsResponse(
                 blockName,
+                sets.map(Set::cardCount).sum().intValue(),
+                sets.map(Set::cardOwnedCount).sum().intValue(),
+                sets.map(Set::cardFoilOwnedCount).sum().intValue(),
                 sets
         );
     }

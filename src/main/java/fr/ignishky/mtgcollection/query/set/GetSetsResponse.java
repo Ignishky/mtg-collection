@@ -6,6 +6,9 @@ import io.vavr.collection.List;
 
 public record GetSetsResponse(
         SetName blockName,
+        int nbCards,
+        int nbOwned,
+        int nbOwnedFoil,
         List<Set> sets
 ) {
 

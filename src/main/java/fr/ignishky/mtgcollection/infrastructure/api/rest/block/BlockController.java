@@ -7,7 +7,6 @@ import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlocksRespo
 import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.SetsResponse;
 import fr.ignishky.mtgcollection.query.block.GetBlocksQuery;
 import fr.ignishky.mtgcollection.query.set.GetSetsQuery;
-import fr.ignishky.mtgcollection.query.set.GetSetsResponse;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -38,11 +37,17 @@ public class BlockController implements BlockApi {
     @Override
     public ResponseEntity<SetsResponse> getSets(String blockCode) {
         LOGGER.info("Received call to `GET /blocks/{}`", blockCode);
-        GetSetsResponse getSetsResponse = queryBus.dispatch(new GetSetsQuery(new SetCode(blockCode)));
+        var getSetsResponse = queryBus.dispatch(new GetSetsQuery(new SetCode(blockCode)));
         var sets = getSetsResponse.sets()
                 .map(ApiResponseMapper::toSetSummary);
         LOGGER.info("Respond to `GET /blocks/{}` with {} blocks", blockCode, sets.size());
-        return ok(new SetsResponse(getSetsResponse.blockName().value(), sets));
+        return ok(new SetsResponse(
+                getSetsResponse.blockName().value(),
+                getSetsResponse.nbCards(),
+                getSetsResponse.nbOwned(),
+                getSetsResponse.nbOwnedFoil(),
+                sets)
+        );
     }
 
 }

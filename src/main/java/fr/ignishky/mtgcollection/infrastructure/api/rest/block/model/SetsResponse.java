@@ -7,7 +7,12 @@ import io.vavr.collection.List;
 public record SetsResponse(
         @Schema(description = "The name of the selected block.")
         String blockName,
-
+        @Schema(description = "The number of cards in the block.")
+        int nbCards,
+        @Schema(description = "The number of owned card.")
+        int nbOwned,
+        @Schema(description = "The number of owned foil card.")
+        int nbOwnedFoil,
         @Schema(description = "The list of known cards sets.")
         List<SetSummary> sets
 ) {

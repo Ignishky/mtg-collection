@@ -25,7 +25,8 @@ public interface BlockApi {
     @Operation(
             summary = "Return all the MTG blocks",
             description = "The response contain all the blocks sorting by publishing date.",
-            responses = @ApiResponse(responseCode = "200", description = "The list of all card blocks."))
+            responses = @ApiResponse(responseCode = "200", description = "The list of all card blocks.")
+    )
     ResponseEntity<BlocksResponse> getAll();
 
     @GetMapping(value = "/{blockCode}", produces = APPLICATION_JSON_VALUE)

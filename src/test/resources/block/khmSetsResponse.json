@@ -1,33 +1,40 @@
 {
   "blockName": "Kaldheim",
+  "nbCards": 608,
+  "nbOwned": 2,
+  "nbOwnedFoil": 1,
   "sets": [
     {
       "code": "khm",
       "name": "Kaldheim",
       "icon": "https://scryfall.mtgc.test/sets/khm.svg",
       "nbCards": 427,
-      "nbOwned": 1
+      "nbOwned": 1,
+      "nbOwnedFoil": 1
     },
     {
       "code": "akhm",
       "name": "Kaldheim Art Series",
       "icon": "https://scryfall.mtgc.test/sets/khm.svg",
       "nbCards": 30,
-      "nbOwned": 0
+      "nbOwned": 0,
+      "nbOwnedFoil": 0
     },
     {
       "code": "tkhm",
       "name": "Kaldheim Tokens",
       "icon": "https://scryfall.mtgc.test/sets/khm.svg",
       "nbCards": 15,
-      "nbOwned": 0
+      "nbOwned": 1,
+      "nbOwnedFoil": 0
     },
     {
       "code": "pkhm",
       "name": "Kaldheim Promos",
       "icon": "https://scryfall.mtgc.test/sets/khm.svg",
       "nbCards": 136,
-      "nbOwned": 0
+      "nbOwned": 0,
+      "nbOwnedFoil": 0
     }
   ]
 }
