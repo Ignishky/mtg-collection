@@ -15,7 +15,8 @@ public class MongoDocumentMapper {
     private static final Gson GSON = new Gson();
 
     public static SetDocument toDocument(Set set) {
-        return new SetDocument(set.id().id(),
+        return new SetDocument(
+                set.id().id(),
                 set.code().value(),
                 set.name().value(),
                 set.parentSetCode().map(SetCode::value).getOrNull(),
@@ -24,11 +25,14 @@ public class MongoDocumentMapper {
                 set.setType(),
                 set.cardCount(),
                 set.cardOwnedCount(),
-                set.icon().url());
+                set.cardFoilOwnedCount(),
+                set.icon().url()
+        );
     }
 
     public static Set toSet(SetDocument document) {
-        return new Set(new SetId(document.id()),
+        return new Set(
+                new SetId(document.id()),
                 new SetCode(document.code()),
                 new SetName(document.name()),
                 false,
@@ -38,7 +42,9 @@ public class MongoDocumentMapper {
                 document.setType(),
                 document.cardCount(),
                 document.cardOwnedCount(),
-                new SetIcon(document.icon()));
+                document.cardFoilOwnedCount(),
+                new SetIcon(document.icon())
+        );
     }
 
     public static CardDocument toDocument(Card aCard) {
@@ -55,7 +61,8 @@ public class MongoDocumentMapper {
     }
 
     public static Card toCard(CardDocument document) {
-        return new Card(new CardId(document.id()),
+        return new Card(
+                new CardId(document.id()),
                 new SetCode(document.setCode()),
                 new CardName(document.name()),
                 new CardImage(document.image()),

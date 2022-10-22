@@ -19,11 +19,12 @@ public record SetDocument(
         SetType setType,
         Integer cardCount,
         Integer cardOwnedCount,
+        Integer cardFoilOwnedCount,
         String icon
 ) {
 
     public static SetDocument from(SetCode code) {
-        return new SetDocument(null, code.value(), null, null, null, null, null, null, null, null);
+        return new SetDocument(null, code.value(), null, null, null, null, null, null, null, null, null);
     }
 
 }

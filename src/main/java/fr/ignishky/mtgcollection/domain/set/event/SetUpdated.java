@@ -12,14 +12,16 @@ import static fr.ignishky.mtgcollection.framework.common.Instants.now;
 public class SetUpdated extends Event<SetId, Set, SetUpdated.SetUpdatedPayload> {
 
     private final int cardOwnedCount;
+    private final int cardFoilOwnedCount;
 
-    public SetUpdated(SetId aggregateId, int cardOwnedCount) {
-        this(null, aggregateId, cardOwnedCount, now());
+    public SetUpdated(SetId aggregateId, int cardOwnedCount, int cardFoilOwnedCount) {
+        this(null, aggregateId, cardOwnedCount, cardFoilOwnedCount, now());
     }
 
-    private SetUpdated(String id, SetId aggregateId, int cardOwnedCount, Instant instant) {
-        super(id, aggregateId, Set.class, new SetUpdated.SetUpdatedPayload(cardOwnedCount), instant);
+    private SetUpdated(String id, SetId aggregateId, int cardOwnedCount, int cardFoilOwnedCount, Instant instant) {
+        super(id, aggregateId, Set.class, new SetUpdatedPayload(cardOwnedCount, cardFoilOwnedCount), instant);
         this.cardOwnedCount = cardOwnedCount;
+        this.cardFoilOwnedCount = cardFoilOwnedCount;
     }
 
     @Override
@@ -35,12 +37,14 @@ public class SetUpdated extends Event<SetId, Set, SetUpdated.SetUpdatedPayload> 
                 aggregate.setType(),
                 aggregate.cardCount(),
                 cardOwnedCount,
+                cardFoilOwnedCount,
                 aggregate.icon()
         );
     }
 
     record SetUpdatedPayload(
-            int cardOwnedCount
+            int cardOwnedCount,
+            int cardFoilOwnedCount
     ) implements Payload {
 
     }

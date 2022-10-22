@@ -75,7 +75,7 @@ public class SetAdded extends Event<SetId, Set, SetAdded.SetAddedPayload> {
 
     @Override
     public Set apply(Set aggregate) {
-        return new Set(aggregateId(), code, name, false, parentSetCode, blockCode, releaseDate, setType, cardCount, 0, icon);
+        return new Set(aggregateId(), code, name, false, parentSetCode, blockCode, releaseDate, setType, cardCount, 0, 0, icon);
     }
 
     record SetAddedPayload(

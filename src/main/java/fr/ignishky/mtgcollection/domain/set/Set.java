@@ -19,6 +19,7 @@ public record Set(
         SetType setType,
         Integer cardCount,
         Integer cardOwnedCount,
+        Integer cardFoilOwnedCount,
         SetIcon icon
 ) implements Aggregate<SetId>, Comparable<Set> {
 
@@ -38,14 +39,14 @@ public record Set(
         return new AppliedEvent<>(set, setAdded);
     }
 
-    public AppliedEvent<Set, SetUpdated> incrementCardOwned() {
-        SetUpdated setUpdated = new SetUpdated(id, cardOwnedCount + 1);
+    public AppliedEvent<Set, SetUpdated> incrementCardOwned(boolean ownedFoil) {
+        SetUpdated setUpdated = new SetUpdated(id, cardOwnedCount + 1, ownedFoil ? cardFoilOwnedCount + 1 : cardFoilOwnedCount);
         Set set = setUpdated.apply(this);
         return new AppliedEvent<>(set, setUpdated);
     }
 
-    public AppliedEvent<Set, SetUpdated> decrementCardOwned() {
-        SetUpdated setUpdated = new SetUpdated(id, cardOwnedCount - 1);
+    public AppliedEvent<Set, SetUpdated> decrementCardOwned(boolean ownedFoil) {
+        SetUpdated setUpdated = new SetUpdated(id, cardOwnedCount - 1, ownedFoil ? cardFoilOwnedCount - 1 : cardFoilOwnedCount);
         Set set = setUpdated.apply(this);
         return new AppliedEvent<>(set, setUpdated);
     }

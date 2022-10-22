@@ -20,6 +20,7 @@ public class SetFixtures {
             EXPANSION,
             467,
             0,
+            0,
             new SetIcon("https://scryfall.mtgc.test/sets/snc.svg")
     );
 
@@ -33,6 +34,7 @@ public class SetFixtures {
             "2022-01-01",
             PROMO,
             8,
+            0,
             0,
             new SetIcon("https://scryfall.mtgc.test/sets/archie.svg")
     );
@@ -48,6 +50,7 @@ public class SetFixtures {
             EXPANSION,
             427,
             0,
+            0,
             new SetIcon("https://scryfall.mtgc.test/sets/khm.svg")
     );
 
@@ -61,6 +64,7 @@ public class SetFixtures {
             "2020-04-24",
             MEMORABILIA,
             30,
+            0,
             0,
             KHM.icon()
     );
@@ -76,6 +80,7 @@ public class SetFixtures {
             TOKEN,
             15,
             0,
+            0,
             KHM.icon()
     );
 
@@ -90,6 +95,7 @@ public class SetFixtures {
             PROMO,
             136,
             0,
+            0,
             KHM.icon()
     );
 
@@ -103,6 +109,7 @@ public class SetFixtures {
             "2018-04-06",
             DUEL_DECK,
             76,
+            0,
             0,
             new SetIcon("https://scryfall.mtgc.test/sets/ddu.svg")
     );

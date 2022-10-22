@@ -91,7 +91,10 @@ class CollectionApiIT {
         @Test
         void should_accept_to_add_owned_card() throws Exception {
             // GIVEN
-            mongoTemplate.save(toDocument(ledgerShredderOwnedFoil));
+            mongoTemplate.insertAll(List.of(
+                    toDocument(SNC.withCardOwnedCount(1).withCardFoilOwnedCount(1)),
+                    toDocument(ledgerShredderOwnedFoil)
+            ).asJava());
 
             // WHEN
             var response = mvc.perform(put("%s/%s".formatted(COLLECTION_PATH, ledgerShredder.id()))
@@ -109,12 +112,18 @@ class CollectionApiIT {
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(1);
             assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardOwned.class, "{\"isOwned\":true,\"isOwnedFoil\":true}");
+
+            assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toDocument(ledgerShredderOwnedFoil));
+            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC.withCardOwnedCount(1).withCardFoilOwnedCount(1)));
         }
 
         @Test
         void should_add_not_owned_card() throws Exception {
             // GIVEN
-            mongoTemplate.insertAll(List.of(toDocument(SNC), toDocument(ledgerShredder)).asJava());
+            mongoTemplate.insertAll(List.of(
+                    toDocument(SNC),
+                    toDocument(ledgerShredder)
+            ).asJava());
 
             // WHEN
             var response = mvc.perform(put("%s/%s".formatted(COLLECTION_PATH, ledgerShredder.id()))
@@ -131,10 +140,10 @@ class CollectionApiIT {
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(2);
             assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardOwned.class, "{\"isOwned\":true,\"isOwnedFoil\":true}");
-            assertEvent(eventDocuments.get(1), SNC.id(), SetUpdated.class, "{\"cardOwnedCount\":1}");
+            assertEvent(eventDocuments.get(1), SNC.id(), SetUpdated.class, "{\"cardOwnedCount\":1,\"cardFoilOwnedCount\":1}");
 
             assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toDocument(ledgerShredderOwnedFoil));
-            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC.withCardOwnedCount(1)));
+            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC.withCardOwnedCount(1).withCardFoilOwnedCount(1)));
         }
 
     }
@@ -157,7 +166,10 @@ class CollectionApiIT {
         @Test
         void should_accept_deleting_not_owned_card() throws Exception {
             // GIVEN
-            mongoTemplate.save(toDocument(ledgerShredder));
+            mongoTemplate.insertAll(List.of(
+                    toDocument(SNC),
+                    toDocument(ledgerShredder)
+            ).asJava());
 
             // WHEN
             var response = mvc.perform(delete("%s/%s".formatted(COLLECTION_PATH, ledgerShredder.id())));
@@ -170,13 +182,16 @@ class CollectionApiIT {
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(1);
             assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardRetired.class, "{}");
+
+            assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toDocument(ledgerShredder));
+            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC));
         }
 
         @Test
         void should_delete_owned_card() throws Exception {
             // GIVEN
             mongoTemplate.insertAll(List.of(
-                    toDocument(SNC.withCardOwnedCount(1)),
+                    toDocument(SNC.withCardOwnedCount(1).withCardFoilOwnedCount(1)),
                     toDocument(ledgerShredderOwnedFoil)
             ).asJava());
 
@@ -189,11 +204,10 @@ class CollectionApiIT {
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(2);
             assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardRetired.class, "{}");
-            assertEvent(eventDocuments.get(1), SNC.id(), SetUpdated.class, "{\"cardOwnedCount\":0}");
+            assertEvent(eventDocuments.get(1), SNC.id(), SetUpdated.class, "{\"cardOwnedCount\":0,\"cardFoilOwnedCount\":0}");
 
             assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toDocument(ledgerShredder));
             assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC));
-
         }
 
     }
