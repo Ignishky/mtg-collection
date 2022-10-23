@@ -13,7 +13,14 @@ import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetSummary;
 public class ApiResponseMapper {
 
     public static BlockSummary toBlockSummary(Block block) {
-        return new BlockSummary(block.code().value(), block.name().value(), block.icon().url());
+        return new BlockSummary(
+                block.code().value(),
+                block.name().value(),
+                block.nbCards(),
+                block.nbOwned(),
+                block.nbOwnedFoil(),
+                block.icon().url()
+        );
     }
 
     public static SetSummary toSetSummary(Set aSet) {

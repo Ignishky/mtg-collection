@@ -3,6 +3,7 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.block;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.ApiResponseMapper;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlockSummary;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlocksResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.SetsResponse;
 import fr.ignishky.mtgcollection.query.block.GetBlocksQuery;
@@ -31,7 +32,12 @@ public class BlockController implements BlockApi {
         var blocks = queryBus.dispatch(new GetBlocksQuery())
                 .map(ApiResponseMapper::toBlockSummary);
         LOGGER.info("Respond to `GET /blocks` with {} blocks", blocks.size());
-        return ok(new BlocksResponse(blocks));
+        return ok(new BlocksResponse(
+                blocks.map(BlockSummary::nbCards).sum().intValue(),
+                blocks.map(BlockSummary::nbOwned).sum().intValue(),
+                blocks.map(BlockSummary::nbOwnedFoil).sum().intValue(),
+                blocks
+        ));
     }
 
     @Override

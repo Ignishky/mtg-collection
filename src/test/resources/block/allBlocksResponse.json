@@ -1,13 +1,22 @@
 {
+  "nbCards": 1075,
+  "nbOwned": 2,
+  "nbOwnedFoil": 1,
   "blocks": [
     {
       "code": "snc",
       "name": "Streets of New Capenna",
+      "nbCards": 467,
+      "nbOwned": 0,
+      "nbOwnedFoil": 0,
       "icon": "https://scryfall.mtgc.test/sets/snc.svg"
     },
     {
       "code": "khm",
       "name": "Kaldheim",
+      "nbCards": 608,
+      "nbOwned": 2,
+      "nbOwnedFoil": 1,
       "icon": "https://scryfall.mtgc.test/sets/khm.svg"
     }
   ]
