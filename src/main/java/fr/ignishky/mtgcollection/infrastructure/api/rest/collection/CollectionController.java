@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 
-import fr.ignishky.mtgcollection.command.collection.AddOwnCardCommand;
-import fr.ignishky.mtgcollection.command.collection.DeleteOwnCardCommand;
+import fr.ignishky.mtgcollection.domain.card.command.AddOwnCardCommand;
+import fr.ignishky.mtgcollection.domain.card.command.DeleteOwnCardCommand;
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardId;
 import fr.ignishky.mtgcollection.domain.card.exception.NoCardFoundException;
@@ -10,7 +10,7 @@ import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.ApiResponseMapper;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CardResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CollectionRequest;
-import fr.ignishky.mtgcollection.query.card.GetCardsQuery;
+import fr.ignishky.mtgcollection.domain.card.query.GetCardsQuery;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
 import org.slf4j.Logger;

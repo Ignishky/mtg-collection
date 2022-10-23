@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.command.collection;
+package fr.ignishky.mtgcollection.domain.card.command;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardId;

@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.query.card;
+package fr.ignishky.mtgcollection.domain.card.query;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.set.exception.SetNotFoundException;

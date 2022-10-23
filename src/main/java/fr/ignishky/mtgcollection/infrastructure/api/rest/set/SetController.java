@@ -1,12 +1,12 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
-import fr.ignishky.mtgcollection.command.set.RefreshSetCommand;
+import fr.ignishky.mtgcollection.domain.set.command.RefreshSetCommand;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.ApiResponseMapper;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse;
-import fr.ignishky.mtgcollection.query.card.GetCardsQuery;
+import fr.ignishky.mtgcollection.domain.card.query.GetCardsQuery;
 import io.vavr.control.Option;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;

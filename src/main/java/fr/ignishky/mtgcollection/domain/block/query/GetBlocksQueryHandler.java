@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.query.block;
+package fr.ignishky.mtgcollection.domain.block.query;
 
 import fr.ignishky.mtgcollection.domain.block.Block;
 import fr.ignishky.mtgcollection.domain.block.BlockCode;

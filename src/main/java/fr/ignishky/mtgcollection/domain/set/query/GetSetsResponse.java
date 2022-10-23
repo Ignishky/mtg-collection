@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.query.set;
+package fr.ignishky.mtgcollection.domain.set.query;
 
 import fr.ignishky.mtgcollection.domain.set.Set;
 import fr.ignishky.mtgcollection.domain.set.SetName;

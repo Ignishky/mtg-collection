@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.command.collection;
+package fr.ignishky.mtgcollection.domain.card.command;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardRepository;
@@ -13,31 +13,31 @@ import org.springframework.stereotype.Component;
 import static fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse.toCommandResponse;
 
 @Component
-public class DeleteOwnCardCommandHandler implements CommandHandler<DeleteOwnCardCommand, Card> {
+public class AddOwnCardCommandHandler implements CommandHandler<AddOwnCardCommand, Card> {
 
     private final SetRepository setRepository;
     private final CardRepository cardRepository;
 
-    public DeleteOwnCardCommandHandler(SetRepository setRepository, CardRepository cardRepository) {
+    public AddOwnCardCommandHandler(SetRepository setRepository, CardRepository cardRepository) {
         this.setRepository = setRepository;
         this.cardRepository = cardRepository;
     }
 
     @Override
-    public CommandResponse<Card> handle(DeleteOwnCardCommand command) {
+    public CommandResponse<Card> handle(AddOwnCardCommand command) {
         var card = cardRepository.get(command.cardId()).getOrElseThrow(NoCardFoundException::new);
-        var owned = card.retired();
-        cardRepository.save(owned.aggregate());
-        List<Event<?, ?, ?>> events = List.of(owned.event());
+        var cardOwned = card.owned(command.isOwnedFoil());
+        cardRepository.save(cardOwned.aggregate());
 
-        if (card.isOwned()) {
+        List<Event<?, ?, ?>> events = List.of(cardOwned.event());
+        if (!card.isOwned()) {
             var setUpdated = setRepository.get(card.setCode())
-                    .map(set -> set.decrementCardOwned(card.isOwnedFoil()))
+                    .map(set -> set.incrementCardOwned(command.isOwnedFoil()))
                     .get();
             setRepository.update(setUpdated.aggregate());
             events = events.append(setUpdated.event());
         }
-        return toCommandResponse(owned.aggregate(), events);
+        return toCommandResponse(cardOwned.aggregate(), events);
     }
 
 }
