@@ -1,7 +1,9 @@
 package fr.ignishky.mtgcollection.fixtures;
 
 import fr.ignishky.mtgcollection.domain.card.*;
+import io.vavr.collection.List;
 
+import static fr.ignishky.mtgcollection.domain.card.Finish.*;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.KHM;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.SNC;
 import static java.time.LocalDate.now;
@@ -13,6 +15,7 @@ public class CardFixtures {
             SNC.code(),
             new CardName("Ledger Shredder"),
             new CardImage("https://scryfall.mtgc.test/cards/ledgerShredder.png"),
+            List.of(NON_FOIL, FOIL),
             new Price("1.50", null),
             false,
             false,
@@ -23,6 +26,7 @@ public class CardFixtures {
             SNC.code(),
             new CardName("Depopulate"),
             new CardImage("https://scryfall.mtgc.test/cards/depopulate.png"),
+            List.of(NON_FOIL, FOIL),
             new Price("0.14", "0.63"),
             false,
             false,
@@ -33,6 +37,7 @@ public class CardFixtures {
             KHM.code(),
             new CardName("Vorinclex, Monstrous Raider"),
             new CardImage("https://scryfall.mtgc.test/cards/vorinclex.png"),
+            List.of(NON_FOIL, FOIL),
             new Price("29.29", "31.00"),
             false,
             false,
@@ -43,6 +48,7 @@ public class CardFixtures {
             KHM.code(),
             new CardName("Esika, God of the Tree // The Prismatic Bridge"),
             new CardImage("https://scryfall.mtgc.test/cards/esika.png"),
+            List.of(NON_FOIL, FOIL),
             new Price("8.96", "10.50"),
             false,
             false,

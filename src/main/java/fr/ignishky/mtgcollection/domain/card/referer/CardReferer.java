@@ -19,6 +19,8 @@ public interface CardReferer {
 
     List<CardFaces> cardFaces();
 
+    List<String> finishes();
+
     PricesReferer prices();
 
     default boolean hasPrice() {

@@ -26,6 +26,7 @@ public class CardRetired extends Event<CardId, Card, CardRetired.CardRetiredPayl
                 aggregate.setCode(),
                 aggregate.cardName(),
                 aggregate.cardImage(),
+                aggregate.finishes(),
                 aggregate.prices(),
                 false,
                 false,

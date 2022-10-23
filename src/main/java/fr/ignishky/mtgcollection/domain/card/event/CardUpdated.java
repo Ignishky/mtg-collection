@@ -32,6 +32,7 @@ public class CardUpdated extends Event<CardId, Card, CardUpdated.CardUpdatedPayl
                 aggregate.setCode(),
                 aggregate.cardName(),
                 aggregate.cardImage(),
+                aggregate.finishes(),
                 new Price(price.eur(), price.eurFoil()),
                 aggregate.isOwned(),
                 aggregate.isOwnedFoil(),

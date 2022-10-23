@@ -16,6 +16,7 @@ public record ScryfallCardData(
         CardImages images,
         @JsonProperty("card_faces")
         List<CardFaces> cardFaces,
+        List<String> finishes,
         Prices prices
 ) implements CardReferer {
 

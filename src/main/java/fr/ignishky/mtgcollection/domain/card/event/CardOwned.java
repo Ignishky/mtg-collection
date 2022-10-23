@@ -31,6 +31,7 @@ public class CardOwned extends Event<CardId, Card, CardOwned.CardOwnedPayload> {
                 aggregate.setCode(),
                 aggregate.cardName(),
                 aggregate.cardImage(),
+                aggregate.finishes(),
                 aggregate.prices(),
                 isOwned,
                 isOwnedFoil,

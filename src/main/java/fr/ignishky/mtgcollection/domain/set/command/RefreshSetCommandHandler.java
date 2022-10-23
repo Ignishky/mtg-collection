@@ -118,6 +118,7 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
                         ? cardReferer.images().normal()
                         : cardReferer.cardFaces().head().imageUris().normal()
                 ),
+                cardReferer.finishes().map(Finish::fromValue),
                 new Price(cardReferer.prices().euro(), cardReferer.prices().euroFoil())
         );
     }

@@ -7,6 +7,7 @@ import fr.ignishky.mtgcollection.domain.card.event.CardUpdated;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.framework.domain.Aggregate;
 import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
+import io.vavr.collection.List;
 import lombok.With;
 
 import java.time.LocalDate;
@@ -17,14 +18,16 @@ public record Card(
         SetCode setCode,
         CardName cardName,
         CardImage cardImage,
+        List<Finish> finishes,
         Price prices,
         boolean isOwned,
         boolean isOwnedFoil,
         LocalDate lastUpdate
 ) implements Aggregate<CardId> {
 
-    public static AppliedEvent<Card, CardAdded> add(CardId cardId, SetCode setCode, CardName cardName, CardImage cardImage, Price price) {
-        var event = new CardAdded(cardId, setCode, cardName, cardImage, price);
+    public static AppliedEvent<Card, CardAdded> add(CardId cardId, SetCode setCode, CardName cardName, CardImage cardImage, List<Finish> finishes,
+                                                    Price price) {
+        var event = new CardAdded(cardId, setCode, cardName, cardImage, finishes, price);
         var card = event.apply(null);
         return new AppliedEvent<>(card, event);
     }
