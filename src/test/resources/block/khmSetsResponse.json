@@ -2,7 +2,7 @@
   "blockName": "Kaldheim",
   "nbCards": 608,
   "nbOwned": 2,
-  "nbOwnedFoil": 1,
+  "nbFoilOwned": 1,
   "sets": [
     {
       "code": "khm",
@@ -10,7 +10,7 @@
       "icon": "https://scryfall.mtgc.test/sets/khm.svg",
       "nbCards": 427,
       "nbOwned": 1,
-      "nbOwnedFoil": 1
+      "nbFoilOwned": 1
     },
     {
       "code": "akhm",
@@ -18,7 +18,7 @@
       "icon": "https://scryfall.mtgc.test/sets/khm.svg",
       "nbCards": 30,
       "nbOwned": 0,
-      "nbOwnedFoil": 0
+      "nbFoilOwned": 0
     },
     {
       "code": "tkhm",
@@ -26,7 +26,7 @@
       "icon": "https://scryfall.mtgc.test/sets/khm.svg",
       "nbCards": 15,
       "nbOwned": 1,
-      "nbOwnedFoil": 0
+      "nbFoilOwned": 0
     },
     {
       "code": "pkhm",
@@ -34,7 +34,7 @@
       "icon": "https://scryfall.mtgc.test/sets/khm.svg",
       "nbCards": 136,
       "nbOwned": 0,
-      "nbOwnedFoil": 0
+      "nbFoilOwned": 0
     }
   ]
 }

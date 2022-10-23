@@ -28,6 +28,6 @@ public interface SetApi {
             summary = "Return all the cards from a given set",
             description = "The response contain a summary of all the cards in the given set.",
             responses = @ApiResponse(responseCode = "200", description = "The list of cards in the given set."))
-    ResponseEntity<SetResponse> getCards(@PathVariable String setCode);
+    ResponseEntity<SetResponse> getSet(@PathVariable String setCode);
 
 }

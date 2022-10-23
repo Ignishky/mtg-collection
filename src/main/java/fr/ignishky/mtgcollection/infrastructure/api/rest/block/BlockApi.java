@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.block;
 
 import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlocksResponse;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.SetsResponse;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlockResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -38,6 +38,6 @@ public interface BlockApi {
             @ApiResponse(responseCode = "200", description = "The list of sets in the given block."),
             @ApiResponse(responseCode = "404", description = "The block code is not a valid one")
     })
-    ResponseEntity<SetsResponse> getSets(@PathVariable String blockCode);
+    ResponseEntity<BlockResponse> getBlock(@PathVariable String blockCode);
 
 }

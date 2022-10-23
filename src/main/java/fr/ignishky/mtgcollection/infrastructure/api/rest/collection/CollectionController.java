@@ -1,25 +1,25 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 
-import fr.ignishky.mtgcollection.domain.card.command.AddOwnCardCommand;
-import fr.ignishky.mtgcollection.domain.card.command.DeleteOwnCardCommand;
 import fr.ignishky.mtgcollection.domain.card.Card;
 import fr.ignishky.mtgcollection.domain.card.CardId;
+import fr.ignishky.mtgcollection.domain.card.command.AddOwnCardCommand;
+import fr.ignishky.mtgcollection.domain.card.command.DeleteOwnCardCommand;
 import fr.ignishky.mtgcollection.domain.card.exception.NoCardFoundException;
+import fr.ignishky.mtgcollection.domain.collection.query.GetCollectionQuery;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.ApiResponseMapper;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CardResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CollectionRequest;
-import fr.ignishky.mtgcollection.domain.card.query.GetCardsQuery;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CollectionResponse;
 import io.vavr.collection.List;
-import io.vavr.control.Option;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
-import static fr.ignishky.mtgcollection.infrastructure.api.rest.ApiResponseMapper.toCardResponse;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.mapper.CollectionMapper.toCardResponse;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.mapper.CollectionMapper.toCollection;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.http.ResponseEntity.*;
 
@@ -37,13 +37,11 @@ public class CollectionController implements CollectionApi {
     }
 
     @Override
-    public ResponseEntity<List<CardResponse>> getCollection() {
+    public ResponseEntity<CollectionResponse> getCollection() {
         LOGGER.info("Received call to `GET /collection`");
-        var ownedCards = queryBus.dispatch(new GetCardsQuery(Option.none(), true))
-                .cards()
-                .map(ApiResponseMapper::toCardResponse);
-        LOGGER.info("Respond to `GET /collection` with {} cards", ownedCards.size());
-        return ok(ownedCards);
+        var collection = queryBus.dispatch(new GetCollectionQuery());
+        LOGGER.info("Respond to `GET /collection` with {} cards", collection.cards().size());
+        return ok(toCollection(collection));
     }
 
     @Override

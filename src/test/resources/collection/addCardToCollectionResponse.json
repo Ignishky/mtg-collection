@@ -2,6 +2,9 @@
   "id": "7ea4b5bc-18a4-45db-a56a-ab3f8bd2fb0d",
   "name": "Ledger Shredder",
   "image": "https://scryfall.mtgc.test/cards/ledgerShredder.png",
+  "price": {
+    "eur": 1.5
+  },
   "isOwned": true,
   "isOwnedFoil": true
 }

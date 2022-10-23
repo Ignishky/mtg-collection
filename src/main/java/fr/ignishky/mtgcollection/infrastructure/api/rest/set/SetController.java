@@ -1,18 +1,16 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
-import fr.ignishky.mtgcollection.domain.set.command.RefreshSetCommand;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
+import fr.ignishky.mtgcollection.domain.set.command.RefreshSetCommand;
+import fr.ignishky.mtgcollection.domain.set.query.GetSetQuery;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.ApiResponseMapper;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.SetResponse;
-import fr.ignishky.mtgcollection.domain.card.query.GetCardsQuery;
-import io.vavr.control.Option;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
-import static java.lang.Double.parseDouble;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.mapper.SetMapper.toSetResponse;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.ResponseEntity.ok;
@@ -36,22 +34,11 @@ class SetController implements SetApi {
     }
 
     @Override
-    public ResponseEntity<SetResponse> getCards(String setCode) {
+    public ResponseEntity<SetResponse> getSet(String setCode) {
         LOGGER.info("Received call to `GET /sets/{}`", setCode);
-        var getCardsResponse = queryBus.dispatch(new GetCardsQuery(Option.of(new SetCode(setCode)), false));
-        var cards = getCardsResponse.cards()
-                .map(ApiResponseMapper::toCardSummary);
-        LOGGER.info("Respond to `GET /sets/{}` with {} cards", setCode, cards.size());
-
-        return ok(new SetResponse(
-                getCardsResponse.setName().getOrNull(),
-                cards.size(),
-                getCardsResponse.nbOwned(),
-                getCardsResponse.nbOwnedFoil(),
-                parseDouble(String.format("%.2f", getCardsResponse.maxValue())),
-                parseDouble(String.format("%.2f", getCardsResponse.ownedValue())),
-                cards
-        ));
+        var set = queryBus.dispatch(new GetSetQuery(new SetCode(setCode)));
+        LOGGER.info("Respond to `GET /sets/{}` with {} cards", setCode, set.cards().size());
+        return ok(toSetResponse(set));
     }
 
 }

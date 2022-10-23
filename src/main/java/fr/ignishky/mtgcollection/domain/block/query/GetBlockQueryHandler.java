@@ -1,5 +1,7 @@
-package fr.ignishky.mtgcollection.domain.set.query;
+package fr.ignishky.mtgcollection.domain.block.query;
 
+import fr.ignishky.mtgcollection.domain.block.Block;
+import fr.ignishky.mtgcollection.domain.block.BlockName;
 import fr.ignishky.mtgcollection.domain.block.exception.BlockNotFoundException;
 import fr.ignishky.mtgcollection.domain.set.Set;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryHandler;
@@ -10,16 +12,16 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetSetsQueryHandler implements QueryHandler<GetSetsQuery, GetSetsResponse> {
+public class GetBlockQueryHandler implements QueryHandler<GetBlockQuery, Block> {
 
     private final MongoTemplate mongoTemplate;
 
-    public GetSetsQueryHandler(MongoTemplate mongoTemplate) {
+    public GetBlockQueryHandler(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 
     @Override
-    public GetSetsResponse handle(GetSetsQuery query) {
+    public Block handle(GetBlockQuery query) {
         var sets = retrieveSetsList(query);
 
         if (sets.isEmpty()) {
@@ -27,16 +29,18 @@ public class GetSetsQueryHandler implements QueryHandler<GetSetsQuery, GetSetsRe
         }
 
         var blockName = sets.find(set -> set.code().equals(query.setCode())).map(Set::name).get();
-        return new GetSetsResponse(
-                blockName,
-                sets.map(Set::cardCount).sum().intValue(),
-                sets.map(Set::cardOwnedCount).sum().intValue(),
-                sets.map(Set::cardFoilOwnedCount).sum().intValue(),
+        return new Block(
+                null,
+                new BlockName(blockName.value()),
+                sets.map(Set::cardCount).sum(),
+                sets.map(Set::cardOwnedCount).sum(),
+                sets.map(Set::cardFoilOwnedCount).sum(),
+                null,
                 sets
         );
     }
 
-    private List<Set> retrieveSetsList(GetSetsQuery query) {
+    private List<Set> retrieveSetsList(GetBlockQuery query) {
         return List.ofAll(mongoTemplate.findAll(SetDocument.class))
                 .map(MongoDocumentMapper::toSet)
                 .filter(set -> set.code().equals(query.setCode()) || set.parentSetCode().contains(query.setCode()))

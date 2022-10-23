@@ -1,16 +1,25 @@
-[
-  {
-    "id": "7ea4b5bc-18a4-45db-a56a-ab3f8bd2fb0d",
-    "name": "Ledger Shredder",
-    "image": "https://scryfall.mtgc.test/cards/ledgerShredder.png",
-    "isOwned": true,
-    "isOwnedFoil": true
-  },
-  {
-    "id": "c53c1898-9107-4bf8-b249-d0502fb9596d",
-    "name": "Depopulate",
-    "image": "https://scryfall.mtgc.test/cards/depopulate.png",
-    "isOwned": true,
-    "isOwnedFoil": false
-  }
-]
+{
+  "cards": [
+    {
+      "id": "7ea4b5bc-18a4-45db-a56a-ab3f8bd2fb0d",
+      "name": "Ledger Shredder",
+      "image": "https://scryfall.mtgc.test/cards/ledgerShredder.png",
+      "price": {
+        "eur": 1.5
+      },
+      "isOwned": true,
+      "isOwnedFoil": true
+    },
+    {
+      "id": "c53c1898-9107-4bf8-b249-d0502fb9596d",
+      "name": "Depopulate",
+      "image": "https://scryfall.mtgc.test/cards/depopulate.png",
+      "price": {
+        "eur": 0.14,
+        "eur_foil": 0.63
+      },
+      "isOwned": true,
+      "isOwnedFoil": false
+    }
+  ]
+}

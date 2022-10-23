@@ -34,7 +34,7 @@ public class GetBlocksQueryHandler implements QueryHandler<GetBlocksQuery, List<
                 .filter(set -> set.setType() == EXPANSION)
                 .sorted(comparing(Set::releasedDate).reversed())
                 .map(block -> retrieveSetsList(block.code()))
-                .map(sets -> toBlock(sets));
+                .map(GetBlocksQueryHandler::toBlock);
     }
 
     private List<Set> retrieveSetsList(SetCode setCode) {
@@ -49,10 +49,11 @@ public class GetBlocksQueryHandler implements QueryHandler<GetBlocksQuery, List<
         return new Block(
                 new BlockCode(mainSet.code().value()),
                 new BlockName(mainSet.name().value()),
-                sets.map(Set::cardCount).sum().intValue(),
-                sets.map(Set::cardOwnedCount).sum().intValue(),
-                sets.map(Set::cardFoilOwnedCount).sum().intValue(),
-                new BlockIcon(mainSet.icon().url())
+                sets.map(Set::cardCount).sum(),
+                sets.map(Set::cardOwnedCount).sum(),
+                sets.map(Set::cardFoilOwnedCount).sum(),
+                new BlockIcon(mainSet.icon().url()),
+                null
         );
     }
 

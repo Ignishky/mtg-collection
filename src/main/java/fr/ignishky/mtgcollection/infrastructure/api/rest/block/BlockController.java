@@ -1,17 +1,17 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.block;
 
-import fr.ignishky.mtgcollection.domain.set.SetCode;
-import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.ApiResponseMapper;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlockSummary;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlocksResponse;
-import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.SetsResponse;
 import fr.ignishky.mtgcollection.domain.block.query.GetBlocksQuery;
-import fr.ignishky.mtgcollection.domain.set.query.GetSetsQuery;
+import fr.ignishky.mtgcollection.domain.set.SetCode;
+import fr.ignishky.mtgcollection.domain.block.query.GetBlockQuery;
+import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlockResponse;
+import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlocksResponse;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.mapper.BlockMapper.toBlockResponse;
+import static fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.mapper.BlockMapper.toBlocksResponse;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -29,31 +29,17 @@ public class BlockController implements BlockApi {
     @Override
     public ResponseEntity<BlocksResponse> getAll() {
         LOGGER.info("Received call to `GET /blocks`");
-        var blocks = queryBus.dispatch(new GetBlocksQuery())
-                .map(ApiResponseMapper::toBlockSummary);
+        var blocks = queryBus.dispatch(new GetBlocksQuery());
         LOGGER.info("Respond to `GET /blocks` with {} blocks", blocks.size());
-        return ok(new BlocksResponse(
-                blocks.map(BlockSummary::nbCards).sum().intValue(),
-                blocks.map(BlockSummary::nbOwned).sum().intValue(),
-                blocks.map(BlockSummary::nbOwnedFoil).sum().intValue(),
-                blocks
-        ));
+        return ok(toBlocksResponse(blocks));
     }
 
     @Override
-    public ResponseEntity<SetsResponse> getSets(String blockCode) {
+    public ResponseEntity<BlockResponse> getBlock(String blockCode) {
         LOGGER.info("Received call to `GET /blocks/{}`", blockCode);
-        var getSetsResponse = queryBus.dispatch(new GetSetsQuery(new SetCode(blockCode)));
-        var sets = getSetsResponse.sets()
-                .map(ApiResponseMapper::toSetSummary);
-        LOGGER.info("Respond to `GET /blocks/{}` with {} blocks", blockCode, sets.size());
-        return ok(new SetsResponse(
-                getSetsResponse.blockName().value(),
-                getSetsResponse.nbCards(),
-                getSetsResponse.nbOwned(),
-                getSetsResponse.nbOwnedFoil(),
-                sets)
-        );
+        var block = queryBus.dispatch(new GetBlockQuery(new SetCode(blockCode)));
+        LOGGER.info("Respond to `GET /blocks/{}` with {} blocks", blockCode, block.sets().size());
+        return ok(toBlockResponse(block));
     }
 
 }

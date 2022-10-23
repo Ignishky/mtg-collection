@@ -1,6 +1,7 @@
-package fr.ignishky.mtgcollection.domain.card.query;
+package fr.ignishky.mtgcollection.domain.set.query;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
+import fr.ignishky.mtgcollection.domain.set.Set;
 import fr.ignishky.mtgcollection.domain.set.exception.SetNotFoundException;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryHandler;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper;
@@ -17,22 +18,24 @@ import java.util.Objects;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Service
-public class GetCardsQueryHandler implements QueryHandler<GetCardsQuery, GetCardsResponse> {
+public class GetSetQueryHandler implements QueryHandler<GetSetQuery, GetSetResponse> {
 
     private final MongoTemplate mongoTemplate;
 
-    public GetCardsQueryHandler(MongoTemplate mongoTemplate) {
+    public GetSetQueryHandler(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 
     @Override
-    public GetCardsResponse handle(GetCardsQuery query) {
-        List<Card> cards = retrieveCardsList(query);
-        if (cards.isEmpty()) {
+    public GetSetResponse handle(GetSetQuery query) {
+        Option<Set> setOption = retrieveSet(query);
+        if (setOption.isEmpty()) {
             throw new SetNotFoundException();
         }
-        return new GetCardsResponse(
-                retrieveSetName(query),
+
+        List<Card> cards = retrieveCardsFromSet(setOption.get());
+        return new GetSetResponse(
+                setOption.get().name().value(),
                 cards.count(Card::isOwned),
                 cards.count(Card::isOwnedFoil),
                 cards.map(Card::prices).map(price -> price.eurFoil() != null ? price.eurFoil() : price.eur()).filter(Objects::nonNull).sum().doubleValue(),
@@ -41,19 +44,16 @@ public class GetCardsQueryHandler implements QueryHandler<GetCardsQuery, GetCard
         );
     }
 
-    private List<Card> retrieveCardsList(GetCardsQuery query) {
-        return query.code()
-                .map(setCode -> new Query().addCriteria(where("setCode").is(setCode.value())))
-                .orElse(Option.of(new Query().addCriteria(where("inCollection").is(query.owned()))))
-                .transform(cardQuery -> List.ofAll(mongoTemplate.find(cardQuery.get(), CardDocument.class)))
-                .map(MongoDocumentMapper::toCard);
+    private Option<Set> retrieveSet(GetSetQuery getSetQuery) {
+        Query query = new Query().addCriteria(where("code").is(getSetQuery.code().value()));
+        return Option.of(mongoTemplate.findOne(query, SetDocument.class))
+                .map(MongoDocumentMapper::toSet);
     }
 
-    private Option<String> retrieveSetName(GetCardsQuery query) {
-        return query.code()
-                .map(setCode -> new Query().addCriteria(where("code").is(setCode.value())))
-                .flatMap(setQuery -> Option.of(mongoTemplate.findOne(setQuery, SetDocument.class)))
-                .map(SetDocument::name);
+    private List<Card> retrieveCardsFromSet(Set set) {
+        Query query = new Query().addCriteria(where("setCode").is(set.code().value()));
+        return List.ofAll(mongoTemplate.find(query, CardDocument.class))
+                .map(MongoDocumentMapper::toCard);
     }
 
 }
