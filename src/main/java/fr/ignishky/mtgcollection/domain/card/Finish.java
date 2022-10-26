@@ -5,7 +5,8 @@ import io.vavr.collection.List;
 public enum Finish {
     FOIL("foil"),
     NON_FOIL("nonfoil"),
-    ETCHED("etched");
+    ETCHED("etched"),
+    GLOSSY("glossy");
 
     private final String value;
 
