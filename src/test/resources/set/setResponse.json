@@ -13,6 +13,10 @@
       "price": {
         "eur": 1.50
       },
+      "finishes": [
+        "NON_FOIL",
+        "FOIL"
+      ],
       "isOwned": false,
       "isOwnedFoil": false
     },
@@ -24,6 +28,10 @@
         "eur": 0.14,
         "eur_foil": 0.63
       },
+      "finishes": [
+        "NON_FOIL",
+        "FOIL"
+      ],
       "isOwned": true,
       "isOwnedFoil": false
     }

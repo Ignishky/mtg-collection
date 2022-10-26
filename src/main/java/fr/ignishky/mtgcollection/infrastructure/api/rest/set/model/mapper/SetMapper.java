@@ -1,6 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.mapper;
 
 import fr.ignishky.mtgcollection.domain.card.Card;
+import fr.ignishky.mtgcollection.domain.card.Finish;
 import fr.ignishky.mtgcollection.domain.card.Price;
 import fr.ignishky.mtgcollection.domain.set.query.GetSetResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CardResponse;
@@ -30,6 +31,7 @@ public class SetMapper {
                 aCard.cardName().name(),
                 aCard.cardImage().image(),
                 new PriceResponse(price.eur(), price.eurFoil()),
+                aCard.finishes().map(Finish::name),
                 aCard.isOwned(),
                 aCard.isOwnedFoil()
         );

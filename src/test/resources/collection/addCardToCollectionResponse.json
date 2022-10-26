@@ -5,6 +5,10 @@
   "price": {
     "eur": 1.5
   },
+  "finishes": [
+    "NON_FOIL",
+    "FOIL"
+  ],
   "isOwned": true,
   "isOwnedFoil": true
 }

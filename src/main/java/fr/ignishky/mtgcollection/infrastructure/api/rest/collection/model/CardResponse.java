@@ -2,6 +2,7 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model;
 
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.PriceResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.vavr.collection.List;
 
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ public record CardResponse(
         String image,
         @Schema(description = "The current price of the card")
         PriceResponse price,
+        @Schema(description = "The finish available for the card")
+        List<String> finishes,
         @Schema(description = "Is the card in your collection ?")
         boolean isOwned,
         @Schema(description = "If the card is in your collection is it foil ?")
