@@ -3,7 +3,7 @@ package fr.ignishky.mtgcollection.domain.set.command;
 import fr.ignishky.mtgcollection.domain.card.*;
 import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
 import fr.ignishky.mtgcollection.domain.card.event.CardUpdated;
-import fr.ignishky.mtgcollection.domain.card.referer.CardReferer;
+import fr.ignishky.mtgcollection.domain.card.referer.model.CardReferer;
 import fr.ignishky.mtgcollection.domain.card.referer.CardRefererPort;
 import fr.ignishky.mtgcollection.domain.set.*;
 import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
@@ -114,10 +114,7 @@ public class RefreshSetCommandHandler implements CommandHandler<RefreshSetComman
                 new CardId(cardReferer.id()),
                 new SetCode(cardReferer.set()),
                 new CardName(cardReferer.name()),
-                new CardImage(cardReferer.images() != null
-                        ? cardReferer.images().normal()
-                        : cardReferer.cardFaces().head().imageUris().normal()
-                ),
+                new CardImage(cardReferer.image().normal()),
                 cardReferer.finishes().map(Finish::fromValue),
                 new Price(cardReferer.prices().euro(), cardReferer.prices().euroFoil())
         );

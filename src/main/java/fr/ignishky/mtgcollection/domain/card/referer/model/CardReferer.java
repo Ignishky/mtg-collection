@@ -1,6 +1,5 @@
-package fr.ignishky.mtgcollection.domain.card.referer;
+package fr.ignishky.mtgcollection.domain.card.referer.model;
 
-import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.CardFaces;
 import io.vavr.collection.List;
 
 import java.util.UUID;
@@ -15,17 +14,15 @@ public interface CardReferer {
 
     boolean isDigital();
 
-    CardImagesReferer images();
-
-    List<CardFaces> cardFaces();
+    CardRefererImage image();
 
     List<String> finishes();
 
-    PricesReferer prices();
+    CardRefererPrices prices();
 
     default boolean hasPrice() {
-        Double euro = prices().euro();
-        Double euroFoil = prices().euroFoil();
+        var euro = prices().euro();
+        var euroFoil = prices().euroFoil();
         return (euro != null && euro > 0.0)
                 || (euroFoil != null && euroFoil > 0.0);
     }
@@ -35,8 +32,7 @@ public interface CardReferer {
     }
 
     default boolean hasImage() {
-        return images() != null
-                || (cardFaces().nonEmpty() && cardFaces().head().imageUris() != null);
+        return image() != null;
     }
 
 }

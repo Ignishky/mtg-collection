@@ -1,17 +1,17 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.ignishky.mtgcollection.domain.card.referer.PricesReferer;
+import fr.ignishky.mtgcollection.domain.card.referer.model.CardRefererPrices;
 
 import static java.lang.Double.parseDouble;
 
-public record Prices(
+public record ScryfallPrices(
         String eur,
         @JsonProperty("eur_foil")
         String eurFoil
-) implements PricesReferer {
+) implements CardRefererPrices {
 
-    public Prices(Double eur, Double eurFoil) {
+    public ScryfallPrices(Double eur, Double eurFoil) {
         this(String.valueOf(eur), String.valueOf(eurFoil));
     }
 

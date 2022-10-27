@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record CardFaces(
         @JsonProperty("image_uris")
-        CardImages imageUris
+        ScryfallCardImages imageUris
 ) {
 
 }
