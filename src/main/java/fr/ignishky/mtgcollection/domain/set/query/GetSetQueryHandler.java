@@ -1,6 +1,6 @@
 package fr.ignishky.mtgcollection.domain.set.query;
 
-import fr.ignishky.mtgcollection.domain.card.Card;
+import fr.ignishky.mtgcollection.domain.card.model.Card;
 import fr.ignishky.mtgcollection.domain.set.Set;
 import fr.ignishky.mtgcollection.domain.set.exception.SetNotFoundException;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryHandler;

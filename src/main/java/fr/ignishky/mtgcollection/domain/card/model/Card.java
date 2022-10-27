@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.domain.card;
+package fr.ignishky.mtgcollection.domain.card.model;
 
 import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
 import fr.ignishky.mtgcollection.domain.card.event.CardOwned;

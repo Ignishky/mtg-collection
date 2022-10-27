@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.mongo;
 
-import fr.ignishky.mtgcollection.domain.card.Card;
-import fr.ignishky.mtgcollection.domain.card.CardId;
+import fr.ignishky.mtgcollection.domain.card.model.Card;
+import fr.ignishky.mtgcollection.domain.card.model.CardId;
 import fr.ignishky.mtgcollection.domain.card.CardRepository;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
 import io.vavr.collection.List;

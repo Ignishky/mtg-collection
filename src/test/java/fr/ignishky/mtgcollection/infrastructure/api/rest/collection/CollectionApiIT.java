@@ -1,6 +1,6 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 
-import fr.ignishky.mtgcollection.domain.card.Card;
+import fr.ignishky.mtgcollection.domain.card.model.Card;
 import fr.ignishky.mtgcollection.domain.card.event.CardOwned;
 import fr.ignishky.mtgcollection.domain.card.event.CardRetired;
 import fr.ignishky.mtgcollection.domain.set.event.SetUpdated;

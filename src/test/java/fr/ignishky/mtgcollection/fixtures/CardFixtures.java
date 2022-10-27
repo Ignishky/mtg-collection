@@ -1,9 +1,9 @@
 package fr.ignishky.mtgcollection.fixtures;
 
-import fr.ignishky.mtgcollection.domain.card.*;
+import fr.ignishky.mtgcollection.domain.card.model.*;
 import io.vavr.collection.List;
 
-import static fr.ignishky.mtgcollection.domain.card.Finish.*;
+import static fr.ignishky.mtgcollection.domain.card.model.Finish.*;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.KHM;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.SNC;
 import static java.time.LocalDate.now;

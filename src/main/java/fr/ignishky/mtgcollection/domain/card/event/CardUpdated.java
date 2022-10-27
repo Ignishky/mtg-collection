@@ -1,8 +1,8 @@
 package fr.ignishky.mtgcollection.domain.card.event;
 
-import fr.ignishky.mtgcollection.domain.card.Card;
-import fr.ignishky.mtgcollection.domain.card.CardId;
-import fr.ignishky.mtgcollection.domain.card.Price;
+import fr.ignishky.mtgcollection.domain.card.model.Card;
+import fr.ignishky.mtgcollection.domain.card.model.CardId;
+import fr.ignishky.mtgcollection.domain.card.model.Price;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Payload;
 

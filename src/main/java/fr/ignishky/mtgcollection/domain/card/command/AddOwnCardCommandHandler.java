@@ -1,6 +1,6 @@
 package fr.ignishky.mtgcollection.domain.card.command;
 
-import fr.ignishky.mtgcollection.domain.card.Card;
+import fr.ignishky.mtgcollection.domain.card.model.Card;
 import fr.ignishky.mtgcollection.domain.card.CardRepository;
 import fr.ignishky.mtgcollection.domain.card.exception.NoCardFoundException;
 import fr.ignishky.mtgcollection.domain.set.SetRepository;

@@ -2,8 +2,8 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.ignishky.mtgcollection.domain.card.Card;
-import fr.ignishky.mtgcollection.domain.card.Price;
+import fr.ignishky.mtgcollection.domain.card.model.Card;
+import fr.ignishky.mtgcollection.domain.card.model.Price;
 import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
 import fr.ignishky.mtgcollection.domain.card.event.CardUpdated;
 import fr.ignishky.mtgcollection.domain.set.event.SetAdded;

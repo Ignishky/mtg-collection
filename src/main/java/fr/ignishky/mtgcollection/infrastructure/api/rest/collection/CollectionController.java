@@ -1,6 +1,6 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 
-import fr.ignishky.mtgcollection.domain.card.CardId;
+import fr.ignishky.mtgcollection.domain.card.model.CardId;
 import fr.ignishky.mtgcollection.domain.card.command.AddOwnCardCommand;
 import fr.ignishky.mtgcollection.domain.card.command.DeleteOwnCardCommand;
 import fr.ignishky.mtgcollection.domain.collection.query.GetCollectionQuery;

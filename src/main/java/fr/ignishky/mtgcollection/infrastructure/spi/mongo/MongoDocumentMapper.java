@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.mongo;
 
 import com.google.gson.Gson;
-import fr.ignishky.mtgcollection.domain.card.*;
+import fr.ignishky.mtgcollection.domain.card.model.*;
 import fr.ignishky.mtgcollection.domain.set.*;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;

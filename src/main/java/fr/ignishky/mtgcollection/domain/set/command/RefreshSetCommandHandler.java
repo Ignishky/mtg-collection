@@ -3,6 +3,7 @@ package fr.ignishky.mtgcollection.domain.set.command;
 import fr.ignishky.mtgcollection.domain.card.*;
 import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
 import fr.ignishky.mtgcollection.domain.card.event.CardUpdated;
+import fr.ignishky.mtgcollection.domain.card.model.*;
 import fr.ignishky.mtgcollection.domain.card.referer.model.CardReferer;
 import fr.ignishky.mtgcollection.domain.card.referer.CardRefererPort;
 import fr.ignishky.mtgcollection.domain.set.*;
