@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.domain.set;
+package fr.ignishky.mtgcollection.domain.set.model;
 
 import java.util.UUID;
 

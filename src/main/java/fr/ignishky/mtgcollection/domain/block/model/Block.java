@@ -1,6 +1,6 @@
 package fr.ignishky.mtgcollection.domain.block.model;
 
-import fr.ignishky.mtgcollection.domain.set.Set;
+import fr.ignishky.mtgcollection.domain.set.model.Set;
 import io.vavr.collection.List;
 
 public record Block(

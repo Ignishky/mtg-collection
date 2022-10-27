@@ -4,8 +4,8 @@ import fr.ignishky.mtgcollection.domain.block.model.Block;
 import fr.ignishky.mtgcollection.domain.block.model.BlockCode;
 import fr.ignishky.mtgcollection.domain.block.model.BlockIcon;
 import fr.ignishky.mtgcollection.domain.block.model.BlockName;
-import fr.ignishky.mtgcollection.domain.set.Set;
-import fr.ignishky.mtgcollection.domain.set.SetCode;
+import fr.ignishky.mtgcollection.domain.set.model.Set;
+import fr.ignishky.mtgcollection.domain.set.model.SetCode;
 import fr.ignishky.mtgcollection.domain.set.SetRepository;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryHandler;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper;
@@ -14,7 +14,7 @@ import io.vavr.collection.List;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
-import static fr.ignishky.mtgcollection.domain.set.SetType.EXPANSION;
+import static fr.ignishky.mtgcollection.domain.set.model.SetType.EXPANSION;
 import static java.util.Comparator.comparing;
 
 @Component

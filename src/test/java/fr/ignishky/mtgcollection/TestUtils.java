@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection;
 
 import fr.ignishky.mtgcollection.domain.card.model.CardId;
-import fr.ignishky.mtgcollection.domain.set.SetId;
+import fr.ignishky.mtgcollection.domain.set.model.SetId;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.EventDocument;
 
 import java.io.IOException;

@@ -1,5 +1,7 @@
 package fr.ignishky.mtgcollection.domain.set;
 
+import fr.ignishky.mtgcollection.domain.set.model.Set;
+import fr.ignishky.mtgcollection.domain.set.model.SetCode;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
 

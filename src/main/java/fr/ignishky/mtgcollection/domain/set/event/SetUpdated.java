@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.domain.set.event;
 
-import fr.ignishky.mtgcollection.domain.set.Set;
-import fr.ignishky.mtgcollection.domain.set.SetId;
+import fr.ignishky.mtgcollection.domain.set.model.Set;
+import fr.ignishky.mtgcollection.domain.set.model.SetId;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Payload;
 

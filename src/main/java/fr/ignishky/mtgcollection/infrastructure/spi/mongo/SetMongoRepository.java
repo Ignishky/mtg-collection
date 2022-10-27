@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.mongo;
 
-import fr.ignishky.mtgcollection.domain.set.Set;
-import fr.ignishky.mtgcollection.domain.set.SetCode;
+import fr.ignishky.mtgcollection.domain.set.model.Set;
+import fr.ignishky.mtgcollection.domain.set.model.SetCode;
 import fr.ignishky.mtgcollection.domain.set.SetRepository;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;
 import io.vavr.collection.List;

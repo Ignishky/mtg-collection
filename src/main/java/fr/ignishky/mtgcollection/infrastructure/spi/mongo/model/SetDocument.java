@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.mongo.model;
 
-import fr.ignishky.mtgcollection.domain.set.SetCode;
-import fr.ignishky.mtgcollection.domain.set.SetType;
+import fr.ignishky.mtgcollection.domain.set.model.SetCode;
+import fr.ignishky.mtgcollection.domain.set.model.SetType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

@@ -3,7 +3,7 @@ package fr.ignishky.mtgcollection.domain.block.query;
 import fr.ignishky.mtgcollection.domain.block.model.Block;
 import fr.ignishky.mtgcollection.domain.block.model.BlockName;
 import fr.ignishky.mtgcollection.domain.block.exception.BlockNotFoundException;
-import fr.ignishky.mtgcollection.domain.set.Set;
+import fr.ignishky.mtgcollection.domain.set.model.Set;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryHandler;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.SetDocument;

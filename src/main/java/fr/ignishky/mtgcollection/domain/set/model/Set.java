@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.domain.set;
+package fr.ignishky.mtgcollection.domain.set.model;
 
 import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
 import fr.ignishky.mtgcollection.domain.set.event.SetUpdated;

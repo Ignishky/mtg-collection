@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.domain.set.query;
 
 import fr.ignishky.mtgcollection.domain.card.model.Card;
-import fr.ignishky.mtgcollection.domain.set.Set;
+import fr.ignishky.mtgcollection.domain.set.model.Set;
 import fr.ignishky.mtgcollection.domain.set.exception.SetNotFoundException;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryHandler;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper;

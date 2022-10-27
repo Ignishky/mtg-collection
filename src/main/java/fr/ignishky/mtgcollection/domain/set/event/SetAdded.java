@@ -1,6 +1,6 @@
 package fr.ignishky.mtgcollection.domain.set.event;
 
-import fr.ignishky.mtgcollection.domain.set.*;
+import fr.ignishky.mtgcollection.domain.set.model.*;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Payload;
 import io.vavr.control.Option;

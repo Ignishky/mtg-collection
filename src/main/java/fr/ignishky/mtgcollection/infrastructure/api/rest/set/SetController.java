@@ -1,6 +1,6 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
-import fr.ignishky.mtgcollection.domain.set.SetCode;
+import fr.ignishky.mtgcollection.domain.set.model.SetCode;
 import fr.ignishky.mtgcollection.domain.set.command.RefreshSetCommand;
 import fr.ignishky.mtgcollection.domain.set.query.GetSetQuery;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandBus;

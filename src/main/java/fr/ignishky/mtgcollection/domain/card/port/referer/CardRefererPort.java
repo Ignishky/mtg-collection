@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.domain.card.port.referer;
 
 import fr.ignishky.mtgcollection.domain.card.port.referer.model.CardReferer;
-import fr.ignishky.mtgcollection.domain.set.SetCode;
+import fr.ignishky.mtgcollection.domain.set.model.SetCode;
 import io.vavr.collection.List;
 
 public interface CardRefererPort {

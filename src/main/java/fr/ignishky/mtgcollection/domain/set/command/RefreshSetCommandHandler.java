@@ -8,6 +8,7 @@ import fr.ignishky.mtgcollection.domain.card.port.referer.CardRefererPort;
 import fr.ignishky.mtgcollection.domain.card.port.repository.CardRepository;
 import fr.ignishky.mtgcollection.domain.set.*;
 import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
+import fr.ignishky.mtgcollection.domain.set.model.*;
 import fr.ignishky.mtgcollection.domain.set.referer.SetReferer;
 import fr.ignishky.mtgcollection.domain.set.referer.SetRefererPort;
 import fr.ignishky.mtgcollection.framework.cqrs.command.CommandHandler;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static fr.ignishky.mtgcollection.domain.set.SetId.toSetId;
+import static fr.ignishky.mtgcollection.domain.set.model.SetId.toSetId;
 import static fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse.toCommandResponse;
 import static java.time.LocalDate.now;
 import static java.util.Locale.ROOT;

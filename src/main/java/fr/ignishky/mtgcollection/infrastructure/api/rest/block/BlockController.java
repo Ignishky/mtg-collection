@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.block;
 
 import fr.ignishky.mtgcollection.domain.block.query.GetBlocksQuery;
-import fr.ignishky.mtgcollection.domain.set.SetCode;
+import fr.ignishky.mtgcollection.domain.set.model.SetCode;
 import fr.ignishky.mtgcollection.domain.block.query.GetBlockQuery;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryBus;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlockResponse;

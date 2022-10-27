@@ -3,7 +3,7 @@ package fr.ignishky.mtgcollection.infrastructure.spi.scryfall;
 import fr.ignishky.mtgcollection.configuration.ScryfallProperties;
 import fr.ignishky.mtgcollection.domain.card.port.referer.model.CardReferer;
 import fr.ignishky.mtgcollection.domain.card.port.referer.CardRefererPort;
-import fr.ignishky.mtgcollection.domain.set.SetCode;
+import fr.ignishky.mtgcollection.domain.set.model.SetCode;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.ScryfallCard;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.ScryfallCardData;
 import io.vavr.collection.List;

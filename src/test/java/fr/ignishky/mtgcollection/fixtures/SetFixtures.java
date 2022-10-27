@@ -1,10 +1,10 @@
 package fr.ignishky.mtgcollection.fixtures;
 
-import fr.ignishky.mtgcollection.domain.set.*;
+import fr.ignishky.mtgcollection.domain.set.model.*;
 import io.vavr.control.Option;
 
-import static fr.ignishky.mtgcollection.domain.set.SetId.toSetId;
-import static fr.ignishky.mtgcollection.domain.set.SetType.*;
+import static fr.ignishky.mtgcollection.domain.set.model.SetId.toSetId;
+import static fr.ignishky.mtgcollection.domain.set.model.SetType.*;
 import static java.util.UUID.randomUUID;
 
 public class SetFixtures {
