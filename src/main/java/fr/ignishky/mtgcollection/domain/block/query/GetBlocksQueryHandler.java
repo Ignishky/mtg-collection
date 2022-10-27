@@ -1,9 +1,9 @@
 package fr.ignishky.mtgcollection.domain.block.query;
 
-import fr.ignishky.mtgcollection.domain.block.Block;
-import fr.ignishky.mtgcollection.domain.block.BlockCode;
-import fr.ignishky.mtgcollection.domain.block.BlockIcon;
-import fr.ignishky.mtgcollection.domain.block.BlockName;
+import fr.ignishky.mtgcollection.domain.block.model.Block;
+import fr.ignishky.mtgcollection.domain.block.model.BlockCode;
+import fr.ignishky.mtgcollection.domain.block.model.BlockIcon;
+import fr.ignishky.mtgcollection.domain.block.model.BlockName;
 import fr.ignishky.mtgcollection.domain.set.Set;
 import fr.ignishky.mtgcollection.domain.set.SetCode;
 import fr.ignishky.mtgcollection.domain.set.SetRepository;

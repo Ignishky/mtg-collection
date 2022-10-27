@@ -1,6 +1,6 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.mapper;
 
-import fr.ignishky.mtgcollection.domain.block.Block;
+import fr.ignishky.mtgcollection.domain.block.model.Block;
 import fr.ignishky.mtgcollection.domain.set.Set;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlockResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.block.model.BlockSummary;
