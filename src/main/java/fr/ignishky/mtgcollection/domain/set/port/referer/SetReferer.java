@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.domain.set.referer;
+package fr.ignishky.mtgcollection.domain.set.port.referer;
 
 import static java.time.LocalDate.now;
 import static java.time.LocalDate.parse;

@@ -1,8 +1,8 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.scryfall;
 
 import fr.ignishky.mtgcollection.configuration.ScryfallProperties;
-import fr.ignishky.mtgcollection.domain.set.referer.SetReferer;
-import fr.ignishky.mtgcollection.domain.set.referer.SetRefererPort;
+import fr.ignishky.mtgcollection.domain.set.port.referer.SetReferer;
+import fr.ignishky.mtgcollection.domain.set.port.referer.SetRefererPort;
 import fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model.ScryfallSet;
 import io.vavr.collection.List;
 import io.vavr.control.Option;

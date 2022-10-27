@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.ignishky.mtgcollection.domain.set.referer.SetReferer;
+import fr.ignishky.mtgcollection.domain.set.port.referer.SetReferer;
 
 public record ScryfallSetData(
         String id,

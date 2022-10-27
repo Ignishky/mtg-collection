@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.domain.set;
+package fr.ignishky.mtgcollection.domain.set.port.repository;
 
 import fr.ignishky.mtgcollection.domain.set.model.Set;
 import fr.ignishky.mtgcollection.domain.set.model.SetCode;
