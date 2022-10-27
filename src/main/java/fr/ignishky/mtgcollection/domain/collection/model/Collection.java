@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.domain.collection;
+package fr.ignishky.mtgcollection.domain.collection.model;
 
 import fr.ignishky.mtgcollection.domain.card.model.Card;
 import io.vavr.collection.List;

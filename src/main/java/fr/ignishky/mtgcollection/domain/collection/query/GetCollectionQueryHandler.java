@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.domain.collection.query;
 
 import fr.ignishky.mtgcollection.domain.card.model.Card;
-import fr.ignishky.mtgcollection.domain.collection.Collection;
+import fr.ignishky.mtgcollection.domain.collection.model.Collection;
 import fr.ignishky.mtgcollection.framework.cqrs.query.QueryHandler;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;

@@ -3,7 +3,7 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.mappe
 import fr.ignishky.mtgcollection.domain.card.model.Card;
 import fr.ignishky.mtgcollection.domain.card.model.Finish;
 import fr.ignishky.mtgcollection.domain.card.model.Price;
-import fr.ignishky.mtgcollection.domain.collection.Collection;
+import fr.ignishky.mtgcollection.domain.collection.model.Collection;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CardResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model.CollectionResponse;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.PriceResponse;
