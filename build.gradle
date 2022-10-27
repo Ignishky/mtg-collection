@@ -3,7 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'jacoco'
-    id "org.sonarqube" version "3.3"
+    id 'org.sonarqube' version '3.3'
 }
 
 group = 'fr.ignishky'
@@ -22,7 +22,7 @@ dependencies {
     implementation 'io.vavr:vavr:0.10.4'
     implementation 'io.vavr:vavr-jackson:0.10.3'
     implementation 'org.projectlombok:lombok:1.18.24'
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -50,9 +50,9 @@ jacocoTestReport {
 }
 
 sonarqube {
-  properties {
-    property "sonar.projectKey", "Ignishky_mtg-collection"
-    property "sonar.organization", "ignishky"
-    property "sonar.host.url", "https://sonarcloud.io"
-  }
+    properties {
+        property 'sonar.projectKey', 'Ignishky_mtg-collection'
+        property 'sonar.organization', 'ignishky'
+        property 'sonar.host.url', 'https://sonarcloud.io'
+    }
 }
