@@ -1,7 +1,7 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.ignishky.mtgcollection.domain.card.referer.model.CardRefererPrices;
+import fr.ignishky.mtgcollection.domain.card.port.referer.model.CardRefererPrices;
 
 import static java.lang.Double.parseDouble;
 

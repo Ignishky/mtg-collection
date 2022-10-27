@@ -1,4 +1,4 @@
-package fr.ignishky.mtgcollection.domain.card.referer.model;
+package fr.ignishky.mtgcollection.domain.card.port.referer.model;
 
 public interface CardRefererPrices {
 

@@ -1,8 +1,8 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.scryfall.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.ignishky.mtgcollection.domain.card.referer.model.CardReferer;
-import fr.ignishky.mtgcollection.domain.card.referer.model.CardRefererImage;
+import fr.ignishky.mtgcollection.domain.card.port.referer.model.CardReferer;
+import fr.ignishky.mtgcollection.domain.card.port.referer.model.CardRefererImage;
 import io.vavr.collection.List;
 
 import java.util.UUID;

@@ -1,11 +1,11 @@
 package fr.ignishky.mtgcollection.domain.set.command;
 
-import fr.ignishky.mtgcollection.domain.card.*;
 import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
 import fr.ignishky.mtgcollection.domain.card.event.CardUpdated;
 import fr.ignishky.mtgcollection.domain.card.model.*;
-import fr.ignishky.mtgcollection.domain.card.referer.model.CardReferer;
-import fr.ignishky.mtgcollection.domain.card.referer.CardRefererPort;
+import fr.ignishky.mtgcollection.domain.card.port.referer.model.CardReferer;
+import fr.ignishky.mtgcollection.domain.card.port.referer.CardRefererPort;
+import fr.ignishky.mtgcollection.domain.card.port.repository.CardRepository;
 import fr.ignishky.mtgcollection.domain.set.*;
 import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
 import fr.ignishky.mtgcollection.domain.set.referer.SetReferer;
