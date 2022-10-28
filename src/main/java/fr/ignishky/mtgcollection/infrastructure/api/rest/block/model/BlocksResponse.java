@@ -9,7 +9,7 @@ public record BlocksResponse(
         @Schema(description = "The total number of cards owned.")
         Number nbOwned,
         @Schema(description = "The total number of foil cards owned.")
-        Number nbFoilOwned,
+        Number nbFullyOwned,
         @Schema(description = "The list of all MTG blocks.")
         List<BlockSummary> blocks
 ) {

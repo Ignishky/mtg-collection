@@ -1,11 +1,14 @@
 package fr.ignishky.mtgcollection.domain.set.model;
 
+import fr.ignishky.mtgcollection.domain.card.model.OwnState;
 import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
 import fr.ignishky.mtgcollection.domain.set.event.SetUpdated;
 import fr.ignishky.mtgcollection.framework.domain.Aggregate;
 import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
 import io.vavr.control.Option;
 import lombok.With;
+
+import static fr.ignishky.mtgcollection.domain.card.model.OwnState.FULL;
 
 @With
 public record Set(
@@ -19,7 +22,7 @@ public record Set(
         SetType setType,
         Integer cardCount,
         Integer cardOwnedCount,
-        Integer cardFoilOwnedCount,
+        Integer cardFullyOwnedCount,
         SetIcon icon
 ) implements Aggregate<SetId>, Comparable<Set> {
 
@@ -39,14 +42,14 @@ public record Set(
         return new AppliedEvent<>(set, setAdded);
     }
 
-    public AppliedEvent<Set, SetUpdated> incrementCardOwned(boolean ownedFoil) {
-        SetUpdated setUpdated = new SetUpdated(id, cardOwnedCount + 1, ownedFoil ? cardFoilOwnedCount + 1 : cardFoilOwnedCount);
+    public AppliedEvent<Set, SetUpdated> incrementCardOwned(OwnState ownState) {
+        SetUpdated setUpdated = new SetUpdated(id, cardOwnedCount + 1, ownState == FULL ? cardFullyOwnedCount + 1 : cardFullyOwnedCount);
         Set set = setUpdated.apply(this);
         return new AppliedEvent<>(set, setUpdated);
     }
 
-    public AppliedEvent<Set, SetUpdated> decrementCardOwned(boolean ownedFoil) {
-        SetUpdated setUpdated = new SetUpdated(id, cardOwnedCount - 1, ownedFoil ? cardFoilOwnedCount - 1 : cardFoilOwnedCount);
+    public AppliedEvent<Set, SetUpdated> decrementCardOwned(OwnState ownState) {
+        SetUpdated setUpdated = new SetUpdated(id, cardOwnedCount - 1, ownState == FULL ? cardFullyOwnedCount - 1 : cardFullyOwnedCount);
         Set set = setUpdated.apply(this);
         return new AppliedEvent<>(set, setUpdated);
     }

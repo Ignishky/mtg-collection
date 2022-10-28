@@ -1,5 +1,6 @@
 package fr.ignishky.mtgcollection.infrastructure.spi.mongo.model;
 
+import fr.ignishky.mtgcollection.domain.card.model.OwnState;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,8 +17,7 @@ public record CardDocument(
         String image,
         List<String> finishes,
         PriceRecord prices,
-        boolean inCollection,
-        boolean isOwnedFoil,
+        OwnState ownState,
         LocalDate lastUpdate
 ) {
 

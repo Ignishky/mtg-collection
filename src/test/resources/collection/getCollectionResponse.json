@@ -11,8 +11,7 @@
         "NON_FOIL",
         "FOIL"
       ],
-      "isOwned": true,
-      "isOwnedFoil": true
+      "ownState": "FULL"
     },
     {
       "id": "c53c1898-9107-4bf8-b249-d0502fb9596d",
@@ -26,8 +25,7 @@
         "NON_FOIL",
         "FOIL"
       ],
-      "isOwned": true,
-      "isOwnedFoil": false
+      "ownState": "PARTIAL"
     }
   ]
 }

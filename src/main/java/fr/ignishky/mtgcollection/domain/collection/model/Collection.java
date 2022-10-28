@@ -5,8 +5,8 @@ import io.vavr.collection.List;
 
 public record Collection(
         Number nbOwned,
-        Number nbFoilOwned,
-        double maxValue,
+        Number nbFullyOwned,
+        double fullValue,
         double ownedValue,
         List<Card> cards
 ) {

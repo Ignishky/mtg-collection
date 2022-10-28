@@ -37,9 +37,9 @@ public class GetSetQueryHandler implements QueryHandler<GetSetQuery, GetSetRespo
         return new GetSetResponse(
                 setOption.get().name().value(),
                 cards.count(Card::isOwned),
-                cards.count(Card::isOwnedFoil),
-                cards.map(Card::prices).map(price -> price.eurFoil() != null ? price.eurFoil() : price.eur()).filter(Objects::nonNull).sum().doubleValue(),
-                cards.filter(Card::isOwned).map(card -> card.isOwnedFoil() ? card.prices().eurFoil() : card.prices().eur()).filter(Objects::nonNull).sum().doubleValue(),
+                cards.count(Card::isFullyOwned),
+                cards.map(Card::fullPrice).filter(Objects::nonNull).sum().doubleValue(),
+                cards.filter(Card::isOwned).map(Card::ownedPrice).filter(Objects::nonNull).sum().doubleValue(),
                 cards
         );
     }

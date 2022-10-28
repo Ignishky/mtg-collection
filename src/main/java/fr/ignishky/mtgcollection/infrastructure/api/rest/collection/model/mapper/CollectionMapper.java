@@ -25,8 +25,7 @@ public class CollectionMapper {
                 aCard.cardImage().image(),
                 new PriceResponse(price.eur(), price.eurFoil()),
                 aCard.finishes().map(Finish::name),
-                aCard.isOwned(),
-                aCard.isOwnedFoil()
+                aCard.ownState()
         );
     }
 

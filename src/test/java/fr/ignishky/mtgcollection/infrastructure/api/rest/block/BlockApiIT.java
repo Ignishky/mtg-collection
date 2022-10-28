@@ -42,7 +42,7 @@ class BlockApiIT {
                 toDocument(AKHM),
                 toDocument(PKHM),
                 toDocument(TKHM.withCardOwnedCount(1)),
-                toDocument(KHM.withCardOwnedCount(1).withCardFoilOwnedCount(1)),
+                toDocument(KHM.withCardOwnedCount(1).withCardFullyOwnedCount(1)),
                 toDocument(P22),
                 toDocument(SNC),
                 toDocument(DDU)

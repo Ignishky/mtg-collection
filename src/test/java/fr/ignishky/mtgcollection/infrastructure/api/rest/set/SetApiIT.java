@@ -2,10 +2,10 @@ package fr.ignishky.mtgcollection.infrastructure.api.rest.set;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.ignishky.mtgcollection.domain.card.model.Card;
-import fr.ignishky.mtgcollection.domain.card.model.Price;
 import fr.ignishky.mtgcollection.domain.card.event.CardAdded;
 import fr.ignishky.mtgcollection.domain.card.event.CardUpdated;
+import fr.ignishky.mtgcollection.domain.card.model.Card;
+import fr.ignishky.mtgcollection.domain.card.model.Price;
 import fr.ignishky.mtgcollection.domain.set.event.SetAdded;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.MongoDocumentMapper;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
@@ -28,6 +28,7 @@ import org.springframework.web.client.RestTemplate;
 
 import static fr.ignishky.mtgcollection.TestUtils.assertEvent;
 import static fr.ignishky.mtgcollection.TestUtils.readFile;
+import static fr.ignishky.mtgcollection.domain.card.model.OwnState.PARTIAL;
 import static fr.ignishky.mtgcollection.fixtures.CardFixtures.*;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.KHM;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.SNC;
@@ -240,7 +241,7 @@ class SetApiIT {
         @Test
         void should_return_all_cards_for_a_given_set_from_repository() throws Exception {
             // GIVEN
-            save(ledgerShredder, vorinclex, depopulate.withOwned(true));
+            save(ledgerShredder, vorinclex, depopulate.withOwnState(PARTIAL));
 
             // WHEN
             var resultActions = mvc.perform(get("%s/%s".formatted(SETS_PATH, SNC.code())));

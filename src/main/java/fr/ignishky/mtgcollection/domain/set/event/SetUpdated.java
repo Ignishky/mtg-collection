@@ -12,16 +12,16 @@ import static fr.ignishky.mtgcollection.framework.common.Instants.now;
 public class SetUpdated extends Event<SetId, Set, SetUpdated.SetUpdatedPayload> {
 
     private final int cardOwnedCount;
-    private final int cardFoilOwnedCount;
+    private final int cardFullyOwnedCount;
 
-    public SetUpdated(SetId aggregateId, int cardOwnedCount, int cardFoilOwnedCount) {
-        this(null, aggregateId, cardOwnedCount, cardFoilOwnedCount, now());
+    public SetUpdated(SetId aggregateId, int cardOwnedCount, int cardFullyOwnedCount) {
+        this(null, aggregateId, cardOwnedCount, cardFullyOwnedCount, now());
     }
 
-    private SetUpdated(String id, SetId aggregateId, int cardOwnedCount, int cardFoilOwnedCount, Instant instant) {
-        super(id, aggregateId, Set.class, new SetUpdatedPayload(cardOwnedCount, cardFoilOwnedCount), instant);
+    private SetUpdated(String id, SetId aggregateId, int cardOwnedCount, int cardFullyOwnedCount, Instant instant) {
+        super(id, aggregateId, Set.class, new SetUpdatedPayload(cardOwnedCount, cardFullyOwnedCount), instant);
         this.cardOwnedCount = cardOwnedCount;
-        this.cardFoilOwnedCount = cardFoilOwnedCount;
+        this.cardFullyOwnedCount = cardFullyOwnedCount;
     }
 
     @Override
@@ -37,14 +37,14 @@ public class SetUpdated extends Event<SetId, Set, SetUpdated.SetUpdatedPayload> 
                 aggregate.setType(),
                 aggregate.cardCount(),
                 cardOwnedCount,
-                cardFoilOwnedCount,
+                cardFullyOwnedCount,
                 aggregate.icon()
         );
     }
 
     record SetUpdatedPayload(
             int cardOwnedCount,
-            int cardFoilOwnedCount
+            int cardFullyOwnedCount
     ) implements Payload {
 
     }

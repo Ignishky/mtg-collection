@@ -15,7 +15,7 @@ public record SetSummary(
         @Schema(description = "The number of cards owned.")
         Number nbOwned,
         @Schema(description = "The number of foil cards owned.")
-        Number nbFoilOwned
+        Number nbFullyOwned
 ) {
 
 }

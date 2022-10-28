@@ -26,7 +26,7 @@ public class MongoDocumentMapper {
                 set.setType(),
                 set.cardCount(),
                 set.cardOwnedCount(),
-                set.cardFoilOwnedCount(),
+                set.cardFullyOwnedCount(),
                 set.icon().url()
         );
     }
@@ -56,8 +56,7 @@ public class MongoDocumentMapper {
                 aCard.cardImage().image(),
                 aCard.finishes().map(Finish::name).asJava(),
                 new PriceRecord(aCard.prices().eur(), aCard.prices().eurFoil()),
-                aCard.isOwned(),
-                aCard.isOwnedFoil(),
+                aCard.ownState(),
                 aCard.lastUpdate()
         );
     }
@@ -70,8 +69,7 @@ public class MongoDocumentMapper {
                 new CardImage(document.image()),
                 List.ofAll(document.finishes()).map(Finish::valueOf),
                 new Price(document.prices().eur(), document.prices().eurFoil()),
-                document.inCollection(),
-                document.isOwnedFoil(),
+                document.ownState(),
                 document.lastUpdate()
         );
     }

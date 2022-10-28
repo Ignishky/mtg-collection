@@ -17,8 +17,8 @@ public class SetMapper {
                 set.setName(),
                 set.cards().size(),
                 set.nbOwned(),
-                set.nbFoilOwned(),
-                parseDouble(String.format("%.2f", set.maxValue())),
+                set.nbFullyOwned(),
+                parseDouble(String.format("%.2f", set.fullValue())),
                 parseDouble(String.format("%.2f", set.ownedValue())),
                 set.cards().map(SetMapper::toCardResponse)
         );
@@ -32,8 +32,7 @@ public class SetMapper {
                 aCard.cardImage().image(),
                 new PriceResponse(price.eur(), price.eurFoil()),
                 aCard.finishes().map(Finish::name),
-                aCard.isOwned(),
-                aCard.isOwnedFoil()
+                aCard.ownState()
         );
     }
 

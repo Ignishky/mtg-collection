@@ -2,6 +2,7 @@ package fr.ignishky.mtgcollection.domain.card.event;
 
 import fr.ignishky.mtgcollection.domain.card.model.Card;
 import fr.ignishky.mtgcollection.domain.card.model.CardId;
+import fr.ignishky.mtgcollection.domain.card.model.OwnState;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 import fr.ignishky.mtgcollection.framework.cqrs.event.Payload;
 
@@ -11,17 +12,15 @@ import static fr.ignishky.mtgcollection.framework.common.Instants.now;
 
 public class CardOwned extends Event<CardId, Card, CardOwned.CardOwnedPayload> {
 
-    private final boolean isOwned;
-    private final boolean isOwnedFoil;
+    private final OwnState ownState;
 
-    public CardOwned(CardId aggregateId, boolean isOwned, boolean isOwnedFoil) {
-        this(null, aggregateId, isOwned, isOwnedFoil, now());
+    public CardOwned(CardId aggregateId, OwnState ownState) {
+        this(null, aggregateId, ownState, now());
     }
 
-    private CardOwned(String id, CardId aggregateId, boolean isOwned, boolean isOwnedFoil, Instant instant) {
-        super(id, aggregateId, Card.class, new CardOwnedPayload(isOwned, isOwnedFoil), instant);
-        this.isOwned = isOwned;
-        this.isOwnedFoil = isOwnedFoil;
+    private CardOwned(String id, CardId aggregateId, OwnState ownState, Instant instant) {
+        super(id, aggregateId, Card.class, new CardOwnedPayload(ownState), instant);
+        this.ownState = ownState;
     }
 
     @Override
@@ -33,14 +32,12 @@ public class CardOwned extends Event<CardId, Card, CardOwned.CardOwnedPayload> {
                 aggregate.cardImage(),
                 aggregate.finishes(),
                 aggregate.prices(),
-                isOwned,
-                isOwnedFoil,
+                ownState,
                 aggregate.lastUpdate());
     }
 
     record CardOwnedPayload(
-            boolean isOwned,
-            boolean isOwnedFoil
+            OwnState ownState
     ) implements Payload {
 
     }

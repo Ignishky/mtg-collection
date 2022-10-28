@@ -12,7 +12,7 @@ public record BlockResponse(
         @Schema(description = "The number of owned card.")
         Number nbOwned,
         @Schema(description = "The number of owned foil card.")
-        Number nbFoilOwned,
+        Number nbFullyOwned,
         @Schema(description = "The list of known cards sets.")
         List<SetSummary> sets
 ) {

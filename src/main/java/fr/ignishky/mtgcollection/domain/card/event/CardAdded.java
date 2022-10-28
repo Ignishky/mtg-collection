@@ -8,6 +8,7 @@ import io.vavr.collection.List;
 
 import java.time.Instant;
 
+import static fr.ignishky.mtgcollection.domain.card.model.OwnState.NONE;
 import static fr.ignishky.mtgcollection.framework.common.Instants.now;
 import static java.time.LocalDate.ofInstant;
 import static java.time.ZoneId.systemDefault;
@@ -43,8 +44,7 @@ public class CardAdded extends Event<CardId, Card, CardAdded.CardAddedPayload> {
                 cardImage,
                 finishes,
                 new Price(price.eur(), price.eurFoil()),
-                false,
-                false,
+                NONE,
                 ofInstant(instant, systemDefault())
         );
     }

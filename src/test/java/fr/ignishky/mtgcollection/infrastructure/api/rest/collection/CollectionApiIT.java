@@ -1,8 +1,8 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.collection;
 
-import fr.ignishky.mtgcollection.domain.card.model.Card;
 import fr.ignishky.mtgcollection.domain.card.event.CardOwned;
 import fr.ignishky.mtgcollection.domain.card.event.CardRetired;
+import fr.ignishky.mtgcollection.domain.card.model.Card;
 import fr.ignishky.mtgcollection.domain.set.event.SetUpdated;
 import fr.ignishky.mtgcollection.fixtures.InstantFreezeExtension;
 import fr.ignishky.mtgcollection.infrastructure.spi.mongo.model.CardDocument;
@@ -21,6 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static fr.ignishky.mtgcollection.TestUtils.assertEvent;
 import static fr.ignishky.mtgcollection.TestUtils.readFile;
+import static fr.ignishky.mtgcollection.domain.card.model.OwnState.FULL;
+import static fr.ignishky.mtgcollection.domain.card.model.OwnState.PARTIAL;
 import static fr.ignishky.mtgcollection.fixtures.CardFixtures.*;
 import static fr.ignishky.mtgcollection.fixtures.SetFixtures.SNC;
 import static fr.ignishky.mtgcollection.infrastructure.api.rest.collection.CollectionApi.COLLECTION_PATH;
@@ -37,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(InstantFreezeExtension.class)
 class CollectionApiIT {
 
-    private static final Card ledgerShredderOwnedFoil = ledgerShredder.withOwned(true).withOwnedFoil(true);
+    private static final Card ledgerShredderOwnedFoil = ledgerShredder.withOwnState(FULL);
 
     @Autowired
     private MockMvc mvc;
@@ -55,8 +57,8 @@ class CollectionApiIT {
     void should_retrieve_all_card_from_collection() throws Exception {
         // GIVEN
         mongoTemplate.insertAll(List.of(
-                toDocument(ledgerShredder.withOwned(true).withOwnedFoil(true)),
-                toDocument(depopulate.withOwned(true)),
+                toDocument(ledgerShredder.withOwnState(FULL)),
+                toDocument(depopulate.withOwnState(PARTIAL)),
                 toDocument(vorinclex)
         ).asJava());
 
@@ -92,7 +94,7 @@ class CollectionApiIT {
         void should_accept_to_add_owned_card() throws Exception {
             // GIVEN
             mongoTemplate.insertAll(List.of(
-                    toDocument(SNC.withCardOwnedCount(1).withCardFoilOwnedCount(1)),
+                    toDocument(SNC.withCardOwnedCount(1).withCardFullyOwnedCount(1)),
                     toDocument(ledgerShredderOwnedFoil)
             ).asJava());
 
@@ -111,10 +113,10 @@ class CollectionApiIT {
 
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(1);
-            assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardOwned.class, "{\"isOwned\":true,\"isOwnedFoil\":true}");
+            assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardOwned.class, "{\"ownState\":\"FULL\"}");
 
             assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toDocument(ledgerShredderOwnedFoil));
-            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC.withCardOwnedCount(1).withCardFoilOwnedCount(1)));
+            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC.withCardOwnedCount(1).withCardFullyOwnedCount(1)));
         }
 
         @Test
@@ -139,11 +141,11 @@ class CollectionApiIT {
 
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(2);
-            assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardOwned.class, "{\"isOwned\":true,\"isOwnedFoil\":true}");
-            assertEvent(eventDocuments.get(1), SNC.id(), SetUpdated.class, "{\"cardOwnedCount\":1,\"cardFoilOwnedCount\":1}");
+            assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardOwned.class, "{\"ownState\":\"FULL\"}");
+            assertEvent(eventDocuments.get(1), SNC.id(), SetUpdated.class, "{\"cardOwnedCount\":1,\"cardFullyOwnedCount\":1}");
 
             assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toDocument(ledgerShredderOwnedFoil));
-            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC.withCardOwnedCount(1).withCardFoilOwnedCount(1)));
+            assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC.withCardOwnedCount(1).withCardFullyOwnedCount(1)));
         }
 
     }
@@ -191,7 +193,7 @@ class CollectionApiIT {
         void should_delete_owned_card() throws Exception {
             // GIVEN
             mongoTemplate.insertAll(List.of(
-                    toDocument(SNC.withCardOwnedCount(1).withCardFoilOwnedCount(1)),
+                    toDocument(SNC.withCardOwnedCount(1).withCardFullyOwnedCount(1)),
                     toDocument(ledgerShredderOwnedFoil)
             ).asJava());
 
@@ -204,7 +206,7 @@ class CollectionApiIT {
             var eventDocuments = mongoTemplate.findAll(EventDocument.class);
             assertThat(eventDocuments).hasSize(2);
             assertEvent(eventDocuments.get(0), ledgerShredder.id(), CardRetired.class, "{}");
-            assertEvent(eventDocuments.get(1), SNC.id(), SetUpdated.class, "{\"cardOwnedCount\":0,\"cardFoilOwnedCount\":0}");
+            assertEvent(eventDocuments.get(1), SNC.id(), SetUpdated.class, "{\"cardOwnedCount\":0,\"cardFullyOwnedCount\":0}");
 
             assertThat(mongoTemplate.findAll(CardDocument.class)).containsOnly(toDocument(ledgerShredder));
             assertThat(mongoTemplate.findAll(SetDocument.class)).containsOnly(toDocument(SNC));

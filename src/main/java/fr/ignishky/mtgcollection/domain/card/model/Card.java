@@ -8,9 +8,14 @@ import fr.ignishky.mtgcollection.domain.set.model.SetCode;
 import fr.ignishky.mtgcollection.framework.domain.Aggregate;
 import fr.ignishky.mtgcollection.framework.domain.AppliedEvent;
 import io.vavr.collection.List;
+import io.vavr.control.Option;
 import lombok.With;
 
 import java.time.LocalDate;
+
+import static fr.ignishky.mtgcollection.domain.card.model.Finish.NON_FOIL;
+import static fr.ignishky.mtgcollection.domain.card.model.OwnState.FULL;
+import static fr.ignishky.mtgcollection.domain.card.model.OwnState.PARTIAL;
 
 @With
 public record Card(
@@ -20,8 +25,7 @@ public record Card(
         CardImage cardImage,
         List<Finish> finishes,
         Price prices,
-        boolean isOwned,
-        boolean isOwnedFoil,
+        OwnState ownState,
         LocalDate lastUpdate
 ) implements Aggregate<CardId> {
 
@@ -38,8 +42,8 @@ public record Card(
         return new AppliedEvent<>(card, event);
     }
 
-    public AppliedEvent<Card, CardOwned> owned(boolean isFoil) {
-        var event = new CardOwned(id, true, isFoil);
+    public AppliedEvent<Card, CardOwned> owned(OwnState ownState) {
+        var event = new CardOwned(id, ownState);
         var card = event.apply(this);
         return new AppliedEvent<>(card, event);
     }
@@ -48,6 +52,24 @@ public record Card(
         var event = new CardRetired(id);
         var card = event.apply(this);
         return new AppliedEvent<>(card, event);
+    }
+
+    public boolean isOwned() {
+        return ownState == PARTIAL || ownState == FULL;
+    }
+
+    public boolean isFullyOwned() {
+        return ownState == FULL;
+    }
+
+    public double ownedPrice() {
+        return ownState == PARTIAL || finishes.contains(NON_FOIL) ? prices.eur() : prices.eurFoil();
+    }
+
+    public Double fullPrice() {
+        return Option.of(prices.eurFoil())
+                .orElse(Option.of(prices.eur()))
+                .getOrNull();
     }
 
 }

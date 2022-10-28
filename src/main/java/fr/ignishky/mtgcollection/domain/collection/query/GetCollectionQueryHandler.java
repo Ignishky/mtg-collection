@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+import static fr.ignishky.mtgcollection.domain.card.model.OwnState.NONE;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Service
@@ -28,15 +29,15 @@ public class GetCollectionQueryHandler implements QueryHandler<GetCollectionQuer
         List<Card> cards = retrieveCardsList();
         return new Collection(
                 cards.count(Card::isOwned),
-                cards.count(Card::isOwnedFoil),
-                cards.map(Card::prices).map(price -> price.eurFoil() != null ? price.eurFoil() : price.eur()).filter(Objects::nonNull).sum().doubleValue(),
-                cards.filter(Card::isOwned).map(card -> card.isOwnedFoil() ? card.prices().eurFoil() : card.prices().eur()).filter(Objects::nonNull).sum().doubleValue(),
+                cards.count(Card::isFullyOwned),
+                cards.map(Card::fullPrice).filter(Objects::nonNull).sum().doubleValue(),
+                cards.filter(Card::isOwned).map(Card::ownedPrice).filter(Objects::nonNull).sum().doubleValue(),
                 cards
         );
     }
 
     private List<Card> retrieveCardsList() {
-        Query query = new Query().addCriteria(where("inCollection").is(true));
+        Query query = new Query().addCriteria(where("ownState").ne(NONE));
         return List.ofAll(mongoTemplate.find(query, CardDocument.class))
                 .map(MongoDocumentMapper::toCard);
     }

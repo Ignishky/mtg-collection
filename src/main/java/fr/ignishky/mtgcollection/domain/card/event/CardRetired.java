@@ -7,6 +7,7 @@ import fr.ignishky.mtgcollection.framework.cqrs.event.Payload;
 
 import java.time.Instant;
 
+import static fr.ignishky.mtgcollection.domain.card.model.OwnState.NONE;
 import static fr.ignishky.mtgcollection.framework.common.Instants.now;
 
 public class CardRetired extends Event<CardId, Card, CardRetired.CardRetiredPayload> {
@@ -28,8 +29,7 @@ public class CardRetired extends Event<CardId, Card, CardRetired.CardRetiredPayl
                 aggregate.cardImage(),
                 aggregate.finishes(),
                 aggregate.prices(),
-                false,
-                false,
+                NONE,
                 aggregate.lastUpdate()
         );
     }

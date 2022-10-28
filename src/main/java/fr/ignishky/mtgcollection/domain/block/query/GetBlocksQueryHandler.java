@@ -51,7 +51,7 @@ public class GetBlocksQueryHandler implements QueryHandler<GetBlocksQuery, List<
                 new BlockName(mainSet.name().value()),
                 sets.map(Set::cardCount).sum(),
                 sets.map(Set::cardOwnedCount).sum(),
-                sets.map(Set::cardFoilOwnedCount).sum(),
+                sets.map(Set::cardFullyOwnedCount).sum(),
                 new BlockIcon(mainSet.icon().url()),
                 null
         );

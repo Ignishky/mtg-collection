@@ -1,6 +1,7 @@
 package fr.ignishky.mtgcollection.domain.card.command;
 
 import fr.ignishky.mtgcollection.domain.card.model.Card;
+import fr.ignishky.mtgcollection.domain.card.model.OwnState;
 import fr.ignishky.mtgcollection.domain.card.port.repository.CardRepository;
 import fr.ignishky.mtgcollection.domain.card.exception.NoCardFoundException;
 import fr.ignishky.mtgcollection.domain.set.port.repository.SetRepository;
@@ -10,6 +11,7 @@ import fr.ignishky.mtgcollection.framework.cqrs.event.Event;
 import io.vavr.collection.List;
 import org.springframework.stereotype.Component;
 
+import static fr.ignishky.mtgcollection.domain.card.model.OwnState.NONE;
 import static fr.ignishky.mtgcollection.framework.cqrs.command.CommandResponse.toCommandResponse;
 
 @Component
@@ -30,9 +32,9 @@ public class DeleteOwnCardCommandHandler implements CommandHandler<DeleteOwnCard
         cardRepository.save(owned.aggregate());
         List<Event<?, ?, ?>> events = List.of(owned.event());
 
-        if (card.isOwned()) {
+        if (card.ownState() != NONE) {
             var setUpdated = setRepository.get(card.setCode())
-                    .map(set -> set.decrementCardOwned(card.isOwnedFoil()))
+                    .map(set -> set.decrementCardOwned(card.ownState()))
                     .get();
             setRepository.update(setUpdated.aggregate());
             events = events.append(setUpdated.event());

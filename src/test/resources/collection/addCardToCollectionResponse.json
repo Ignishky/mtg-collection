@@ -9,6 +9,5 @@
     "NON_FOIL",
     "FOIL"
   ],
-  "isOwned": true,
-  "isOwnedFoil": true
+  "ownState": "FULL"
 }

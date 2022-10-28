@@ -1,5 +1,6 @@
 package fr.ignishky.mtgcollection.infrastructure.api.rest.collection.model;
 
+import fr.ignishky.mtgcollection.domain.card.model.OwnState;
 import fr.ignishky.mtgcollection.infrastructure.api.rest.set.model.PriceResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.vavr.collection.List;
@@ -19,9 +20,7 @@ public record CardResponse(
         @Schema(description = "The finish available for the card")
         List<String> finishes,
         @Schema(description = "Is the card in your collection ?")
-        boolean isOwned,
-        @Schema(description = "If the card is in your collection is it foil ?")
-        boolean isOwnedFoil
+        OwnState ownState
 ) {
 
 }

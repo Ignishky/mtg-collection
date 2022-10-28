@@ -12,7 +12,7 @@ public record BlockSummary(
         @Schema(description = "The number of owned card in the block.")
         Number nbOwned,
         @Schema(description = "The number of owned foil card in the block.")
-        Number nbFoilOwned,
+        Number nbFullyOwned,
         @Schema(description = "The scryfall URL for the icon of the block.",
                 example = "https://c2.scryfall.com/file/scryfall-symbols/sets/mir.svg?1644814800")
         String icon

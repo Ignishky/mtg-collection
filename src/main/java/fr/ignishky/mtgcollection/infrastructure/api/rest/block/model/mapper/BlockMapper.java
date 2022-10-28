@@ -15,7 +15,7 @@ public class BlockMapper {
         return new BlocksResponse(
                 blockSummaries.map(BlockSummary::nbCards).sum(),
                 blockSummaries.map(BlockSummary::nbOwned).sum(),
-                blockSummaries.map(BlockSummary::nbFoilOwned).sum(),
+                blockSummaries.map(BlockSummary::nbFullyOwned).sum(),
                 blockSummaries
         );
     }
@@ -48,7 +48,7 @@ public class BlockMapper {
                 aSet.icon().url(),
                 aSet.cardCount(),
                 aSet.cardOwnedCount(),
-                aSet.cardFoilOwnedCount()
+                aSet.cardFullyOwnedCount()
         );
     }
 
